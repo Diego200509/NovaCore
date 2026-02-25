@@ -14,7 +14,7 @@
         <a (click)="scrollToSection('servicios'); $event.preventDefault()">Servicios</a>
         <a (click)="scrollToSection('proyectos'); $event.preventDefault()">Proyectos</a>
         <a (click)="scrollToSection('stack'); $event.preventDefault()">Tecnologías</a>
-        <a (click)="scrollToSection('blog-home'); $event.preventDefault()">Blog</a>
+        <a routerLink="/blog/crear" (click)="closeMenu()">Blog</a>
         <a (click)="scrollToSection('contacto'); $event.preventDefault()">Contacto</a>
     </div>
 </nav>

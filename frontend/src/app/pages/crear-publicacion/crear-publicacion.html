@@ -1,0 +1,127 @@
+<section class="page-hero" data-nav="theme-light">
+  <div class="color-orb-1"></div>
+  <div class="color-orb-2"></div>
+  <div class="color-orb-3"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="main-text">Blog</span>
+      <span class="highlight">nueva entrada</span>
+    </h1>
+    <p class="hero-subtitle">Crea y publica entradas para el blog desde aquí.</p>
+    <a routerLink="/blog" class="back-link"><i class="fas fa-arrow-left"></i> Volver al blog</a>
+  </div>
+</section>
+
+<section class="cards-section" data-nav="theme-dark">
+  <div class="section-header">
+    <h2 class="section-title">Publicaciones</h2>
+    <button type="button" class="btn-add" (click)="openModal()">
+      <i class="fas fa-plus"></i> Agregar publicación
+    </button>
+  </div>
+
+  <div class="cards-grid">
+    @for (blog of blogs; track blog.id) {
+      <app-card
+        [imageUrl]="blog.image"
+        [imageAlt]="blog.title"
+        [title]="blog.title"
+        [description]="truncateDescription(blog.description, 100)"
+        [authors]="blog.authors"
+        [showButton]="false"
+      />
+    }
+  </div>
+
+  @if (blogs.length === 0 && !modalOpen) {
+    <p class="empty-state">Aún no hay publicaciones. Haz clic en «Agregar publicación» para crear la primera.</p>
+  }
+</section>
+
+@if (modalOpen) {
+  <div class="modal-overlay" (click)="onBackdropClick()" role="dialog" aria-modal="true" aria-label="Nueva publicación">
+    <div class="modal-content" (click)="onModalContentClick($event)">
+      <button type="button" class="modal-close" (click)="closeModal()" aria-label="Cerrar">
+        <i class="fas fa-times"></i>
+      </button>
+      <h2 class="modal-title">Nueva entrada</h2>
+
+      @if (message.text) {
+        <div class="message" [class.success]="message.type === 'success'" [class.error]="message.type === 'error'">
+          <i class="fas" [class.fa-check-circle]="message.type === 'success'" [class.fa-exclamation-circle]="message.type === 'error'"></i>
+          {{ message.text }}
+        </div>
+      }
+
+      <form class="publicacion-form" (ngSubmit)="submit()">
+        <!-- title (BD: VarChar 100) -->
+        <div class="form-row">
+          <label for="title">Título <span class="required">*</span></label>
+          <input id="title" type="text" [(ngModel)]="title" name="title" placeholder="Ej: Mi primer artículo" maxlength="100" required />
+          <span class="form-hint">Máx. 100 caracteres</span>
+        </div>
+
+        <!-- description (BD: VarChar 255) -->
+        <div class="form-row">
+          <label for="description">Descripción <span class="required">*</span></label>
+          <textarea id="description" [(ngModel)]="description" name="description" rows="4" placeholder="Resumen o descripción de la publicación" maxlength="255"></textarea>
+          <span class="form-hint">Máx. 255 caracteres</span>
+        </div>
+
+        <!-- authors (BD: String[], obligatorio, al menos uno) -->
+        <div class="form-row">
+          <label for="authors">Autores <span class="required">*</span></label>
+          <input id="authors" type="text" [(ngModel)]="authorsInput" name="authors" placeholder="Nombre1, Nombre2 (separados por coma)" required />
+          <span class="form-hint">Al menos un autor. Separados por coma.</span>
+        </div>
+
+        <!-- tags (BD: String[], opcional) -->
+        <div class="form-row">
+          <label for="tags">Etiquetas</label>
+          <input id="tags" type="text" [(ngModel)]="tagsInput" name="tags" placeholder="angular, frontend, tips (separados por coma)" />
+          <span class="form-hint">Opcional. Separadas por coma.</span>
+        </div>
+
+        <!-- urls (BD: String[], obligatorio, al menos uno) -->
+        <div class="form-row">
+          <label for="urls">Enlaces <span class="required">*</span></label>
+          <input id="urls" type="text" [(ngModel)]="urlsInput" name="urls" placeholder="https://ejemplo.com (separados por coma)" required />
+          <span class="form-hint">Al menos un enlace válido. Separados por coma.</span>
+        </div>
+
+        <!-- image (BD: image + imageDelete; API recibe imageBase64, obligatorio) -->
+        <div class="form-row">
+          <label>Imagen <span class="required">*</span></label>
+          <div class="image-upload">
+            <input type="file" accept="image/*" (change)="onFileChange($event)" #fileInput class="file-input" />
+            <button type="button" class="upload-btn" (click)="fileInput.click()">
+              <i class="fas fa-cloud-upload-alt"></i> Seleccionar imagen
+            </button>
+            @if (imagePreview) {
+              <div class="image-preview">
+                <img [src]="imagePreview" alt="Vista previa" />
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="form-row api-key-row">
+          <label for="apiKey">API Key (requerida para publicar)</label>
+          <input id="apiKey" type="password" [(ngModel)]="apiKey" name="apiKey" placeholder="Pega aquí tu API Key" autocomplete="off" />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-submit" [disabled]="loading">
+            @if (loading) {
+              <i class="fas fa-spinner fa-spin"></i> Publicando...
+            } @else {
+              <i class="fas fa-paper-plane"></i> Publicar
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+<app-footer></app-footer>
