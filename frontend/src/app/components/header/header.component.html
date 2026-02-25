@@ -1,0 +1,20 @@
+<nav class="navbar" [ngClass]="getNavbarClasses()" id="main-nav">
+
+    <a href="#" class="logo-container" (click)="scrollToSection('inicio'); $event.preventDefault()">
+        <img src="/img/NovaCoreSin.png" alt="Novacore" class="logo-image" />
+        <span class="logo-text">
+            <span class="logo-top">Software Studio</span>
+            <span class="logo-main">NOVACORE</span>
+        </span>
+    </a>
+    <div class="menu-toggle" [class.open]="isMenuOpen()" (click)="toggleMenu()" id="menu-toggle">
+        <span></span><span></span><span></span>
+    </div>
+    <div class="nav-links" [class.active]="isMenuOpen()" id="nav-links">
+        <a (click)="scrollToSection('servicios'); $event.preventDefault()">Servicios</a>
+        <a (click)="scrollToSection('proyectos'); $event.preventDefault()">Proyectos</a>
+        <a (click)="scrollToSection('stack'); $event.preventDefault()">Tecnologías</a>
+        <a (click)="scrollToSection('blog-home'); $event.preventDefault()">Blog</a>
+        <a (click)="scrollToSection('contacto'); $event.preventDefault()">Contacto</a>
+    </div>
+</nav>

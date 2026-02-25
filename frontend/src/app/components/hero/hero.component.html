@@ -1,0 +1,41 @@
+<header id="inicio" class="hero" data-nav="theme-light">
+  <div class="color-orb-1"></div>
+  <div class="color-orb-2"></div>
+  <div class="color-orb-3"></div>
+  <div class="color-orb-4"></div>
+  <div class="color-orb-5"></div>
+  
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="reveal">
+        <span class="main-text">Proyectos</span>
+        <span class="highlight">que impulsa tu crecimiento</span>
+      </h1>
+      <p class="reveal">
+        Construimos soluciones digitales robustas, escalables y centradas en el usuario para empresas globales.
+      </p>
+      <div class="reveal reveal-btn">
+        <app-button variant="primary" (click)="scrollToContact()">
+          Hablemos de tu proyecto
+        </app-button>
+      </div>
+    </div>
+    
+    <div class="hero-visual">
+      <div class="visual-element"></div>
+      
+      <div class="tech-icons-container">
+        <div 
+          class="tech-icon" 
+          *ngFor="let tech of technologies"
+          [style.top.%]="tech.top"
+          [style.left.%]="tech.left"
+          [style.animation-delay.s]="tech.delay"
+          [title]="tech.name"
+        >
+          <i [class]="tech.icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

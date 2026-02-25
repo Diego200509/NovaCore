@@ -1,0 +1,228 @@
+:host {
+  display: block;
+  position: absolute; // Esto asegura que el componente no "empuje" al Hero hacia abajo
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar {
+  position: fixed; // Se mantiene fijo al hacer scroll
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: transparent; // Transparente por defecto
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4%;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease, height 0.4s ease;
+
+  // Estilo cuando detecta fondo claro
+  &.text-dark {
+    .nav-links a, .logo-main, .menu-toggle span {
+      color: #000000;
+    }
+    &.scrolled {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(15px);
+    }
+  }
+
+  // Estilo cuando detecta fondo oscuro (como el Hero)
+  &.text-light {
+    .nav-links a, .logo-main, .menu-toggle span {
+      color: #ffffff;
+    }
+    &.scrolled {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(15px);
+    }
+  }
+}
+
+.logo-container {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1;
+    z-index: 1100;
+}
+
+.logo-image {
+    height: 100px;
+    width: auto;
+    margin-right: 0.85rem;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-top {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.logo-main {
+    color: var(--dark);
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 3rem;
+
+    a {
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.4s ease;
+        position: relative;
+        cursor: pointer;
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        &:hover::after {
+            width: 100%;
+        }
+    }
+}
+
+.text-light {
+
+    .nav-links a,
+    .logo-main,
+    .menu-toggle {
+        color: #ffffff !important;
+    }
+
+    &.scrolled {
+        background: rgba(0, 0, 0, 0.2);
+    }
+}
+
+.text-dark {
+
+    .nav-links a,
+    .logo-main,
+    .menu-toggle {
+        color: #000000 !important;
+    }
+
+    &.scrolled {
+        background: rgba(255, 255, 255, 0.7); // Difuminado claro si el fondo es claro
+    }
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 1100;
+
+    span {
+        width: 30px;
+        height: 3px;
+        background: currentColor;
+        border-radius: 10px;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    &.open {
+        span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        span:nth-child(2) {
+            opacity: 0;
+        }
+
+        span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+    }
+}
+
+.theme-light {
+
+    .nav-links a,
+    .logo-main,
+    .menu-toggle {
+        color: white;
+    }
+}
+
+.theme-dark {
+
+    .nav-links a,
+    .logo-main,
+    .menu-toggle {
+        color: var(--dark);
+    }
+}
+
+.navbar.scrolled {
+    height: 75px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+    .nav-links a,
+    .logo-main {
+        color: var(--dark);
+    }
+}
+
+@media (max-width: 900px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: var(--dark);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+
+        &.active {
+            transform: translateX(0);
+        }
+
+        a {
+            color: white !important;
+            font-size: 1.5rem;
+        }
+    }
+
+    .logo-main {
+        color: white !important;
+    }
+}
