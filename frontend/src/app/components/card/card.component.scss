@@ -1,82 +1,96 @@
 .offer-card {
-  background: white;
+  position: relative; // Necesario para posicionar elementos internos
+  background: #0f172a; // Fondo oscuro por si la imagen falla
   border-radius: 24px;
   overflow: hidden;
   border: 1px solid #f1f5f9;
   transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 450px; // Dale una altura mínima para que luzca la foto
   width: 100%;
 
   &:hover {
     transform: translateY(-12px);
-    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.1);
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.3);
     border-color: var(--primary);
+
+    .card-img {
+      transform: scale(1.05); // Efecto de zoom suave al hacer hover
+    }
   }
 }
 
 .card-img-wrapper {
+  position: absolute; // Ocupa toda la card
+  top: 0;
+  left: 0;
   width: 100%;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background-color: #f1f5f9;
+  height: 100%;
+  z-index: 1;
+
+  // El degradado: va de transparente a negro sólido
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      transparent 30%, // Empieza transparente
+      rgba(0, 0, 0, 0.5) 60%, // Se oscurece en el medio
+      rgba(0, 0, 0, 0.9) 100% // Negro casi total abajo
+    );
+  }
 }
 
 .card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  transition: transform 0.6s ease;
 }
 
 .card-info {
+  position: relative; // Para quedar por encima de la imagen
+  z-index: 2;
   padding: 2rem;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end; // Empuja el texto hacia abajo
   flex-grow: 1;
+  color: white; // Texto blanco para legibilidad
 }
 
-.card-description {
-  color: #64748b;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  flex-grow: 1;
-}
-
+// Ajustes de colores para que resalten sobre el fondo oscuro
 .card-info h3 {
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--dark);
-  margin-bottom: 1rem;
+  color: #ffffff; 
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .card-authors {
   font-size: 0.85rem;
-  color: #64748b;
+  color: #e2e8f0;
   margin-bottom: 0.5rem;
 }
 
-.price-container {
-  margin-top: auto;
+.card-description {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  // Limitamos líneas para que no tape toda la foto si es muy larga
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .price-new {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  background: rgba(37, 99, 235, 0.1);
-  padding: 5px 12px;
-  border-radius: 6px;
-  display: inline-block;
+  background: var(--primary); // Color sólido o más vibrante
+  color: white;
 }
-
-.team-btn-wrapper {
-  margin-top: auto;
-  display: flex;
-}
-
-

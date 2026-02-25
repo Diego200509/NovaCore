@@ -14,7 +14,7 @@
   text-align: center;
   margin-bottom: 3rem;
   letter-spacing: -1.5px;
-  color: #334155;
+  color: var(--primary);
 }
 
 .team-wrapper {
@@ -54,30 +54,41 @@
   border-radius: 50% !important;
   color: white !important;
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   top: 50% !important;
-  margin-top: -45px !important;
+  margin-top: -27.5px !important;
   z-index: 20;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: var(--primary) !important;
+    transform: scale(1.15) !important;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5) !important;
+  }
+  
+  &:active {
+    transform: scale(0.95) !important;
+  }
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 1.2rem !important;
-  font-weight: 800;
+/* Estilos específicos para sobreescribir Swiper */
+:is(.team-next, .team-prev) {
+  border: none !important;
+  background: none !important;
 }
 
-.swiper-button-next::after {
-  content: '>' !important;
+:is(.team-next, .team-prev)::after {
+  display: none !important;
 }
 
-.swiper-button-prev::after {
-  content: '<' !important;
-}
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-  background-color: var(--primary-hover) !important;
-  transform: scale(1.1);
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  fill: white;
 }
 
 .swiper-pagination {
