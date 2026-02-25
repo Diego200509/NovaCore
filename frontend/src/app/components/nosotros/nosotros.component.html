@@ -1,0 +1,28 @@
+<section id="nosotros" data-nav="theme-dark">
+  <h2 class="section-title reveal">Conoce a Nuestro Equipo</h2>
+  
+  <div class="swiper-container-wrapper team-wrapper reveal">
+    <div class="swiper teamSwiper">
+      <div class="swiper-wrapper">
+        @for (member of teamMembers; track member.name) {
+          <div class="swiper-slide">
+            <app-card
+              [imageUrl]="member.imageUrl"
+              [imageAlt]="member.imageAlt"
+              [title]="member.name"
+              [description]="member.description"
+              [buttonText]="'Ver más'"
+              [buttonLink]="member.profileLink"
+              [showButton]="true">
+            </app-card>
+          </div>
+        }
+      </div>
+    </div>
+    <div class="swiper-button-next team-next"></div>
+    <div class="swiper-button-prev team-prev"></div>
+    <div class="swiper-pagination team-pagination"></div>
+  </div>
+</section>
+
+

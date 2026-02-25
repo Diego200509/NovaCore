@@ -1,3 +1,18 @@
-<button [class]="'btn btn-' + variant" [disabled]="disabled">
-  <ng-content></ng-content>
-</button>
+@if (href) {
+  <a [href]="href" [target]="target" [class]="'btn-' + variant" class="btn" (click)="onClick($event)">
+    @if (text) {
+      {{ text }}
+    } @else {
+      <ng-content></ng-content>
+    }
+  </a>
+} @else {
+  <button [class]="'btn-' + variant" class="btn" type="button" (click)="onClick($event)">
+    @if (text) {
+      {{ text }}
+    } @else {
+      <ng-content></ng-content>
+    }
+  </button>
+}
+
