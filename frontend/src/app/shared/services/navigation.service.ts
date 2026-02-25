@@ -1,4 +1,4 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,8 @@ export class NavigationService {
   }
 
   private updateScrollState(): void {
-    const isScrolled = window.scrollY > 50;
+    // Solo marcar como scrolled cuando el usuario baja más allá del hero (100vh)
+    const isScrolled = window.scrollY > window.innerHeight * 0.8;
     this.isScrolledSignal.set(isScrolled);
   }
 
