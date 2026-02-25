@@ -15,8 +15,8 @@ export class BlogModel {
         description: string;
         authors: string[];
         tags: string[];
-        image: string;
-        imageDelete: string;
+        image?: string;
+        imagePublicId?: string;
     }) {
         return prisma.blogs.create({
             data
@@ -29,7 +29,7 @@ export class BlogModel {
         authors?: string[];
         tags?: string[];
         image?: string;
-        imageDelete?: string;
+        imagePublicId?: string;
     }
     ) {
         try {

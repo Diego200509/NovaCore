@@ -1,6 +1,6 @@
 import { BlogSchema } from "../infrastructure/validators/blog.ts";
 import { BlogModel } from "../model/blog.ts";
-import { ImageService } from "./image.ts";
+import { CloudinaryService } from "./image.ts";
 
 interface BlogCreateData {
     title: string;
@@ -8,6 +8,7 @@ interface BlogCreateData {
     description: string;
     authors: string[];
     tags: string[];
+    imageBase64: string;
 }
 
 interface BlogEditData {
@@ -16,6 +17,7 @@ interface BlogEditData {
     description?: string;
     authors?: string[];
     tags?: string[];
+    imageBase64?: string;
 }
 export class BlogService {
     static async getBlogs() {
@@ -28,51 +30,82 @@ export class BlogService {
         }
         return blog;
     }
-    static async createBlog(data: BlogCreateData & { imageBase64: string }) {
-        //const upload = await ImageService.uploadImage(data.imageBase64)
-        const validated = BlogSchema.parse({ ...data, image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29kZXxlbnwwfHwwfHx8MA%3D%3D" })
-        return BlogModel.create({
-            description: data.description,
-            title: data.title,
-            urls: data.urls,
-            authors: data.authors,
-            tags: data.tags,
-            imageDelete: "upload.deleteUrl",
-            image: "upload.url",
-        });
+    static async createBlog(data: BlogCreateData) {
+        const upload = await CloudinaryService.uploadImage(
+            data.imageBase64,
+            "blogs"
+        );
+        try {
+
+            const validated = BlogSchema.parse({
+                ...data,
+                image: upload.url,
+            });
+            return BlogModel.create({
+                title: validated.title,
+                description: validated.description,
+                urls: validated.urls,
+                authors: validated.authors,
+                tags: validated.tags || [],
+                image: upload.url,
+                imagePublicId: upload.public_id,
+            });
+        } catch (error) {
+            await CloudinaryService.deleteImage(upload.public_id);
+            throw error;
+        }
     }
-    static async updateBlog(id: number, newData: BlogEditData & { imageBase64?: string }) {
+
+    static async updateBlog(id: number, newData: BlogEditData) {
         const existingBlog = await BlogModel.findById(id);
         if (!existingBlog) {
             throw new Error("Blog not found");
         }
-        // let imageUrl = existingBlog.image;
-        // let imageDeleteUrl = existingBlog.imageDelete;
-        // if (newData.imageBase64) {
-        //     const upload = await ImageService.uploadImage(newData.imageBase64);
-        //     imageUrl = upload.url;
-        //     imageDeleteUrl = upload.deleteUrl;
-        //     await ImageService.deleteImage(existingBlog.imageDelete);
-        // }
+        
+        let imageUrl = existingBlog.image;
+        let imagePublicId = existingBlog.imagePublicId;
         const validated = BlogSchema.partial().parse({
             ...newData,
-            image: "imageUrl",
+            image: imageUrl,
         });
-        const updated = await BlogModel.update(id, {
-            ...validated,
-            image: "imageUrl",
-            imageDelete: "imageDeleteUrl",
-        });
+        if (newData.imageBase64) {
+            const upload = await CloudinaryService.uploadImage(
+                newData.imageBase64,
+                "blogs"
+            );
+            try {
+                const updated = await BlogModel.update(id, {
+                    ...validated,
+                    image: upload.url,
+                    imagePublicId: upload.public_id,
+                });
+                
+                if (existingBlog.imagePublicId) {
+                    await CloudinaryService.deleteImage(existingBlog.imagePublicId);
+                }
 
-        return updated;
+                return updated;
+                
+            } catch (error) {
+                await CloudinaryService.deleteImage(upload.public_id);
+                throw error;
+            }
+        }
+        return BlogModel.update(id, {
+            ...validated,
+            image: imageUrl,
+            imagePublicId,
+        });
     }
+
     static async deleteBlog(id: number) {
         const existingBlog = await BlogModel.findById(id);
         if (!existingBlog) {
             throw new Error("Blog not found");
         }
-        await ImageService.deleteImage(existingBlog.imageDelete);
-        const deleted = await BlogModel.delete(id);
-        return deleted;
+        if (existingBlog.imagePublicId) {
+            await CloudinaryService.deleteImage(existingBlog.imagePublicId);
+        }
+        return BlogModel.delete(id);
     }
 }

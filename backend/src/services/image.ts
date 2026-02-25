@@ -1,44 +1,38 @@
-import { env } from "../config/env.ts";
+import { UploadApiResponse } from "cloudinary";
+import { cloudinaryUploader } from "../infrastructure/upload/cloudinary.ts";
 
-export class ImageService {
-    static async uploadImage(imageURL: string) {
-        try {
-            const response = await fetch(`${env.API_IMAGE_URL}?key=${env.API_IMAGE_KEY}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: new URLSearchParams({
-                    image: imageURL,
-                }).toString(),
-            }
-            );
+export class CloudinaryService {
+  static async uploadImage(
+    file: string | Buffer,
+    folder: string = "uploads"
+  ): Promise<{ url: string; public_id: string }> {
+    try {
+      const result: UploadApiResponse =
+        await cloudinaryUploader.instance.uploader.upload(file as string, {
+          folder,
+          resource_type: "auto",
+          transformation: [
+            { width: 800, height: 600, crop: "fill" },
+            { quality: "auto" },
+            { fetch_format: "auto" },
+          ],
+        });
 
-            if (!response.ok) {
-                throw new Error("Failed to upload image");
-            }
-
-            const data = await response.json();
-
-            return {
-                url: data.data.url,
-                deleteUrl: data.data.delete_url,
-            };
-        } catch (error) {
-            throw new Error("Image upload failed");
-        }
+      return {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
+    } catch (error) {
+      throw new Error("Cloudinary upload failed");
     }
-    static async deleteImage(deleteUrl: string) {
-        try {
-            const response = await fetch(deleteUrl);
+  }
 
-            if (!response.ok) {
-                throw new Error("Failed to delete image");
-            }
-
-            return true;
-        } catch (error) {
-            throw new Error("Image deletion failed");
-        }
+  static async deleteImage(public_id: string): Promise<boolean> {
+    try {
+      await cloudinaryUploader.instance.uploader.destroy(public_id);
+      return true;
+    } catch (error) {
+      throw new Error("Cloudinary deletion failed");
     }
+  }
 }
