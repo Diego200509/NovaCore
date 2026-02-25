@@ -12,7 +12,7 @@
     </div>
     <div class="nav-links" [class.active]="isMenuOpen()" id="nav-links">
         <a (click)="scrollToSection('servicios'); $event.preventDefault()">Servicios</a>
-        <a (click)="scrollToSection('proyectos'); $event.preventDefault()">Proyectos</a>
+        <a (click)="navigateToProjects(); $event.preventDefault()">Proyectos</a>
         <a (click)="scrollToSection('stack'); $event.preventDefault()">Tecnologías</a>
         <a (click)="scrollToSection('blog-home'); $event.preventDefault()">Blog</a>
         <a (click)="scrollToSection('contacto'); $event.preventDefault()">Contacto</a>

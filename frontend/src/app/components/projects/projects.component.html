@@ -1,0 +1,125 @@
+<section class="projects-section" id="proyectos">
+  <div class="projects-container">
+    <!-- Header Section -->
+    <div class="projects-header">
+      <h1 class="projects-title">
+        <span class="title-main">Nuestros</span>
+        <span class="title-highlight">Proyectos</span>
+      </h1>
+      <p class="projects-subtitle">
+        Cada proyecto representa aprendizaje, colaboración y evolución como equipo.
+      </p>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="projects-filters">
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter() === 'todos'"
+        (click)="setFilter('todos')">
+        Todos
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter() === 'completado'"
+        (click)="setFilter('completado')">
+        Completado
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter() === 'en-progreso'"
+        (click)="setFilter('en-progreso')">
+        En Progreso
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter() === 'planificado'"
+        (click)="setFilter('planificado')">
+        Planificado
+      </button>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="projects-grid">
+      <div 
+        *ngFor="let project of filteredProjects()" 
+        class="project-card"
+        [class.expanded]="expandedProject() === project.id">
+        
+        <!-- Project Image -->
+        <div class="project-image-container">
+          <img [src]="project.image" [alt]="project.title" class="project-image" />
+          <div class="project-badge" [ngClass]="getStatusBadgeClass(project.status)">
+            <i class="fas" [ngClass]="getStatusIcon(project.status)"></i>
+            <span>{{ getStatusText(project.status) }}</span>
+          </div>
+        </div>
+
+        <!-- Project Content -->
+        <div class="project-content">
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-description">{{ project.description }}</p>
+          
+          <!-- Technologies Tags -->
+          <div class="project-technologies">
+            <span 
+              *ngFor="let tech of project.technologies" 
+              class="tech-tag">
+              {{ tech }}
+            </span>
+          </div>
+
+          <!-- Expand/Collapse Button -->
+          <button 
+            class="expand-btn"
+            (click)="toggleExpand(project.id)">
+            <span *ngIf="expandedProject() !== project.id">Ver detalles</span>
+            <span *ngIf="expandedProject() === project.id">Ocultar detalles</span>
+            <i class="fas" [ngClass]="expandedProject() === project.id ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          </button>
+
+          <!-- Expanded Details -->
+          <div 
+            class="project-details"
+            [class.show]="expandedProject() === project.id">
+            
+            <div class="details-section">
+              <h4 class="details-title">FUNCIONALIDADES</h4>
+              <ul class="details-list">
+                <li *ngFor="let func of project.functionalities">{{ func }}</li>
+              </ul>
+            </div>
+
+            <div class="details-info">
+              <div class="info-item">
+                <span class="info-label">Rol:</span>
+                <span class="info-value">{{ project.role }}</span>
+              </div>
+              
+              <div class="info-item">
+                <i class="fas fa-users"></i>
+                <span class="info-value">{{ project.team.join(', ') }}</span>
+              </div>
+              
+              <div class="info-item">
+                <i class="fas fa-calendar"></i>
+                <span class="info-value">{{ project.date }}</span>
+              </div>
+            </div>
+
+            <a 
+              [href]="project.githubUrl" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="github-btn">
+              <i class="fas fa-code"></i>
+              Ver en GitHub
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
