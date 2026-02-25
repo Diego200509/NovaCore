@@ -8,6 +8,17 @@ export const routes: Routes = [
         component: Home
     },
     {
-        path: 'blogs',
+        path: 'blog',
         component: Example
-    }];
+    },
+    {
+        path: 'servicios',
+        redirectTo: '', // Redirige a la página principal
+        pathMatch: 'full'
+    },
+    {
+        path: 'proyectos',
+        redirectTo: '', // Redirige a la página principal
+        pathMatch: 'full'
+    }
+];
