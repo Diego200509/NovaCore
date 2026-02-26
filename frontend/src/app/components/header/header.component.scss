@@ -1,46 +1,54 @@
 :host {
-  display: block;
-  position: absolute; // Esto asegura que el componente no "empuje" al Hero hacia abajo
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
+    display: block;
+    position: absolute; // Esto asegura que el componente no "empuje" al Hero hacia abajo
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .navbar {
-  position: fixed; // Se mantiene fijo al hacer scroll
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 90px;
-  background: transparent; // Transparente por defecto
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 4%;
-  transition: background 0.4s ease, backdrop-filter 0.4s ease, height 0.4s ease;
+    position: fixed; // Se mantiene fijo al hacer scroll
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: transparent; // Transparente por defecto
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4%;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, height 0.4s ease;
 
-  // Estilo cuando detecta fondo claro
-  &.text-dark {
-    .nav-links a, .logo-main, .menu-toggle span {
-      color: #000000;
-    }
-    &.scrolled {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(15px);
-    }
-  }
+    // Estilo cuando detecta fondo claro
+    &.text-dark {
 
-  // Estilo cuando detecta fondo oscuro (como el Hero)
-  &.text-light {
-    .nav-links a, .logo-main, .menu-toggle span {
-      color: #ffffff;
+        .nav-links a,
+        .logo-main,
+        .menu-toggle span {
+            color: #000000;
+        }
+
+        &.scrolled {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+        }
     }
-    &.scrolled {
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(15px);
+
+    // Estilo cuando detecta fondo oscuro (como el Hero)
+    &.text-light {
+
+        .nav-links a,
+        .logo-main,
+        .menu-toggle span {
+            color: #ffffff;
+        }
+
+        &.scrolled {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+        }
     }
-  }
 }
 
 .logo-container {
@@ -102,6 +110,23 @@
 
         &:hover::after {
             width: 100%;
+        }
+    }
+
+    .theme-toggle-btn {
+        background: transparent;
+        border: none;
+        color: inherit;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease, color 0.3s ease;
+
+        &:hover {
+            transform: scale(1.1) rotate(15deg);
+            color: var(--primary);
         }
     }
 }

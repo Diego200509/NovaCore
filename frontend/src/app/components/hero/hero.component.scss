@@ -5,10 +5,10 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    color: var(--light);
+    color: var(--text-color);
     text-align: center;
     z-index: 10;
-    background: var(--dark); // Usando tu color dark
+    background: var(--bg-color);
 
     // --- ORBES DE FONDO (Colores actualizados a Morado/Azul) ---
     &::before {
@@ -128,7 +128,7 @@
                 .main-text {
                     display: block;
                     font-size: clamp(3.5rem, 8vw, 5.5rem);
-                    color: var(--light);
+                    color: var(--text-color);
                     letter-spacing: -1px;
                 }
 
@@ -148,7 +148,8 @@
             p {
                 font-size: 1.25rem;
                 line-height: 1.6;
-                color: rgba(255, 255, 255, 0.7);
+                color: rgba(var(--text-color), 0.7);
+                /* We will adjust the opacity with a global var or keep it solid and rely on light-theme*/
                 max-width: 520px;
                 margin: 0 0 3rem 0;
             }
@@ -193,7 +194,8 @@
             .tech-icon {
                 position: absolute;
                 font-size: 4.5rem;
-                color: rgba(255, 255, 255, 0.9);
+                color: var(--text-color);
+                opacity: 0.9;
                 filter: blur(20px);
                 animation: techPopup 12s ease-in-out infinite;
                 width: 120px;
@@ -202,12 +204,13 @@
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
-                transition: filter 0.3s ease;
+                transition: filter 0.3s ease, color 0.3s ease;
                 text-shadow: 0 0 20px var(--primary);
 
                 &:hover {
                     filter: blur(0px) scale(1.1);
-                    color: var(--light);
+                    color: var(--text-color);
+                    opacity: 1;
                 }
             }
         }

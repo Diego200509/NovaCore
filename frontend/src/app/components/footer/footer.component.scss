@@ -1,8 +1,8 @@
 footer {
   position: relative;
-  background: var(--dark);
+  background: var(--bg-color);
   padding: 40px 0 10px;
-  color: var(--light);
+  color: var(--text-color);
   overflow: hidden;
 }
 
@@ -47,10 +47,10 @@ footer {
 
 .contact-info,
 .map-wrapper {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--card-border);
   border-radius: 20px;
   padding: 1.5rem;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -75,7 +75,7 @@ footer {
   font-weight: 800;
   margin-bottom: 1.5rem;
   letter-spacing: -1.5px;
-  background: linear-gradient(135deg, var(--light), #a8b0c3);
+  background: linear-gradient(135deg, var(--text-color), #a8b0c3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -124,14 +124,15 @@ footer {
 .contact-item strong {
   display: block;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-color);
+  opacity: 0.6;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .contact-item p {
   font-size: 0.95rem;
-  color: var(--light);
+  color: var(--text-color);
   margin: 0.2rem 0 0 0;
   font-weight: 500;
 }
@@ -139,7 +140,8 @@ footer {
 .company-desc {
   font-size: 0.85rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-color);
+  opacity: 0.7;
   max-width: 450px;
 }
 
@@ -167,9 +169,10 @@ footer {
 .footer-bottom {
   margin-top: 30px;
   padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--card-border);
   text-align: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-color);
+  opacity: 0.5;
   font-size: 0.8rem;
 }
 

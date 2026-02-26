@@ -3,6 +3,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NavigationService } from '../../shared/services/navigation.service';
 import { ScrollService } from '../../shared/services/scroll.service';
+import { ThemeService } from '../../shared/services/theme';
 
 @Component({
     selector: 'app-header',
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         public navigationService: NavigationService,
         private scrollService: ScrollService,
         private router: Router,
-        private elementRef: ElementRef
+        private elementRef: ElementRef,
+        public themeService: ThemeService
     ) { }
 
     ngOnInit(): void {
@@ -71,6 +73,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     toggleMenu(): void {
         this.isMenuOpen.update(value => !value);
+    }
+
+    toggleTheme(): void {
+        this.themeService.toggleTheme();
     }
 
     scrollToSection(sectionId: string): void {

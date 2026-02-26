@@ -1,9 +1,9 @@
 .offer-card {
   position: relative;
-  background: rgba(255, 255, 255, 0.03); // Glassmorphism background
+  background: var(--card-bg); // Glassmorphism background
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--card-border);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   flex-direction: column;
@@ -73,8 +73,8 @@
   font-size: 1.5rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  // Gradient text for title
-  background: linear-gradient(135deg, var(--light), #a8b0c3);
+  // Gradient text for title using var(--text-color)
+  background: linear-gradient(135deg, var(--text-color), #a8b0c3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -89,7 +89,8 @@
 }
 
 .card-description {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-color);
+  opacity: 0.8;
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;

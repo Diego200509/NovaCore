@@ -6,7 +6,7 @@
 #nosotros {
   position: relative;
   padding: 100px 8%;
-  background: var(--dark); // changed from #f8fafc to dark
+  background: var(--bg-color); // changed from var(--dark) to adapting bg
   overflow: hidden; // to contain orbs
 }
 
@@ -43,7 +43,7 @@
   text-align: center;
   margin-bottom: 3.5rem;
   letter-spacing: -1.5px;
-  background: linear-gradient(135deg, var(--light), #a8b0c3);
+  background: linear-gradient(135deg, var(--text-color), #a8b0c3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -92,7 +92,7 @@
     width: 50px !important;
     height: 50px !important;
     border-radius: 50% !important;
-    color: white !important;
+    color: var(--light) !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -137,7 +137,7 @@
   }
 
   .swiper-pagination-bullet {
-    background: rgba(255, 255, 255, 0.3) !important;
+    background: rgba(150, 150, 150, 0.5) !important;
     opacity: 1 !important;
   }
 

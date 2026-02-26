@@ -16,5 +16,9 @@
         <a (click)="scrollToSection('stack'); $event.preventDefault()">Tecnologías</a>
         <a (click)="scrollToSection('blog-home'); $event.preventDefault()">Blog</a>
         <a (click)="scrollToSection('contacto'); $event.preventDefault()">Contacto</a>
+
+        <button class="theme-toggle-btn" (click)="toggleTheme()" aria-label="Toggle theme">
+            <i class="fas" [ngClass]="themeService.isDarkMode() ? 'fa-sun' : 'fa-moon'"></i>
+        </button>
     </div>
 </nav>
