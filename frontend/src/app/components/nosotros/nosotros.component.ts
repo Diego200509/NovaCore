@@ -69,16 +69,17 @@ export class NosotrosComponent implements OnInit, AfterViewInit {
 
   private initTeamSwiper(): void {
     Swiper.use([Navigation, Pagination, Autoplay]);
-    
+
     new Swiper('.teamSwiper', {
       modules: [Navigation, Pagination, Autoplay],
       slidesPerView: 3,
-      slidesPerGroup: 3,
+      slidesPerGroup: 1, // Advance 1 by 1 for fluidness instead of groups of 3
       spaceBetween: 30,
       loop: true,
       grabCursor: true,
+      speed: 800, // Smooth transition duration
       autoplay: {
-        delay: 2000,
+        delay: 3000,
         disableOnInteraction: false
       },
       pagination: {
@@ -98,12 +99,12 @@ export class NosotrosComponent implements OnInit, AfterViewInit {
         },
         768: {
           slidesPerView: 2,
-          slidesPerGroup: 2,
+          slidesPerGroup: 1,
           spaceBetween: 20
         },
         1024: {
           slidesPerView: 3,
-          slidesPerGroup: 3,
+          slidesPerGroup: 1,
           spaceBetween: 30
         }
       }

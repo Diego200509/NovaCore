@@ -55,112 +55,126 @@
   z-index: 1;
 }
 
-.team-next {
-  right: 10px !important;
-}
 
-.team-prev {
-  left: 10px !important;
-}
+// USING ::ng-deep to pierce Angular's View Encapsulation since Swiper creates these elements
+::ng-deep {
 
-.team-pagination {
-  bottom: 0 !important;
-}
-
-.swiper {
-  position: relative;
-  overflow: visible; // allows card glow to bleed
-  padding-bottom: 60px !important;
-}
-
-.swiper-container-wrapper {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-  background: linear-gradient(135deg, var(--primary), var(--purple-bright)) !important;
-  width: 55px !important;
-  height: 55px !important;
-  border-radius: 50% !important;
-  color: white !important;
-  box-shadow: 0 5px 20px rgba(77, 53, 255, 0.4);
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-  top: 50% !important;
-  margin-top: -27.5px !important;
-  z-index: 20;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    transform: scale(1.15) !important;
-    box-shadow: 0 8px 30px rgba(168, 85, 247, 0.6) !important;
+  // Buttons positioning
+  .team-next {
+    right: 10px !important;
   }
 
-  &:active {
-    transform: scale(0.95) !important;
+  .team-prev {
+    left: 10px !important;
+  }
+
+  .team-pagination {
+    bottom: 0 !important;
+  }
+
+  .swiper {
+    position: relative;
+    overflow: visible; // allows card glow to bleed
+    padding-bottom: 60px !important;
+  }
+
+  .swiper-container-wrapper {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    background: rgba(25, 20, 116, 0.4) !important; // Dark glass background
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    top: 50% !important;
+    margin-top: -25px !important;
+    z-index: 20;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+
+    &:hover {
+      background: linear-gradient(135deg, var(--primary), var(--purple-bright)) !important;
+      transform: scale(1.1) !important;
+      box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5) !important;
+      border-color: transparent;
+    }
+
+    &:active {
+      transform: scale(0.95) !important;
+    }
+  }
+
+  /* Estilos específicos para sobreescribir Swiper */
+  :is(.team-next, .team-prev) {
+    border: none !important;
+  }
+
+  :is(.team-next, .team-prev)::after {
+    display: none !important;
+  }
+
+  .nav-icon {
+    width: 14px; // Reducido para que encaje perfectamente dentro de los 50px del botón
+    height: 24px;
+    fill: white;
+    transition: transform 0.3s ease;
+  }
+
+  .swiper-pagination {
+    bottom: 15px !important;
+  }
+
+  .swiper-pagination-bullet {
+    background: rgba(255, 255, 255, 0.3) !important;
+    opacity: 1 !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: linear-gradient(135deg, var(--primary), var(--purple-bright)) !important;
+    width: 30px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 0 10px rgba(77, 53, 255, 0.5);
+  }
+
+  .swiper-slide {
+    height: auto;
+    display: flex;
   }
 }
 
-/* Estilos específicos para sobreescribir Swiper */
-:is(.team-next, .team-prev) {
-  border: none !important;
-}
+// End ::ng-deep
 
-:is(.team-next, .team-prev)::after {
-  display: none !important;
-}
-
-.nav-icon {
-  width: 20px;
-  height: 20px;
-  fill: white;
-}
-
-.swiper-pagination {
-  bottom: 15px !important;
-}
-
-.swiper-pagination-bullet {
-  background: rgba(255, 255, 255, 0.3) !important;
-  opacity: 1 !important;
-}
-
-.swiper-pagination-bullet-active {
-  background: linear-gradient(135deg, var(--primary), var(--purple-bright)) !important;
-  width: 30px !important;
-  border-radius: 6px !important;
-  box-shadow: 0 0 10px rgba(77, 53, 255, 0.5);
-}
-
-.swiper-slide {
-  height: auto;
-  display: flex;
-}
 
 @media (max-width: 1200px) {
   .team-wrapper {
     padding: 0 60px;
   }
 
-  .team-next {
-    right: 5px;
+  ::ng-deep .team-next {
+    right: 5px !important;
   }
 
-  .team-prev {
-    left: 5px;
+  ::ng-deep .team-prev {
+    left: 5px !important;
   }
 }
 
 @media (max-width: 900px) {
 
-  .swiper-button-next,
-  .swiper-button-prev {
+  ::ng-deep .swiper-button-next,
+  ::ng-deep .swiper-button-prev {
     display: none !important;
   }
 
