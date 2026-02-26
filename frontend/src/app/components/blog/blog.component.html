@@ -11,7 +11,7 @@
     </div>
 
     <div class="blog-grid">
-      <div *ngFor="let blog of blogs()" class="blog-card">
+      <a *ngFor="let blog of blogs()" [routerLink]="['/blog', blog.id]" class="blog-card blog-card-link">
         <div class="blog-image-container">
           <img [src]="blog.image" [alt]="blog.title" class="blog-image" />
         </div>
@@ -29,8 +29,11 @@
               <span *ngFor="let tag of blog.tags" class="tag-item">{{ tag }}</span>
             </div>
           }
+          <span class="blog-card-cta">
+            <i class="fas fa-arrow-right"></i> Ver publicación
+          </span>
         </div>
-      </div>
+      </a>
     </div>
 
     @if (blogs().length === 0) {

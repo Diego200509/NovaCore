@@ -23,6 +23,10 @@ import { Blog } from '../../interfaces/blog';
 export class CrearPublicacion implements OnInit {
   blogs: Blog[] = [];
   modalOpen = false;
+  editingId: number | null = null;
+  deleteModalOpen = false;
+  blogToDelete: Blog | null = null;
+  deleteApiKey = '';
 
   title = '';
   description = '';
@@ -48,14 +52,86 @@ export class CrearPublicacion implements OnInit {
     });
   }
 
-  openModal(): void {
-    this.modalOpen = true;
+  openModal(blog?: Blog): void {
+    this.editingId = blog ? blog.id : null;
     this.message = { type: '', text: '' };
+    if (blog) {
+      this.title = blog.title;
+      this.description = blog.description;
+      this.authorsInput = blog.authors?.join(', ') ?? '';
+      this.tagsInput = blog.tags?.join(', ') ?? '';
+      this.urlsInput = blog.urls?.join(', ') ?? '';
+      this.imageFile = null;
+      this.imagePreview = blog.image || null;
+    } else {
+      this.title = '';
+      this.description = '';
+      this.authorsInput = '';
+      this.tagsInput = '';
+      this.urlsInput = '';
+      this.imageFile = null;
+      this.imagePreview = null;
+    }
+    this.modalOpen = true;
   }
 
   closeModal(): void {
     this.modalOpen = false;
+    this.editingId = null;
     this.message = { type: '', text: '' };
+    this.title = '';
+    this.description = '';
+    this.authorsInput = '';
+    this.tagsInput = '';
+    this.urlsInput = '';
+    this.imageFile = null;
+    this.imagePreview = null;
+    // No se limpia apiKey para poder usarla al eliminar
+  }
+
+  confirmDelete(blog: Blog): void {
+    if (this.apiKey?.trim()) {
+      if (!confirm(`¿Eliminar la publicación «${blog.title}»?`)) return;
+      this.doDelete(blog.id, this.apiKey.trim());
+      return;
+    }
+    this.blogToDelete = blog;
+    this.deleteApiKey = '';
+    this.deleteMessage = '';
+    this.deleteModalOpen = true;
+  }
+
+  closeDeleteModal(): void {
+    this.deleteModalOpen = false;
+    this.blogToDelete = null;
+    this.deleteApiKey = '';
+    this.deleteMessage = '';
+  }
+
+  doDelete(id: number, key: string): void {
+    this.blogService.deleteBlog(id, key).subscribe({
+      next: () => {
+        this.apiKey = key;
+        this.closeDeleteModal();
+        this.loadBlogs();
+      },
+      error: (err: { error?: { message?: string }; message?: string }) => {
+        this.deleteMessage = err?.error?.message || err?.message || 'Error al eliminar la publicación.';
+      },
+    });
+  }
+
+  deleteMessage = '';
+
+  submitDelete(): void {
+    const key = this.deleteApiKey?.trim();
+    if (!key) {
+      this.deleteMessage = 'Introduce tu API Key para poder eliminar.';
+      return;
+    }
+    if (!this.blogToDelete) return;
+    this.deleteMessage = '';
+    this.doDelete(this.blogToDelete.id, key);
   }
 
   onBackdropClick(): void {
@@ -119,17 +195,25 @@ export class CrearPublicacion implements OnInit {
       this.message = { type: 'error', text: 'Debe haber al menos un enlace.' };
       return;
     }
-    if (!this.imageFile) {
+    const isEditing = this.editingId != null;
+    if (!isEditing && !this.imageFile) {
       this.message = { type: 'error', text: 'La imagen es obligatoria.' };
       return;
     }
+    if (!this.apiKey?.trim()) {
+      this.message = { type: 'error', text: 'La API Key es obligatoria para publicar.' };
+      return;
+    }
 
-    const imageBase64 = await new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve((reader.result as string) || '');
-      reader.onerror = reject;
-      reader.readAsDataURL(this.imageFile!);
-    });
+    let imageBase64: string | undefined;
+    if (this.imageFile) {
+      imageBase64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve((reader.result as string) || '');
+        reader.onerror = reject;
+        reader.readAsDataURL(this.imageFile!);
+      });
+    }
 
     const body = {
       title: this.title.trim(),
@@ -137,29 +221,40 @@ export class CrearPublicacion implements OnInit {
       authors,
       tags: this.toArray(this.tagsInput),
       urls,
-      imageBase64,
+      ...(imageBase64 ? { imageBase64 } : {}),
     };
 
     this.loading = true;
-    this.blogService.createBlog(body, this.apiKey || undefined).subscribe({
-      next: () => {
-        this.loading = false;
-        this.message = { type: 'success', text: 'Publicación creada correctamente.' };
-        this.title = '';
-        this.description = '';
-        this.authorsInput = '';
-        this.tagsInput = '';
-        this.urlsInput = '';
-        this.imageFile = null;
-        this.imagePreview = null;
-        this.loadBlogs();
-        setTimeout(() => this.closeModal(), 1200);
-      },
-      error: (err: { error?: { message?: string }; message?: string }) => {
-        this.loading = false;
-        const msg = err?.error?.message || err?.message || 'Error al crear la publicación.';
-        this.message = { type: 'error', text: msg };
-      },
-    });
+    const apiKey = this.apiKey?.trim() || undefined;
+
+    if (this.editingId != null) {
+      this.blogService.updateBlog(this.editingId, body, apiKey).subscribe({
+        next: () => {
+          this.loading = false;
+          this.message = { type: 'success', text: 'Publicación actualizada correctamente.' };
+          this.loadBlogs();
+          setTimeout(() => this.closeModal(), 1200);
+        },
+        error: (err: { error?: { message?: string }; message?: string }) => {
+          this.loading = false;
+          const msg = err?.error?.message || err?.message || 'Error al actualizar la publicación.';
+          this.message = { type: 'error', text: msg };
+        },
+      });
+    } else {
+      this.blogService.createBlog({ ...body, imageBase64: imageBase64! }, apiKey).subscribe({
+        next: () => {
+          this.loading = false;
+          this.message = { type: 'success', text: 'Publicación creada correctamente.' };
+          this.loadBlogs();
+          setTimeout(() => this.closeModal(), 1200);
+        },
+        error: (err: { error?: { message?: string }; message?: string }) => {
+          this.loading = false;
+          const msg = err?.error?.message || err?.message || 'Error al crear la publicación.';
+          this.message = { type: 'error', text: msg };
+        },
+      });
+    }
   }
 }

@@ -1,0 +1,292 @@
+// Vista de detalle — diseño editorial minimalista
+
+.blog-detail-section
+  padding-top: 100px
+  padding-bottom: 120px
+  overflow-x: hidden
+
+.blog-detail-container
+  max-width: 1140px
+  width: 100%
+  margin: 0 auto
+  padding: 0 5%
+  min-width: 0
+  box-sizing: border-box
+
+// —— Volver al blog ——
+.blog-detail-back
+  display: inline-flex
+  align-items: center
+  gap: 0.5rem
+  margin-bottom: 2rem
+  color: rgba(255, 255, 255, 0.6)
+  text-decoration: none
+  font-size: 0.9rem
+  font-weight: 500
+  letter-spacing: 0.02em
+  transition: color 0.2s ease
+
+  i
+    font-size: 0.75rem
+    transition: transform 0.2s ease
+
+  &:hover
+    color: var(--primary)
+
+    i
+      transform: translateX(-2px)
+
+// —— Hero: imagen al ancho del contenedor ——
+.blog-detail-hero
+  position: relative
+  width: 100%
+  margin: 0 0 3.5rem 0
+  overflow: hidden
+  background: var(--dark)
+  border-radius: 16px
+
+.blog-detail-hero-img
+  width: 100%
+  height: 52vh
+  min-height: 320px
+  max-height: 520px
+  object-fit: cover
+  object-position: top center
+  display: block
+  vertical-align: middle
+
+.blog-detail-hero-overlay
+  position: absolute
+  inset: 0
+  background: linear-gradient(to top, rgba(26, 26, 26, 0.92) 0%, transparent 50%)
+  pointer-events: none
+
+// —— Artículo: contenido editorial ——
+.blog-detail-article
+  min-width: 0
+
+.blog-detail-title
+  font-size: clamp(2.25rem, 5.5vw, 3.25rem)
+  font-weight: 700
+  line-height: 1.15
+  letter-spacing: -0.04em
+  color: var(--light)
+  margin: 0 0 0.75rem 0
+  word-break: break-word
+  overflow-wrap: break-word
+
+.blog-detail-byline
+  font-size: 0.95rem
+  color: rgba(255, 255, 255, 0.55)
+  margin: 0 0 2rem 0
+  letter-spacing: 0.01em
+
+.blog-detail-byline-sep
+  color: rgba(255, 255, 255, 0.3)
+
+.blog-detail-byline-authors
+  font-style: italic
+
+.blog-detail-accent
+  width: 64px
+  height: 3px
+  background: linear-gradient(90deg, var(--primary), transparent)
+  border-radius: 2px
+  margin-bottom: 2.5rem
+
+.blog-detail-body
+  margin-bottom: 2.5rem
+
+.blog-detail-description
+  font-size: 1.125rem
+  line-height: 1.85
+  color: rgba(255, 255, 255, 0.88)
+  margin: 0
+  white-space: pre-wrap
+  word-break: break-word
+  overflow-wrap: break-word
+  letter-spacing: 0.01em
+
+// —— Etiquetas ——
+.blog-detail-tags
+  display: flex
+  flex-wrap: wrap
+  align-items: baseline
+  gap: 0.6rem
+  margin-bottom: 2.5rem
+
+.blog-detail-tags-label
+  font-size: 0.75rem
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 0.1em
+  color: rgba(255, 255, 255, 0.45)
+  margin-right: 0.25rem
+
+.blog-detail-tag
+  padding: 0.35rem 0.9rem
+  border-radius: 6px
+  font-size: 0.8rem
+  font-weight: 500
+  color: rgba(255, 255, 255, 0.9)
+  background: rgba(255, 255, 255, 0.06)
+  border: 1px solid rgba(255, 255, 255, 0.1)
+  transition: border-color 0.2s ease, background 0.2s ease
+
+  &:hover
+    background: rgba(77, 53, 255, 0.12)
+    border-color: rgba(77, 53, 255, 0.3)
+
+// —— Enlaces ——
+.blog-detail-links
+  padding-top: 2rem
+  border-top: 1px solid rgba(255, 255, 255, 0.08)
+
+.blog-detail-links-title
+  font-size: 0.75rem
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 0.12em
+  color: rgba(255, 255, 255, 0.45)
+  margin: 0 0 1.25rem 0
+
+.blog-detail-links-list
+  list-style: none
+  padding: 0
+  margin: 0
+
+  li
+    margin-bottom: 0.6rem
+
+    &:last-child
+      margin-bottom: 0
+
+.blog-detail-link
+  display: inline-flex
+  align-items: center
+  gap: 0.6rem
+  color: var(--primary)
+  text-decoration: none
+  font-size: 0.9rem
+  transition: color 0.2s ease
+
+  i
+    font-size: 0.75rem
+    opacity: 0.8
+
+  &:hover
+    color: var(--purple-bright)
+
+.blog-detail-link-text
+  word-break: break-all
+  overflow-wrap: anywhere
+  text-decoration: underline
+  text-underline-offset: 3px
+  text-decoration-color: rgba(77, 53, 255, 0.4)
+
+  .blog-detail-link:hover &
+    text-decoration-color: rgba(168, 85, 247, 0.6)
+
+// —— Estados: carga y no encontrado ——
+.blog-detail-loading,
+.blog-detail-notfound
+  text-align: center
+  padding: 5rem 2rem
+
+.blog-detail-loading-spinner
+  width: 40px
+  height: 40px
+  margin: 0 auto 1.25rem
+  border: 2px solid rgba(77, 53, 255, 0.2)
+  border-top-color: var(--primary)
+  border-radius: 50%
+  animation: blog-detail-spin 0.8s linear infinite
+
+@keyframes blog-detail-spin
+  to
+    transform: rotate(360deg)
+
+.blog-detail-loading-text
+  font-size: 0.95rem
+  color: rgba(255, 255, 255, 0.55)
+  margin: 0
+
+.blog-detail-notfound-icon
+  width: 64px
+  height: 64px
+  margin: 0 auto 1.25rem
+  display: flex
+  align-items: center
+  justify-content: center
+  color: rgba(255, 255, 255, 0.35)
+
+  i
+    font-size: 1.5rem
+
+.blog-detail-notfound-title
+  font-size: 1.35rem
+  font-weight: 700
+  color: var(--light)
+  margin: 0 0 0.5rem 0
+
+.blog-detail-notfound-text
+  font-size: 0.95rem
+  color: rgba(255, 255, 255, 0.5)
+  margin: 0 0 1.75rem 0
+  line-height: 1.5
+
+.blog-detail-btn-back
+  display: inline-flex
+  align-items: center
+  gap: 0.5rem
+  padding: 0.7rem 1.5rem
+  background: var(--primary)
+  color: var(--light)
+  text-decoration: none
+  font-weight: 600
+  font-size: 0.9rem
+  border-radius: 8px
+  transition: background 0.2s ease, transform 0.2s ease
+
+  &:hover
+    background: var(--purple-bright)
+    transform: translateY(-1px)
+
+// —— Responsive ——
+@media (max-width: 768px)
+  .blog-detail-section
+    padding-top: 88px
+    padding-bottom: 80px
+
+  .blog-detail-container
+    padding: 0 6%
+
+  .blog-detail-hero
+    margin-bottom: 2.5rem
+
+  .blog-detail-hero-img
+    min-height: 260px
+    max-height: 380px
+
+  .blog-detail-title
+    margin-bottom: 0.5rem
+
+  .blog-detail-byline
+    margin-bottom: 1.5rem
+    font-size: 0.875rem
+
+  .blog-detail-accent
+    margin-bottom: 2rem
+
+  .blog-detail-body
+    margin-bottom: 2rem
+
+  .blog-detail-description
+    font-size: 1.05rem
+    line-height: 1.8
+
+  .blog-detail-tags
+    margin-bottom: 2rem
+
+  .blog-detail-links
+    padding-top: 1.5rem

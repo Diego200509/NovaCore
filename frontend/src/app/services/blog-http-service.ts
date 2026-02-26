@@ -36,4 +36,20 @@ export class BlogHttpService {
     }
     return this.http.post<Blog>(this.API_URL, body, { headers });
   }
+
+  updateBlog(id: number, body: CreateBlogBody, apiKey?: string): Observable<Blog> {
+    let headers = new HttpHeaders();
+    if (apiKey) {
+      headers = headers.set('x-api-key', apiKey);
+    }
+    return this.http.put<Blog>(`${this.API_URL}/${id}`, body, { headers });
+  }
+
+  deleteBlog(id: number, apiKey?: string): Observable<void> {
+    let headers = new HttpHeaders();
+    if (apiKey) {
+      headers = headers.set('x-api-key', apiKey);
+    }
+    return this.http.delete<void>(`${this.API_URL}/${id}`, { headers });
+  }
 }

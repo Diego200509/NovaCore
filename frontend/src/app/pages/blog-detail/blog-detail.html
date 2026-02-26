@@ -1,0 +1,73 @@
+<app-header></app-header>
+
+<section class="page-section-dark blog-detail-section">
+  <div class="blog-detail-container">
+    @if (loading()) {
+      <div class="blog-detail-loading">
+        <div class="blog-detail-loading-spinner"></div>
+        <p class="blog-detail-loading-text">Cargando publicación...</p>
+      </div>
+    } @else if (notFound()) {
+      <div class="blog-detail-notfound">
+        <div class="blog-detail-notfound-icon"><i class="fas fa-file-alt"></i></div>
+        <h2 class="blog-detail-notfound-title">Publicación no encontrada</h2>
+        <p class="blog-detail-notfound-text">La entrada que buscas no existe o fue eliminada.</p>
+        <a routerLink="/blog" class="blog-detail-btn-back">
+          <i class="fas fa-arrow-left"></i> Volver al blog
+        </a>
+      </div>
+    } @else if (blog(); as post) {
+      <a routerLink="/blog" class="blog-detail-back">
+        <i class="fas fa-arrow-left"></i> Volver al blog
+      </a>
+
+      <!-- Hero: imagen a ancho completo -->
+      <figure class="blog-detail-hero">
+        <img [src]="post.image" [alt]="post.title" class="blog-detail-hero-img" loading="eager" />
+        <div class="blog-detail-hero-overlay"></div>
+      </figure>
+
+      <!-- Contenido editorial: título, byline, cuerpo, tags, enlaces -->
+      <article class="blog-detail-article">
+        <h1 class="blog-detail-title">{{ post.title }}</h1>
+        <p class="blog-detail-byline">
+          @if (post.createdAt) {
+            <span class="blog-detail-byline-date">{{ formatDate(post.createdAt) }}</span>
+          }
+          @if (post.createdAt && post.authors && post.authors.length) {
+            <span class="blog-detail-byline-sep"> · </span>
+          }
+          @if (post.authors && post.authors.length) {
+            <span class="blog-detail-byline-authors">Por {{ post.authors.join(', ') }}</span>
+          }
+        </p>
+        <div class="blog-detail-accent"></div>
+
+        <div class="blog-detail-body">
+          <p class="blog-detail-description">{{ post.description }}</p>
+        </div>
+
+        @if (post.tags && post.tags.length) {
+          <div class="blog-detail-tags">
+            <span class="blog-detail-tags-label">Etiquetas</span>
+            <span *ngFor="let tag of post.tags" class="blog-detail-tag">{{ tag }}</span>
+          </div>
+        }
+
+        @if (post.urls && post.urls.length) {
+          <div class="blog-detail-links">
+            <h3 class="blog-detail-links-title">Enlaces relacionados</h3>
+            <ul class="blog-detail-links-list">
+              <li *ngFor="let url of post.urls">
+                <a [href]="url" target="_blank" rel="noopener noreferrer" class="blog-detail-link">
+                  <i class="fas fa-external-link-alt"></i>
+                  <span class="blog-detail-link-text">{{ url }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        }
+      </article>
+    }
+  </div>
+</section>
