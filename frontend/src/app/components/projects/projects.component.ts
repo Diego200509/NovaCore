@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface Project {
@@ -26,7 +26,7 @@ export interface Project {
 })
 export class ProjectsComponent {
   selectedFilter = signal<string>('todos');
-  expandedProject = signal<number | null>(null);
+  expandedProjectId = signal<number | null>(null);
 
   projects: Project[] = [
     {
@@ -36,7 +36,7 @@ export class ProjectsComponent {
       fullDescription: 'Sistema completo de gestión hotelera desarrollado con Laravel y tecnologías modernas. Incluye sistema de reservas en tiempo real, panel administrativo completo y autenticación OAuth con Google.',
       technologies: ['Laravel', 'PHP', 'MySQL', 'Blade', 'JavaScript'],
       status: 'completado',
-      image: '/img/proyecto-web.jpg',
+      image: '/img/Web.png',
       githubUrl: 'https://github.com/ArielParedesLozada/Proyecto-Final-Web',
       functionalities: [
         'Sistema de reservas con validación de disponibilidad en tiempo real',
@@ -56,7 +56,7 @@ export class ProjectsComponent {
       fullDescription: 'Aplicación distribuida con microservicios desarrollada en .NET Core. Incluye servicio de autenticación, servicio de choferes, gateway API y frontend en React/Next.js con despliegue en la nube.',
       technologies: ['C#', '.NET Core', 'JavaScript', 'React', 'Docker'],
       status: 'en-progreso',
-      image: '/img/proyecto-distribuidas.jpg',
+      image: '/img/Distribuidas.png',
       githubUrl: 'https://github.com/ArielParedesLozada/Proyecto-Final-Distribuidas',
       functionalities: [
         'Arquitectura de microservicios con comunicación asíncrona',
@@ -76,7 +76,7 @@ export class ProjectsComponent {
       fullDescription: 'Sistema integral de gestión desarrollado para optimizar procesos empresariales. Incluye módulos de reportes, análisis de datos y dashboard interactivo.',
       technologies: ['TypeScript', 'Node.js', 'PostgreSQL', 'React', 'AWS'],
       status: 'completado',
-      image: '/img/proyecto-gpis.jpg',
+      image: '/img/GPIS.png',
       githubUrl: 'https://github.com/ArielParedesLozada/ProyectoGPIS',
       functionalities: [
         'Sistema de gestión de información empresarial',
@@ -88,12 +88,53 @@ export class ProjectsComponent {
       team: ['Ariel Paredes', 'Equipo de desarrollo'],
       date: 'Marzo - Junio 2025',
       expanded: false
+    },
+    {
+      id: 4,
+      title: 'Pacman - Patrones PHP',
+      description: 'Juego de Pacman refactorizado implementando patrones de diseño en PHP. Aplicación de principios SOLID y patrones creacionales, estructurales y de comportamiento.',
+      fullDescription: 'Refactorización completa del clásico juego Pacman utilizando PHP y aplicando diversos patrones de diseño. El proyecto demuestra la implementación práctica de patrones como Factory, Strategy, Observer, Singleton y más, mejorando la arquitectura y mantenibilidad del código.',
+      technologies: ['PHP', 'Patrones de Diseño', 'SOLID', 'OOP'],
+      status: 'completado',
+      image: '/img/PacMan.png',
+      githubUrl: 'https://github.com/Elkinnn/PatronesPHPFront',
+      functionalities: [
+        'Implementación de patrones creacionales (Factory, Builder)',
+        'Aplicación de patrones estructurales (Adapter, Decorator)',
+        'Uso de patrones de comportamiento (Strategy, Observer)',
+        'Arquitectura limpia siguiendo principios SOLID'
+      ],
+      role: 'Desarrollo Backend y Arquitectura',
+      team: ['Elkin', 'Equipo de desarrollo'],
+      date: '2025',
+      expanded: false
+    },
+    {
+      id: 5,
+      title: 'Sistema Médico Distribuido',
+      description: 'Aplicación distribuida con arquitectura hexagonal para gestión de centros médicos, consultas y administración de servicios de salud.',
+      fullDescription: 'Sistema médico distribuido desarrollado con arquitectura hexagonal (Clean Architecture). Incluye API Gateway, servicios de administración y médico, frontend en React, y base de datos con Prisma. Monorepo con microservicios independientes.',
+      technologies: ['Node.js', 'TypeScript', 'React', 'Prisma', 'Docker'],
+      status: 'completado',
+      image: '/img/Clinix.png',
+      githubUrl: 'https://github.com/Elkinnn/PruebaDistribuidas',
+      functionalities: [
+        'Arquitectura hexagonal con separación de capas (presentation, application, domain, infrastructure)',
+        'API Gateway para enrutamiento y gestión de peticiones',
+        'Servicios independientes: Admin Service y Médico Service',
+        'Frontend React con páginas de administrador y médico',
+        'Base de datos con Prisma y scripts SQL para migraciones'
+      ],
+      role: 'Desarrollo Full Stack y Arquitectura',
+      team: ['Elkin', 'Equipo de desarrollo'],
+      date: '2025',
+      expanded: false
     }
   ];
 
   filteredProjects = signal<Project[]>(this.projects);
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.updateFilteredProjects();
   }
 
@@ -113,12 +154,26 @@ export class ProjectsComponent {
     }
   }
 
-  toggleExpand(projectId: number): void {
-    if (this.expandedProject() === projectId) {
-      this.expandedProject.set(null);
-    } else {
-      this.expandedProject.set(projectId);
+  toggleExpand(projectId: number, event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
     }
+    
+    const currentExpandedId = this.expandedProjectId();
+    
+    // Si el proyecto actual ya está expandido, colapsarlo
+    if (currentExpandedId === projectId) {
+      this.expandedProjectId.set(null);
+    } else {
+      // Expandir solo este proyecto - esto automáticamente colapsa cualquier otro
+      // porque solo puede haber un valor en expandedProjectId a la vez
+      this.expandedProjectId.set(projectId);
+    }
+  }
+
+  trackByProjectId(index: number, project: Project): number {
+    return project.id;
   }
 
   getStatusBadgeClass(status: string): string {
