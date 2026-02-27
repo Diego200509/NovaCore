@@ -48,6 +48,7 @@
         <!-- Project Image -->
         <div class="project-image-container">
           <img [src]="project.image" [alt]="project.title" class="project-image" />
+          <div class="project-img-overlay"></div>
           <div class="project-badge" [ngClass]="getStatusBadgeClass(project.status)">
             <i class="fas" [ngClass]="getStatusIcon(project.status)"></i>
             <span>{{ getStatusText(project.status) }}</span>
