@@ -4,6 +4,7 @@ import { BlogPage } from './pages/blog/blog';
 import { BlogDetailPage } from './pages/blog-detail/blog-detail';
 import { CrearPublicacion } from './pages/crear-publicacion/crear-publicacion';
 import { Projects } from './pages/projects/projects';
+import { ServicesComponent } from './pages/services/services.component';
 
 export const routes: Routes = [
     {
@@ -25,8 +26,7 @@ export const routes: Routes = [
     },
     {
         path: 'servicios',
-        redirectTo: '', // Redirige a la página principal
-        pathMatch: 'full'
+        component: ServicesComponent
     },
     {
         path: 'proyectos',

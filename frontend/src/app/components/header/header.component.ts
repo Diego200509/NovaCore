@@ -35,14 +35,23 @@ export class HeaderComponent {
     }
 
     scrollToSection(sectionId: string): void {
-        if (this.router.url !== '/') {
-            this.router.navigate(['/']).then(() => {
-                setTimeout(() => this.scrollService.scrollToSection(sectionId), 150);
-            });
-        } else {
-            this.scrollService.scrollToSection(sectionId);
-        }
         this.isMenuOpen.set(false);
+
+        const scrollFn = () => {
+             // We need a generous timeout to ensure Angular renders everything
+             // especially metrics, nosotros which might push the footer down.
+             setTimeout(() => {
+                 this.scrollService.scrollToSection(sectionId);
+             }, 400);
+        };
+
+        if (this.router.url !== '/' && this.router.url.split('#')[0] !== '/') {
+            // Navigate home and then scroll
+            this.router.navigate(['/']).then(() => scrollFn());
+        } else {
+            // Already on home, just scroll
+            scrollFn();
+        }
     }
 
     navigateTo(path: string): void {
@@ -57,6 +66,15 @@ export class HeaderComponent {
         } else {
             // Navegar a la página de proyectos
             this.router.navigate(['/proyectos']);
+        }
+        this.isMenuOpen.set(false);
+    }
+
+    navigateToServices(): void {
+        if (this.router.url === '/servicios') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            this.router.navigate(['/servicios']);
         }
         this.isMenuOpen.set(false);
     }
