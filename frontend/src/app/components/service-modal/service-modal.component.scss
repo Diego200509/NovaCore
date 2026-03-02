@@ -1,0 +1,253 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: rgba(10, 10, 30, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content {
+  position: relative;
+  background: var(--bg-color); /* Updated to solid background */
+  
+  // Overriding any global .modal-content gray gradients that might leak from styles.sass
+  // We use the exact same radial gradient combination used by the main page
+  :host-context(body:not(.light-theme)) & {
+      background: radial-gradient(1200px 600px at 20% 10%, rgba(77, 53, 255, 0.08), transparent 55%),
+                  radial-gradient(900px 520px at 85% 80%, rgba(168, 85, 247, 0.06), transparent 55%),
+                  var(--dark); // Uses the true base dark tone
+  }
+
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 1100px; /* Made wider */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px rgba(77, 53, 255, 0.2), inset 0 0 20px rgba(77, 53, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  
+  // Custom scrollbar for modal
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text-color);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(77, 53, 255, 0.5);
+  }
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.modal-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  flex-shrink: 0;
+
+  @media (min-width: 768px) {
+    width: 450px; /* Adjusting proportional width since the modal is wider */
+    height: auto;
+    min-height: 400px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+        transparent 60%,
+        var(--bg-color) 100%);
+    display: none;
+
+    @media (min-width: 768px) {
+      display: block;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+        transparent 60%,
+        var(--bg-color) 100%);
+    display: block;
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+}
+
+.modal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+
+  @media (min-width: 768px) {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 20px;
+  }
+}
+
+.modal-info {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  color: var(--text-color);
+}
+
+.modal-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.8rem;
+  background: linear-gradient(135deg, var(--text-color), var(--text-gradient-sec));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.modal-description {
+  color: var(--text-color);
+  opacity: 0.9;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  
+  p {
+    margin-bottom: 1.2rem;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.modal-techs {
+  margin-top: 1.2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  padding: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.techs-title {
+  color: var(--text-color);
+  opacity: 0.6;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.techs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tech-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 120, 70, 0.2); // An orange/primary tinted circle
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff7846; // The checkmark color
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(255, 120, 70, 0.1);
+}
+
+.tech-text {
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.modal-cta {
+  margin-top: 1.5rem;
+  align-self: flex-start;
+  
+  ::ng-deep .btn {
+    padding: 0.7rem 1.8rem;
+    font-size: 1.05rem;
+    box-shadow: 0 5px 15px rgba(77, 53, 255, 0.4);
+  }
+}
