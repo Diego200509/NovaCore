@@ -1,0 +1,41 @@
+<section class="featured-projects-section" id="proyectos-destacados">
+  <div class="projects-container">
+    <div class="section-header">
+      <h2 class="section-title">Proyectos</h2>
+    </div>
+
+    <div class="projects-grid">
+      <div *ngFor="let project of featuredProjects" class="project-card">
+        <div class="project-image">
+          <img [src]="project.image" [alt]="project.title" />
+        </div>
+        <div class="project-content">
+          <div class="project-header">
+            <h3 class="project-title">{{ project.title }}</h3>
+            <div class="project-badge" [ngClass]="getStatusBadgeClass(project.status)">
+              <i class="fas" [ngClass]="getStatusIcon(project.status)"></i>
+            </div>
+          </div>
+          <p class="project-description">{{ project.description }}</p>
+          <div class="project-footer">
+            <div class="project-tech">
+              <span *ngFor="let tech of project.technologies.slice(0, 3)" class="tech-tag">
+                {{ tech }}
+              </span>
+            </div>
+            <a 
+              [href]="project.githubUrl" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="github-link">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+          <a routerLink="/proyectos" class="view-more-btn">
+            Ver más <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
