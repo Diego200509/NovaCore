@@ -31,24 +31,37 @@
   text-align: center;
   margin-bottom: 5rem;
   
-  .page-title {
-    font-size: 3.5rem;
+  .services-title {
+    display: block;
     font-weight: 800;
-    margin-bottom: 1.5rem;
-    letter-spacing: -1.5px;
-    background: linear-gradient(135deg, var(--text-color), var(--text-gradient-sec));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    line-height: 1.1;
+    margin: 0 0 1.5rem 0;
+
+    .title-main {
+      display: block;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      color: var(--light);
+      letter-spacing: -1px;
+    }
+
+    .title-highlight {
+      display: block;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      margin-top: 0.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--purple-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
   }
 
-  .page-subtitle {
-    font-size: 1.2rem;
-    color: var(--text-color);
-    opacity: 0.8;
-    max-width: 600px;
-    margin: 0 auto;
+  .services-subtitle {
+    font-size: 1.25rem;
     line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 700px;
+    margin: 0 auto;
   }
 }
 
@@ -90,13 +103,47 @@
   }
 }
 
+// Modo claro
+:host-context(body.light-theme) {
+  .services-page {
+    background: #f8fafc;
+    color: #0f172a;
+
+    &::before {
+      opacity: 0.05;
+    }
+  }
+
+  .services-header {
+    .services-title {
+      .title-main {
+        color: #0f172a;
+      }
+
+      .title-highlight {
+        background: linear-gradient(135deg, var(--primary), var(--purple-bright));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+
+    .services-subtitle {
+      color: rgba(15, 23, 42, 0.7);
+    }
+  }
+}
+
 // Media Queries for smaller screens
 @media (max-width: 768px) {
   .services-page {
     padding-top: 120px;
   }
   
-  .services-header .page-title {
-    font-size: 2.5rem;
+  .services-header .services-title {
+    .title-main,
+    .title-highlight {
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
   }
 }

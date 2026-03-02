@@ -13,7 +13,6 @@
   <div class="nav-links" [class.active]="isMenuOpen()" id="nav-links">
     <a (click)="navigateToServices(); $event.preventDefault()">Servicios</a>
     <a (click)="navigateToProjects(); $event.preventDefault()">Proyectos</a>
-    <a (click)="scrollToSection('stack'); $event.preventDefault()">Tecnologías</a>
     <a routerLink="/blog" (click)="closeMenu()">Blog</a>
     <a (click)="scrollToSection('contacto'); $event.preventDefault()">Contacto</a>
 

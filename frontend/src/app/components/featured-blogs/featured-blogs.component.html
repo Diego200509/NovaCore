@@ -1,0 +1,41 @@
+<section class="featured-blogs-section" id="blog-destacados">
+  <div class="blogs-container">
+    <div class="section-header">
+      <h2 class="section-title">Blog</h2>
+    </div>
+
+    @if (featuredBlogs().length > 0) {
+    <div class="blogs-grid">
+      <a 
+        *ngFor="let blog of featuredBlogs()" 
+        [routerLink]="['/blog', blog.id]" 
+        class="blog-card">
+        <div class="blog-image">
+          <img [src]="blog.image" [alt]="blog.title" />
+        </div>
+        <div class="blog-content">
+          <h3 class="blog-title">{{ blog.title }}</h3>
+          <p class="blog-description">{{ truncateDescription(blog.description, 100) }}</p>
+          <div class="blog-footer">
+            @if (blog.authors && blog.authors.length) {
+            <span class="blog-author">
+              <i class="fas fa-user"></i>
+              {{ blog.authors[0] }}
+            </span>
+            }
+            <span class="blog-date">
+              <i class="fas fa-calendar"></i>
+              {{ formatDate(blog.createdAt) }}
+            </span>
+          </div>
+          <a routerLink="/blog" class="view-more-btn" (click)="$event.stopPropagation()">
+            Ver más <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </a>
+    </div>
+    } @else {
+    <p class="blogs-empty">Aún no hay publicaciones.</p>
+    }
+  </div>
+</section>

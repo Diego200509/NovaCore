@@ -1,0 +1,26 @@
+<section class="featured-services-section" id="servicios-destacados">
+  <div class="services-container">
+    <div class="section-header">
+      <h2 class="section-title">Servicios</h2>
+    </div>
+
+    <div class="services-grid">
+      <div *ngFor="let service of featuredServices" class="service-card">
+        <div class="service-image-wrapper">
+          <img [src]="service.imageUrl" [alt]="service.imageAlt" class="service-image" />
+          <div class="service-icon">
+            <i class="fas" [ngClass]="'fa-' + (service.id === 'web-dev' ? 'code' : service.id === 'ui-ux' ? 'palette' : 'brain')"></i>
+          </div>
+        </div>
+        <div class="service-content">
+          <h3 class="service-title">{{ service.title }}</h3>
+          <p class="service-description">{{ service.description }}</p>
+          <a routerLink="/servicios" class="view-more-btn">
+            Ver más <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
