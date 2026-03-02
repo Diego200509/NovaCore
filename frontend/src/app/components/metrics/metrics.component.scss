@@ -1,0 +1,142 @@
+.metrics-section {
+  position: relative;
+  padding: 80px 8%;
+  background: var(--bg-color);
+  color: var(--text-color);
+  overflow: hidden;
+
+  // Background glow to match hero/overall space theme
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(77, 53, 255, 0.15), transparent 60%);
+    filter: blur(60px);
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+.metrics-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.metric-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+
+  // Hover inner glow
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        transparent);
+    transform: skewX(-20deg);
+    transition: all 0.5s;
+  }
+
+  &:hover {
+    transform: translateY(-10px);
+    border-color: rgba(77, 53, 255, 0.5);
+    box-shadow: 0 15px 30px rgba(77, 53, 255, 0.2),
+      inset 0 0 20px rgba(77, 53, 255, 0.1);
+
+    &::before {
+      left: 200%;
+    }
+
+    .icon-container {
+      transform: scale(1.1);
+
+      i {
+        color: var(--text-color);
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        fill: var(--text-color);
+      }
+    }
+  }
+
+  .icon-container {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, rgba(77, 53, 255, 0.2), rgba(168, 85, 247, 0.2));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(77, 53, 255, 0.3);
+
+    i {
+      font-size: 1.8rem;
+      // Gradient text effect suitable for icons (assuming FontAwesome)
+      background: linear-gradient(135deg, var(--primary), var(--purple-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+  }
+
+  .metric-value {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    background: linear-gradient(135deg, var(--text-color), var(--text-gradient-sec));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+
+  .metric-label {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .metrics-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .metrics-section {
+    padding: 60px 5%;
+  }
+
+  .metrics-container {
+    grid-template-columns: 1fr;
+  }
+}

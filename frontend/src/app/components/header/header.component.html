@@ -1,0 +1,24 @@
+<nav class="navbar" [ngClass]="getNavbarClasses()" id="main-nav">
+
+  <a href="#" class="logo-container" (click)="scrollToSection('inicio'); $event.preventDefault()">
+    <img ngSrc="/img/NovaCoreSin.png" width="100" height="100" priority alt="Novacore" class="logo-image" />
+    <span class="logo-text">
+      <span class="logo-top">Software Studio</span>
+      <span class="logo-main">NOVACORE</span>
+    </span>
+  </a>
+  <div class="menu-toggle" [class.open]="isMenuOpen()" (click)="toggleMenu()" id="menu-toggle">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="nav-links" [class.active]="isMenuOpen()" id="nav-links">
+    <a (click)="navigateToServices(); $event.preventDefault()">Servicios</a>
+    <a (click)="navigateToProjects(); $event.preventDefault()">Proyectos</a>
+    <a (click)="scrollToSection('stack'); $event.preventDefault()">Tecnologías</a>
+    <a routerLink="/blog" (click)="closeMenu()">Blog</a>
+    <a (click)="scrollToSection('contacto'); $event.preventDefault()">Contacto</a>
+
+    <button class="theme-toggle-btn" (click)="toggleTheme()" aria-label="Toggle theme">
+      <i class="fas" [ngClass]="themeService.isDarkMode() ? 'fa-sun' : 'fa-moon'"></i>
+    </button>
+  </div>
+</nav>

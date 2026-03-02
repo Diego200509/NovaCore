@@ -1,0 +1,636 @@
+// A) Fondo más elegante (noise + depth)
+.blog-section {
+  position: relative;
+  min-height: 100vh;
+  padding: 120px 4% 80px;
+  color: var(--light);
+  overflow-x: hidden;
+  background: radial-gradient(1200px 600px at 20% 10%, rgba(77, 53, 255, 0.18), transparent 55%),
+              radial-gradient(900px 520px at 85% 80%, rgba(168, 85, 247, 0.16), transparent 55%),
+              #070812;
+
+  /* sutil textura */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: 0.18;
+  }
+}
+
+.blog-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.blog-header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  .blog-title {
+    display: block;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 1.5rem 0;
+
+    .title-main {
+      display: block;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      color: var(--light);
+      letter-spacing: -1px;
+    }
+
+    .title-highlight {
+      display: block;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      margin-top: 0.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--purple-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+  }
+
+  // E) Tipografía más "SaaS"
+  .blog-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.68);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+}
+
+/* Modo claro: subtítulo visible (mismo color que el texto principal) */
+:host-context(body.light-theme) .blog-header .blog-subtitle {
+  color: #0f172a !important;
+}
+
+/* Modo claro: tags de "Más publicaciones" con el mismo recuadro/borde que la card reciente */
+:host-context(body.light-theme) .blog-tags .tag-item {
+  border: 1px solid rgba(15, 23, 42, 0.18) !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  color: var(--text-color) !important;
+}
+
+:host-context(body.light-theme) .blog-tags .tag-item:hover {
+  border-color: rgba(77, 53, 255, 0.4) !important;
+  background: rgba(77, 53, 255, 0.12) !important;
+}
+
+// —— Última publicación destacada (horizontal, tamaño contenido) ——
+// G) Animación sutil al entrar (sin librerías)
+.blog-featured-wrap,
+.blog-card {
+  animation: fadeUp 0.55s ease both;
+}
+
+.blog-card {
+  animation-delay: 0.05s;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.blog-featured-wrap {
+  margin-bottom: 2.5rem;
+}
+
+.blog-featured-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted-3);
+  margin: 0 0 0.75rem 0;
+}
+
+// B) Gradient border real para featured y cards
+.blog-featured,
+.blog-card {
+  position: relative;
+  border: none;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.blog-featured::before,
+.blog-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(77, 53, 255, 0.65), rgba(168, 85, 247, 0.55), rgba(255, 255, 255, 0.12));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.55;
+  transition: opacity 0.35s ease;
+}
+
+.blog-featured:hover::before,
+.blog-card:hover::before {
+  opacity: 0.95;
+}
+
+.blog-featured {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.blog-featured-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  width: 100%;
+}
+
+// C) Overlays + badge en imágenes (Opción A: center + overlay fuerte)
+.blog-featured-image,
+.blog-image-container {
+  position: relative;
+}
+
+.blog-featured-image {
+  width: 42%;
+  min-width: 260px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: rgba(77, 53, 255, 0.1);
+}
+
+.img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.65) 90%);
+  opacity: 0.65;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.blog-featured:hover .img-overlay,
+.blog-card:hover .img-overlay {
+  opacity: 0.45;
+}
+
+.badge-featured {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.blog-featured-img {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s ease, filter 0.6s ease;
+}
+
+.blog-featured-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.35rem 1.6rem;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.blog-featured-title {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.6vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.03em;
+  color: var(--light);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.blog-featured-description {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.blog-featured-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  color: var(--text-muted-2);
+  font-size: 0.85rem;
+}
+
+.blog-featured-meta .meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+
+.blog-featured-meta i {
+  color: var(--primary);
+}
+
+.blog-featured-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.25rem 0 0.35rem;
+}
+
+// F) Tags más finas
+.blog-featured-tag,
+.blog-tags .tag-item {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.blog-featured-tag {
+  padding: 0.28rem 0.7rem;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  color: var(--light);
+}
+
+.blog-tags .tag-item:hover,
+.blog-featured-tag:hover {
+  border-color: rgba(77, 53, 255, 0.55);
+  background: rgba(77, 53, 255, 0.14);
+}
+
+// E) CTA más "SaaS" (subrayado gradiente)
+.blog-featured-cta,
+.blog-card-cta {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.blog-featured-cta {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+  transition: gap 0.2s ease, color 0.2s ease;
+
+  i {
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+  }
+}
+
+.blog-featured-cta::after,
+.blog-card-cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(77, 53, 255, 0.9), rgba(168, 85, 247, 0.9));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+  opacity: 0.9;
+}
+
+.blog-featured-link:hover .blog-featured-cta::after,
+.blog-card-link:hover .blog-card-cta::after {
+  transform: scaleX(1);
+}
+
+.blog-featured-link:hover .blog-featured-cta {
+  color: var(--purple-bright);
+
+  i {
+    transform: translateX(4px);
+  }
+}
+
+/* 1) Featured con altura flexible (min/max): no height fija, que crezca si el título es largo */
+.blog-featured {
+  min-height: 240px;
+  height: auto;
+  align-items: stretch;
+}
+
+@media (min-width: 769px) {
+  .blog-featured {
+    max-height: 360px;
+  }
+}
+
+/* 2) La imagen debe estirarse con el contenedor */
+.blog-featured-image {
+  height: auto;
+}
+
+.blog-featured-img {
+  min-height: unset !important;
+  height: 100%;
+  object-position: center;
+}
+
+/* 3) El contenido se distribuye sin pisarse */
+.blog-featured-content {
+  padding: 1.4rem 1.6rem;
+  justify-content: flex-start;
+  gap: 0.65rem;
+}
+
+/* 4) CTA al fondo sin romper el layout */
+.blog-featured-cta {
+  margin-top: auto;
+}
+
+/* Compactar descripción (menos líneas = más balance visual) */
+.blog-featured-description {
+  -webkit-line-clamp: 2;
+}
+
+.blog-grid-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-muted-2);
+  margin: 0 0 1.5rem 0;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 2.5rem;
+  margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.blog-card {
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  min-width: 0;
+}
+
+// D) Hover más elegante (lift + glow + saturación)
+.blog-featured,
+.blog-card {
+  transform: translateY(0);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.blog-featured:hover,
+.blog-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 18px 55px rgba(77, 53, 255, 0.18), 0 18px 55px rgba(0, 0, 0, 0.45);
+}
+
+.blog-featured:hover .blog-featured-img,
+.blog-card:hover .blog-image {
+  transform: scale(1.06);
+  filter: saturate(1.1) contrast(1.05);
+}
+
+.blog-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.blog-image-container {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  background: rgba(77, 53, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .blog-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    transition: transform 0.6s ease, filter 0.6s ease;
+  }
+}
+
+.blog-content {
+  padding: 2rem;
+  min-width: 0; /* permite que el contenido se ajuste dentro del grid */
+  overflow: hidden;
+
+  .blog-title-card {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--light);
+    margin: 0 0 1rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+  }
+
+  .blog-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0 0 1rem 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .blog-authors {
+    font-size: 0.9rem;
+    color: var(--text-muted-2);
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    i {
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+  }
+
+  .blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    .tag-item {
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--light);
+      transition: all 0.3s ease;
+    }
+  }
+
+  .blog-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary);
+    transition: gap 0.2s ease;
+
+    i {
+      font-size: 0.85rem;
+      transition: transform 0.2s ease;
+    }
+  }
+}
+
+.blog-card-link:hover .blog-card-cta {
+  color: var(--purple-bright);
+
+  i {
+    transform: translateX(4px);
+  }
+}
+
+.blog-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .blog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-section {
+    padding: 100px 4% 60px;
+  }
+
+  .blog-header {
+    margin-bottom: 3rem;
+  }
+
+  .blog-featured {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .blog-featured-image {
+    width: 100%;
+    min-width: 0;
+    height: 180px;
+  }
+
+  .blog-featured-img {
+    min-height: 180px;
+  }
+
+  .blog-featured-content {
+    padding: 1.35rem 1.5rem;
+  }
+
+  .blog-featured-title {
+    margin-bottom: 0.4rem;
+  }
+
+  .blog-featured-description {
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-featured-wrap {
+    margin-bottom: 2rem;
+  }
+
+  .blog-grid-title {
+    margin-bottom: 1.25rem;
+  }
+
+  .blog-image-container {
+    height: 200px;
+  }
+
+  .blog-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-featured-wrap,
+  .blog-card {
+    animation: none;
+  }
+
+  .blog-featured,
+  .blog-card {
+    transition: none;
+  }
+}

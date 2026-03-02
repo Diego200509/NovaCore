@@ -1,0 +1,217 @@
+:host {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4%;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, height 0.4s ease, box-shadow 0.4s ease;
+
+    // --- DARK THEME BASE ESTILO ---
+    // En tema oscuro (por la clase text-light), el texto por defecto es blanco
+    &.text-light {
+
+        .nav-links a,
+        .logo-main,
+        .menu-toggle span,
+        .theme-toggle-btn {
+            color: #ffffff;
+        }
+
+        &.scrolled {
+            height: 75px;
+            background: rgba(0, 0, 0, 0.5);
+            /* Más opaco que antes para mejor contraste inmediato */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    }
+
+    // --- LIGHT THEME BASE ESTILO ---
+    // En tema claro (text-dark class), el texto por defecto es oscuro
+    &.text-dark {
+
+        .nav-links a,
+        .logo-main,
+        .menu-toggle span,
+        .theme-toggle-btn {
+            color: #0f172a; // Color texto oscuro para backgrounds claros
+        }
+
+        .logo-top {
+            color: var(--primary); // Color morado
+        }
+
+        &.scrolled {
+            height: 75px;
+            background: rgba(255, 255, 255, 0.75); // Fondo claro que no lastima el ojo
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+    }
+}
+
+.logo-container {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1;
+    z-index: 1100;
+}
+
+.logo-image {
+    height: 100px;
+    width: auto;
+    margin-right: 0.85rem;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-top {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.logo-main {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 3rem;
+
+    a {
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.4s ease;
+        position: relative;
+        cursor: pointer;
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        &:hover::after {
+            width: 100%;
+        }
+    }
+
+    .theme-toggle-btn {
+        background: transparent;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease, color 0.3s ease;
+
+        &:hover {
+            transform: scale(1.1) rotate(15deg);
+            color: var(--primary) !important;
+        }
+    }
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 1100;
+
+    span {
+        width: 30px;
+        height: 3px;
+        background: currentColor;
+        border-radius: 10px;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    &.open {
+        span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        span:nth-child(2) {
+            opacity: 0;
+        }
+
+        span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+    }
+}
+
+@media (max-width: 900px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: var(--bg-color); // Adaptativo al sistema de temas de la navbar
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+
+        &.active {
+            transform: translateX(0);
+        }
+
+        a {
+            color: var(--text-color) !important;
+            font-size: 1.5rem;
+        }
+
+        .theme-toggle-btn {
+            color: var(--text-color) !important;
+        }
+    }
+
+    .navbar.text-light .logo-main,
+    .navbar.text-dark .logo-main {
+        // En movil no hay un cambio de color "scrolled" como en escritorio puesto que tiene fondo completo al abrir
+        transition: color 0.3s ease;
+    }
+}

@@ -1,0 +1,28 @@
+<app-header></app-header>
+
+<main class="services-page" data-nav="theme-dark">
+
+  <div class="services-container reveal">
+    <div class="services-header">
+      <h1 class="page-title">Nuestros Servicios</h1>
+      <p class="page-subtitle">Soluciones tecnológicas premium diseñadas para escalar tu negocio al siguiente nivel.</p>
+    </div>
+
+    <div class="services-grid">
+      @for (service of services; track service.id; let i = $index) {
+      <div class="service-card-wrapper" (click)="openModal(service)">
+        <app-card [imageUrl]="service.imageUrl" [imageAlt]="service.imageAlt" [title]="service.title"
+          [description]="service.description" [buttonText]="'Saber más'" [showButton]="true" [priority]="i === 0">
+        </app-card>
+      </div>
+      }
+    </div>
+  </div>
+</main>
+
+<app-service-modal [service]="selectedService" [isOpen]="isModalOpen" (close)="closeModal()">
+</app-service-modal>
+
+
+
+<app-whatsapp-button></app-whatsapp-button>

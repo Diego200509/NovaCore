@@ -1,0 +1,29 @@
+<article class="offer-card">
+  @if (imageUrl) {
+  <div class="card-img-wrapper">
+    <img [ngSrc]="imageUrl" [alt]="imageAlt" fill class="card-img" [priority]="priority" />
+  </div>
+  }
+  <div class="card-info">
+    @if (title) {
+    <h3>{{ title }}</h3>
+    }
+    @if (authors.length) {
+    <p class="card-authors">Por: {{ authors.join(', ') }}</p>
+    }
+    @if (description) {
+    <p class="card-description">{{ description }}</p>
+    }
+    @if (price) {
+    <div class="price-container">
+      <span class="price-new">{{ price }}</span>
+    </div>
+    }
+    @if (showButton && buttonText) {
+    <div class="team-btn-wrapper">
+      <app-button variant="primary" [href]="buttonLink" [text]="buttonText">
+      </app-button>
+    </div>
+    }
+  </div>
+</article>

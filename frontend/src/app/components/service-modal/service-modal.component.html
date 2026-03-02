@@ -1,0 +1,50 @@
+@if (isOpen && service) {
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="onClose()" aria-label="Cerrar modal">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
+
+    <div class="modal-body">
+      <div class="modal-image-wrapper">
+        <img [ngSrc]="service.imageUrl" [alt]="service.imageAlt" fill class="modal-image" [priority]="true" />
+      </div>
+      <div class="modal-info">
+        <h3 class="modal-title">{{ service.title }}</h3>
+
+        <div class="modal-description">
+          @for (paragraph of service.extendedInfo; track paragraph) {
+          <p>{{ paragraph }}</p>
+          }
+        </div>
+
+        @if (service.technologies && service.technologies.length > 0) {
+        <div class="modal-techs">
+          <h4 class="techs-title">¿QUÉ INCLUYE?</h4>
+          <div class="techs-grid">
+            @for (tech of service.technologies; track tech) {
+            <div class="tech-item">
+              <span class="tech-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="tech-text">{{ tech }}</span>
+            </div>
+            }
+          </div>
+        </div>
+        }
+
+        <div class="modal-cta">
+          <app-button variant="primary" text="Contactar ahora" (btnClick)="navigateToContact()"></app-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

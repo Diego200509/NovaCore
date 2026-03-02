@@ -1,0 +1,80 @@
+<section class="blog-section" id="blog">
+  <div class="blog-container">
+    <div class="blog-header">
+      <h1 class="blog-title">
+        <span class="title-main">Nuestros</span>
+        <span class="title-highlight">Blog</span>
+      </h1>
+      <p class="blog-subtitle">
+        Artículos, noticias y reflexiones sobre tecnología y desarrollo de software.
+      </p>
+    </div>
+
+    @if (featuredBlog(); as featured) {
+    <div class="blog-featured-wrap">
+      <p class="blog-featured-label">Última publicación</p>
+      <a [routerLink]="['/blog', featured.id]" class="blog-featured blog-featured-link">
+        <div class="blog-featured-image">
+          <img [src]="featured.image" [alt]="featured.title" class="blog-featured-img" />
+          <div class="img-overlay"></div>
+          <span class="badge-featured">Última</span>
+        </div>
+        <div class="blog-featured-content">
+          <h2 class="blog-featured-title">{{ featured.title }}</h2>
+          <p class="blog-featured-description">{{ truncateDescription(featured.description, 200) }}</p>
+          <div class="blog-featured-meta">
+            @if (featured.authors?.length) {
+              <span class="meta-item"><i class="fas fa-user-edit"></i> {{ featured.authors.join(', ') }}</span>
+            }
+            @if (featured.createdAt) {
+              <span class="meta-item"><i class="fas fa-calendar"></i> {{ formatDate(featured.createdAt) }}</span>
+            }
+          </div>
+          @if (featured.tags && featured.tags.length) {
+          <div class="blog-featured-tags">
+            <span *ngFor="let tag of featured.tags" class="blog-featured-tag">{{ tag }}</span>
+          </div>
+          }
+          <span class="blog-featured-cta">
+            <i class="fas fa-arrow-right"></i> Ver publicación
+          </span>
+        </div>
+      </a>
+    </div>
+    }
+
+    @if (restBlogs().length > 0) {
+    <h2 class="blog-grid-title">Más publicaciones</h2>
+    }
+    <div class="blog-grid">
+      <a *ngFor="let blog of restBlogs()" [routerLink]="['/blog', blog.id]" class="blog-card blog-card-link">
+        <div class="blog-image-container">
+          <img [src]="blog.image" [alt]="blog.title" class="blog-image" />
+          <div class="img-overlay"></div>
+        </div>
+        <div class="blog-content">
+          <h3 class="blog-title-card">{{ blog.title }}</h3>
+          <p class="blog-description">{{ truncateDescription(blog.description, 120) }}</p>
+          @if (blog.authors && blog.authors.length) {
+          <p class="blog-authors">
+            <i class="fas fa-user-edit"></i>
+            {{ blog.authors.join(', ') }}
+          </p>
+          }
+          @if (blog.tags && blog.tags.length) {
+          <div class="blog-tags">
+            <span *ngFor="let tag of blog.tags" class="tag-item">{{ tag }}</span>
+          </div>
+          }
+          <span class="blog-card-cta">
+            <i class="fas fa-arrow-right"></i> Ver publicación
+          </span>
+        </div>
+      </a>
+    </div>
+
+    @if (blogs().length === 0) {
+    <p class="blog-empty">Aún no hay publicaciones.</p>
+    }
+  </div>
+</section>

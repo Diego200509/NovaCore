@@ -1,5 +1,11 @@
-<h1>Bienvenido a mi App 🚀</h1>
+<app-hero></app-hero>
 
-<a routerLink="/blogs">
-    Ir a la lista de blogs
-</a>
+<app-metrics></app-metrics>
+
+<app-nosotros></app-nosotros>
+
+<app-footer></app-footer>
+
+@defer (on idle) {
+<app-whatsapp-button></app-whatsapp-button>
+}

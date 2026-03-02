@@ -1,0 +1,495 @@
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--text-color);
+    text-align: center;
+    z-index: 10;
+    background: var(--bg-color);
+
+    // --- ORBES DE FONDO (Colores actualizados a Morado/Azul) ---
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 500px;
+        height: 500px;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle, rgba(77, 53, 255, 0.6), transparent 70%);
+        filter: blur(80px);
+        animation: float1 15s ease-in-out infinite;
+        z-index: -2;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 30%;
+        left: 20%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.5), transparent 70%);
+        filter: blur(90px);
+        animation: float2 18s ease-in-out infinite;
+        z-index: -2;
+    }
+
+    .color-orb-1 {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(168, 85, 247, 0.5), transparent 70%);
+        filter: blur(100px);
+        top: 60%;
+        right: -10%;
+        animation: float3 20s ease-in-out infinite;
+        z-index: -2;
+    }
+
+    .color-orb-2 {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(77, 53, 255, 0.5), transparent 70%);
+        filter: blur(85px);
+        bottom: -5%;
+        left: 40%;
+        animation: float4 17s ease-in-out infinite;
+        z-index: -2;
+    }
+
+    .color-orb-3 {
+        position: absolute;
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, rgba(25, 20, 116, 0.8), transparent 70%);
+        filter: blur(95px);
+        top: 20%;
+        right: 15%;
+        animation: float5 19s ease-in-out infinite;
+        z-index: -2;
+    }
+
+    .color-orb-4 {
+        position: absolute;
+        width: 550px;
+        height: 550px;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.4), transparent 70%);
+        filter: blur(100px);
+        top: 10%;
+        left: -5%;
+        animation: float6 22s ease-in-out infinite;
+        z-index: -2;
+    }
+
+    .color-orb-5 {
+        position: absolute;
+        width: 480px;
+        height: 480px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.4), transparent 70%);
+        filter: blur(90px);
+        bottom: 10%;
+        right: 10%;
+        animation: float7 21s ease-in-out infinite;
+        z-index: -2;
+    }
+
+    // --- CONTENIDO Y DISPOSICIÓN DE TEXTO ---
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 2rem;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        .hero-text {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 2;
+
+            h1 {
+                display: block;
+                font-weight: 800;
+                line-height: 1.1;
+                margin: 0 0 2rem 0;
+
+                .main-text {
+                    display: block;
+                    font-size: clamp(3.5rem, 8vw, 5.5rem);
+                    color: var(--text-color);
+                    letter-spacing: -1px;
+                }
+
+                .highlight {
+                    display: block;
+                    font-size: clamp(2.5rem, 5vw, 3.8rem);
+                    margin-top: 0.5rem;
+                    // Gradiente Morado/Azul
+                    background: linear-gradient(135deg, var(--primary), var(--purple-bright));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    font-weight: 700;
+                }
+            }
+
+            p {
+                font-size: 1.25rem;
+                line-height: 1.6;
+                color: rgba(var(--text-color), 0.7);
+                /* We will adjust the opacity with a global var or keep it solid and rely on light-theme*/
+                max-width: 520px;
+                margin: 0 0 3rem 0;
+            }
+
+            .reveal-btn {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                width: fit-content;
+            }
+        }
+
+        // --- ELEMENTO VISUAL E ICONOS ---
+        .hero-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+            height: 100%;
+            min-height: 400px;
+
+            .visual-element {
+                width: 350px;
+                height: 350px;
+                border-radius: 50%;
+                background: radial-gradient(circle at 30% 30%, rgba(77, 53, 255, 0.3), rgba(168, 85, 247, 0.2));
+                filter: blur(40px);
+                animation: pulse-visual 4s ease-in-out infinite;
+            }
+
+            .tech-icons-container {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 3;
+            }
+
+            .tech-icon {
+                position: absolute;
+                font-size: 4.5rem;
+                color: var(--text-color);
+                opacity: 0.9;
+                filter: blur(20px);
+                animation: techPopup 12s ease-in-out infinite;
+                width: 120px;
+                height: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: filter 0.3s ease, color 0.3s ease;
+                text-shadow: 0 0 20px var(--primary);
+
+                &:hover {
+                    filter: blur(0px) scale(1.1);
+                    color: var(--text-color);
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+// --- KEYFRAMES (Originales) ---
+@keyframes float1 {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+
+    25% {
+        transform: translate(-30%, -70%) scale(1.2);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translate(-20%, -40%) scale(0.9);
+        opacity: 0.7;
+    }
+
+    75% {
+        transform: translate(-60%, -80%) scale(1.15);
+        opacity: 0.75;
+    }
+}
+
+@keyframes float2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.5;
+    }
+
+    25% {
+        transform: translate(40%, 20%) scale(1.15);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translate(20%, 50%) scale(1.1);
+        opacity: 0.8;
+    }
+
+    75% {
+        transform: translate(50%, 30%) scale(0.95);
+        opacity: 0.65;
+    }
+}
+
+@keyframes float3 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.4;
+    }
+
+    25% {
+        transform: translate(-40%, -30%) scale(1.15);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translate(-20%, 40%) scale(1.05);
+        opacity: 0.7;
+    }
+
+    75% {
+        transform: translate(-50%, -10%) scale(1.2);
+        opacity: 0.55;
+    }
+}
+
+@keyframes float4 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.5;
+    }
+
+    25% {
+        transform: translate(-20%, -50%) scale(1.1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translate(30%, -30%) scale(0.95);
+        opacity: 0.65;
+    }
+
+    75% {
+        transform: translate(10%, -60%) scale(1.15);
+        opacity: 0.75;
+    }
+}
+
+@keyframes float5 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.4;
+    }
+
+    25% {
+        transform: translate(-50%, 30%) scale(1.2);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translate(-30%, -20%) scale(1.05);
+        opacity: 0.7;
+    }
+
+    75% {
+        transform: translate(-60%, 50%) scale(0.9);
+        opacity: 0.55;
+    }
+}
+
+@keyframes float6 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.45;
+    }
+
+    25% {
+        transform: translate(60%, -40%) scale(1.15);
+        opacity: 0.65;
+    }
+
+    50% {
+        transform: translate(30%, 20%) scale(1.1);
+        opacity: 0.75;
+    }
+
+    75% {
+        transform: translate(50%, -60%) scale(0.95);
+        opacity: 0.6;
+    }
+}
+
+@keyframes float7 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.45;
+    }
+
+    25% {
+        transform: translate(-50%, -50%) scale(1.12);
+        opacity: 0.65;
+    }
+
+    50% {
+        transform: translate(-20%, 30%) scale(1.05);
+        opacity: 0.7;
+    }
+
+    75% {
+        transform: translate(-60%, -20%) scale(1.2);
+        opacity: 0.6;
+    }
+}
+
+@keyframes techPopup {
+    0% {
+        opacity: 0;
+        filter: blur(18px);
+        transform: scale(0.1);
+    }
+
+    15% {
+        opacity: 0.4;
+        filter: blur(12px);
+        transform: scale(0.5);
+    }
+
+    30% {
+        opacity: 0.8;
+        filter: blur(4px);
+        transform: scale(0.85);
+    }
+
+    45% {
+        opacity: 1;
+        filter: blur(0px);
+        transform: scale(1);
+    }
+
+    55% {
+        opacity: 1;
+        filter: blur(0px);
+        transform: scale(1.3);
+    }
+
+    70% {
+        opacity: 1;
+        filter: blur(0px);
+        transform: scale(1.2);
+    }
+
+    85% {
+        opacity: 0.6;
+        filter: blur(10px);
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity: 0;
+        filter: blur(18px);
+        transform: scale(0.1);
+    }
+}
+
+@keyframes pulse-visual {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+// --- RESPONSIVE ---
+@media (max-width: 1024px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 5rem;
+
+        .hero-text {
+            text-align: center;
+            align-items: center;
+
+            p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .reveal-btn {
+                justify-content: center;
+            }
+        }
+
+        .hero-visual {
+            min-height: 300px;
+
+            .visual-element {
+                width: 300px;
+                height: 300px;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        h1 .main-text {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+        }
+
+        h1 .highlight {
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+    }
+}

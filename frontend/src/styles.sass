@@ -1,1 +1,831 @@
 /* You can add global styles to this file, and also import other style files */
+@import '../node_modules/@fortawesome/fontawesome-free/css/all.css'
+
+:root
+  /* Variables por defecto (Tema Oscuro) */
+  --primary: #4d35ff
+  --accent: #191474
+  --dark: #1a1a1a
+  --light: #ffffff
+  --primary-glow: rgba(77, 53, 255, 0.5)
+  --accent-glow: rgba(25, 20, 116, 0.8)
+  --purple-bright: #a855f7
+  /* Variables estructurales base para fácil swapeo */
+  --text-gradient-sec: #a8b0c3
+  --bg-color: var(--dark)
+  --text-color: var(--light)
+  --card-bg: rgba(255, 255, 255, 0.03)
+  --card-border: rgba(255, 255, 255, 0.1)
+  --card-border-visible: rgba(255, 255, 255, 0.16)
+  --card-accent-ring: rgba(77, 53, 255, 0.2)
+  --card-grad-start: rgba(26, 26, 26, 0.1)
+  --card-grad-mid: rgba(26, 26, 26, 0.7)
+  --card-grad-end: rgba(26, 26, 26, 0.95)
+  --glass-bg: rgba(0, 0, 0, 0.3)
+  --glass-nav: rgba(255, 255, 255, 0.85)
+  --glass-nav-text: var(--dark)
+  --text-muted: rgba(255, 255, 255, 0.72)
+  --text-muted-2: rgba(255, 255, 255, 0.55)
+  --text-muted-3: rgba(255, 255, 255, 0.45)
+
+body.light-theme
+  /* Variables para Tema Claro */
+  --primary: #4d35ff
+  --accent: #6c63ff
+  --dark: #f8fafc /* Fondo simulando dark pero es claro ahora */
+  --light: #0f172a /* Texto simulando light proveyendo contraste oscuro */
+  --primary-glow: rgba(77, 53, 255, 0.2)
+  --accent-glow: rgba(108, 99, 255, 0.4)
+  --purple-bright: #8b5cf6
+  --text-gradient-sec: #475569
+  --bg-color: var(--dark) /* f8fafc */
+  --text-color: var(--light) /* 0f172a */
+  --card-bg: rgba(255, 255, 255, 0.6)
+  --card-border: rgba(0, 0, 0, 0.05)
+  --card-border-visible: rgba(15, 23, 42, 0.12)
+  --card-accent-ring: rgba(77, 53, 255, 0.18)
+  --card-grad-start: rgba(248, 250, 252, 0.1)
+  --card-grad-mid: rgba(248, 250, 252, 0.8)
+  --card-grad-end: rgba(248, 250, 252, 1)
+  --glass-bg: rgba(255, 255, 255, 0.7)
+  --glass-nav: rgba(255, 255, 255, 0.9)
+  --glass-nav-text: #000000
+  --text-muted: rgba(15, 23, 42, 0.78)
+  --text-muted-2: rgba(15, 23, 42, 0.6)
+  --text-muted-3: rgba(15, 23, 42, 0.5)
+
+
+html, body
+  margin: 0
+  padding: 0
+  height: 100%
+  background-color: var(--bg-color)
+  color: var(--text-color)
+  transition: background-color 0.5s ease, color 0.5s ease
+
+body
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+*
+  box-sizing: border-box
+
+// Sección reutilizable (blog, crear-publicacion, etc.)
+.page-section-dark
+  position: relative
+  min-height: 100vh
+  background: var(--dark)
+  padding: 120px 4% 80px
+  color: var(--light)
+  overflow-x: hidden
+
+  &::before
+    content: ''
+    position: absolute
+    top: 10%
+    left: 10%
+    width: 500px
+    height: 500px
+    background: radial-gradient(circle, rgba(77, 53, 255, 0.3), transparent 70%)
+    filter: blur(80px)
+    animation: float1 15s ease-in-out infinite
+    z-index: 0
+
+  &::after
+    content: ''
+    position: absolute
+    bottom: 10%
+    right: 10%
+    width: 400px
+    height: 400px
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent 70%)
+    filter: blur(90px)
+    animation: float2 18s ease-in-out infinite
+    z-index: 0
+
+@keyframes float1
+  0%, 100%
+    transform: translate(0, 0) scale(1)
+    opacity: 0.3
+  50%
+    transform: translate(30px, -30px) scale(1.1)
+    opacity: 0.5
+
+@keyframes float2
+  0%, 100%
+    transform: translate(0, 0) scale(1)
+    opacity: 0.3
+  50%
+    transform: translate(-30px, 30px) scale(1.1)
+    opacity: 0.5
+
+.section-container
+  position: relative
+  z-index: 1
+  max-width: 1400px
+  margin: 0 auto
+
+.section-header
+  text-align: center
+  margin-bottom: 2rem
+
+  .section-title
+    display: block
+    font-weight: 800
+    line-height: 1.1
+    margin: 0 0 1rem 0
+
+    .title-main
+      display: block
+      font-size: clamp(2.5rem, 5vw, 4rem)
+      color: var(--light)
+      letter-spacing: -1px
+
+    .title-highlight
+      display: block
+      font-size: clamp(2.5rem, 5vw, 4rem)
+      margin-top: 0.25rem
+      background: linear-gradient(135deg, var(--primary), var(--purple-bright))
+      -webkit-background-clip: text
+      -webkit-text-fill-color: transparent
+      background-clip: text
+      font-weight: 700
+
+  .section-subtitle
+    font-size: 1.1rem
+    color: rgba(255, 255, 255, 0.7)
+    margin: 0
+
+.section-actions
+  display: flex
+  justify-content: center
+  margin-bottom: 2.5rem
+
+  .action-btn
+    display: inline-flex
+    align-items: center
+    gap: 0.75rem
+    padding: 0.75rem 2rem
+    background: var(--primary)
+    color: var(--light)
+    border: none
+    border-radius: 50px
+    font-size: 0.95rem
+    font-weight: 600
+    cursor: pointer
+    transition: all 0.3s ease
+    box-shadow: 0 4px 20px rgba(77, 53, 255, 0.4)
+
+    &:hover
+      background: var(--purple-bright)
+      transform: translateY(-2px)
+      box-shadow: 0 8px 25px rgba(77, 53, 255, 0.5)
+
+.section-grid
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))
+  gap: 2rem
+
+  @media (max-width: 768px)
+    grid-template-columns: 1fr
+
+.card-wrap
+  position: relative
+  display: flex
+  flex-direction: column
+  gap: 1rem
+
+  .card-actions
+    display: flex
+    gap: 0.75rem
+    flex-wrap: wrap
+
+  .edit-btn,
+  .delete-btn
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    gap: 0.5rem
+    padding: 0.6rem 1.25rem
+    border-radius: 50px
+    font-size: 0.9rem
+    font-weight: 600
+    cursor: pointer
+    transition: all 0.3s ease
+    flex: 1
+    min-width: 0
+
+    i
+      font-size: 0.85rem
+
+  .edit-btn
+    border: 2px solid rgba(255, 255, 255, 0.3)
+    background: rgba(255, 255, 255, 0.05)
+    color: var(--light)
+
+    &:hover
+      border-color: var(--primary)
+      background: rgba(77, 53, 255, 0.2)
+      color: var(--light)
+
+  .delete-btn
+    border: 2px solid rgba(239, 68, 68, 0.5)
+    background: rgba(239, 68, 68, 0.1)
+    color: #fca5a5
+
+    &:hover
+      border-color: #ef4444
+      background: rgba(239, 68, 68, 0.25)
+      color: #fff
+
+.empty-state
+  text-align: center
+  color: rgba(255, 255, 255, 0.7)
+  font-size: 1.05rem
+  margin-top: 2rem
+
+@media (max-width: 768px)
+  .page-section-dark
+    padding: 100px 4% 60px
+
+// Modal y formulario (reutilizado en crear-publicacion y similares)
+.modal-overlay
+  position: fixed
+  inset: 0
+  background: rgba(0, 0, 0, 0.75)
+  backdrop-filter: blur(6px)
+  display: flex
+  align-items: center
+  justify-content: center
+  z-index: 9999
+  padding: 1.5rem
+
+.modal-content
+  position: relative
+  background: linear-gradient(160deg, #1e1e1e 0%, #161616 100%)
+  border: 1px solid rgba(255, 255, 255, 0.08)
+  border-radius: 24px
+  padding: 2.25rem
+  max-width: 520px
+  width: 100%
+  max-height: 90vh
+  overflow-y: auto
+  overflow-x: hidden
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03)
+  scrollbar-width: none
+  -ms-overflow-style: none
+
+  &::-webkit-scrollbar
+    display: none
+
+.modal-close
+  position: absolute
+  top: 1.25rem
+  right: 1.25rem
+  width: 36px
+  height: 36px
+  display: flex
+  align-items: center
+  justify-content: center
+  background: rgba(255, 255, 255, 0.06)
+  border: 1px solid rgba(255, 255, 255, 0.1)
+  border-radius: 12px
+  color: rgba(255, 255, 255, 0.7)
+  font-size: 1rem
+  cursor: pointer
+  transition: all 0.2s
+
+  &:hover
+    color: var(--light)
+    background: rgba(255, 255, 255, 0.1)
+    border-color: rgba(255, 255, 255, 0.15)
+
+.modal-title
+  margin: 0 0 1.5rem 0
+  padding-right: 2.5rem
+  font-size: 1.5rem
+  font-weight: 700
+  color: var(--light)
+  letter-spacing: -0.02em
+
+.modal-content--small
+  max-width: 420px
+  padding: 2rem
+
+  .modal-title
+    margin-bottom: 1rem
+
+  .form-row--delete
+    margin-bottom: 0.5rem
+
+  .form-actions--delete
+    margin-top: 2rem
+    padding-top: 0
+
+.modal-text
+  margin: 0 0 1.5rem 0
+  padding: 1rem 1.25rem
+  background: rgba(255, 255, 255, 0.04)
+  border-radius: 14px
+  border: 1px solid rgba(255, 255, 255, 0.06)
+  color: rgba(255, 255, 255, 0.85)
+  font-size: 0.95rem
+  line-height: 1.55
+
+.message
+  padding: 0.875rem 1.25rem
+  border-radius: 14px
+  margin-bottom: 1rem
+  display: flex
+  align-items: center
+  gap: 0.6rem
+  font-size: 0.9rem
+
+  &.success
+    background: rgba(34, 197, 94, 0.12)
+    border: 1px solid rgba(34, 197, 94, 0.25)
+    color: #86efac
+
+  &.error
+    background: rgba(239, 68, 68, 0.12)
+    border: 1px solid rgba(239, 68, 68, 0.25)
+    color: #fca5a5
+
+.publicacion-form
+  display: flex
+  flex-direction: column
+  gap: 1.35rem
+
+.form-row
+  display: flex
+  flex-direction: column
+  gap: 0.5rem
+
+  label
+    font-weight: 600
+    color: rgba(255, 255, 255, 0.95)
+    font-size: 0.9rem
+    letter-spacing: 0.01em
+
+  .required
+    color: #f87171
+
+  input[type="text"],
+  input[type="password"],
+  textarea
+    padding: 0.75rem 1.1rem
+    border: 1px solid rgba(255, 255, 255, 0.12)
+    border-radius: 14px
+    background: rgba(255, 255, 255, 0.04)
+    color: var(--light)
+    font-size: 0.95rem
+    transition: all 0.2s ease
+
+    &::placeholder
+      color: rgba(255, 255, 255, 0.35)
+
+    &:focus
+      outline: none
+      border-color: var(--primary)
+      background: rgba(255, 255, 255, 0.06)
+      box-shadow: 0 0 0 3px rgba(77, 53, 255, 0.15)
+
+  textarea
+    resize: vertical
+    min-height: 88px
+
+  .form-hint
+    font-size: 0.8rem
+    color: rgba(255, 255, 255, 0.45)
+
+.image-upload
+  .file-input
+    display: none
+
+  .upload-btn
+    display: inline-flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.7rem 1.35rem
+    background: rgba(77, 53, 255, 0.2)
+    border: 1px solid rgba(77, 53, 255, 0.4)
+    color: var(--light)
+    border-radius: 14px
+    font-size: 0.9rem
+    font-weight: 500
+    cursor: pointer
+    transition: all 0.2s
+
+    &:hover
+      background: rgba(77, 53, 255, 0.35)
+      border-color: var(--primary)
+
+  .image-preview
+    margin-top: 0.75rem
+    max-width: 200px
+    border-radius: 14px
+    overflow: hidden
+    border: 1px solid rgba(255, 255, 255, 0.08)
+
+    img
+      width: 100%
+      height: auto
+      display: block
+
+.form-actions
+  margin-top: 0.25rem
+  padding-top: 0.5rem
+
+  &--row
+    display: flex
+    gap: 1rem
+    flex-wrap: wrap
+    margin-top: 0
+    padding-top: 0
+
+  .btn-cancel
+    flex: 1
+    min-width: 0
+    padding: 0.85rem 1.75rem
+    border: 1px solid rgba(255, 255, 255, 0.2)
+    background: rgba(255, 255, 255, 0.05)
+    color: rgba(255, 255, 255, 0.9)
+    border-radius: 14px
+    font-size: 0.95rem
+    font-weight: 600
+    cursor: pointer
+    transition: all 0.2s
+
+    &:hover
+      border-color: rgba(255, 255, 255, 0.3)
+      background: rgba(255, 255, 255, 0.08)
+
+  .btn-submit
+    display: inline-flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.85rem 1.75rem
+    background: var(--primary)
+    color: var(--light)
+    border: none
+    border-radius: 14px
+    font-size: 0.95rem
+    font-weight: 600
+    cursor: pointer
+    transition: all 0.2s
+    box-shadow: 0 4px 14px rgba(77, 53, 255, 0.25)
+
+    &:hover:not(:disabled)
+      background: var(--purple-bright)
+      transform: translateY(-1px)
+      box-shadow: 0 6px 20px rgba(77, 53, 255, 0.35)
+
+    &:disabled
+      opacity: 0.7
+      cursor: not-allowed
+
+  .btn-submit--danger
+    background: #b91c1c
+    box-shadow: 0 4px 14px rgba(185, 28, 28, 0.3)
+
+    &:hover:not(:disabled)
+      background: #dc2626
+      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4)
+
+// —— Blog: modo claro (mismo sistema que home, en global para que body.light-theme aplique) ——
+body.light-theme
+  .blog-section
+    background: radial-gradient(1200px 600px at 20% 10%, rgba(77, 53, 255, 0.08), transparent 55%), radial-gradient(900px 520px at 85% 80%, rgba(168, 85, 247, 0.06), transparent 55%), var(--bg-color)
+    color: var(--text-color)
+
+  .blog-section::before
+    opacity: 0.08
+
+  .crear-publicacion-section
+    background: radial-gradient(1200px 600px at 20% 10%, rgba(77, 53, 255, 0.08), transparent 55%), radial-gradient(900px 520px at 85% 80%, rgba(168, 85, 247, 0.06), transparent 55%), var(--bg-color)
+
+  .crear-publicacion-section::before
+    opacity: 0.08
+
+  .projects-section
+    background: radial-gradient(1200px 600px at 20% 10%, rgba(77, 53, 255, 0.08), transparent 55%), radial-gradient(900px 520px at 85% 80%, rgba(168, 85, 247, 0.06), transparent 55%), var(--bg-color)
+    color: var(--text-color)
+
+  .projects-section::before
+    opacity: 0.08
+
+  .projects-header .projects-title .title-main
+    color: var(--text-color)
+
+  .projects-header .projects-subtitle
+    color: #0f172a !important
+
+  .projects-section .filter-btn
+    border: 2px solid rgba(15, 23, 42, 0.25) !important
+    background: rgba(255, 255, 255, 0.85) !important
+    color: #0f172a !important
+
+  .projects-section .filter-btn:hover
+    border-color: var(--primary) !important
+    color: var(--primary) !important
+    background: rgba(77, 53, 255, 0.1) !important
+
+  .projects-section .filter-btn.active
+    background: var(--primary) !important
+    border-color: var(--primary) !important
+    color: #ffffff !important
+
+  .projects-section .project-card
+    background: var(--card-bg)
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08)
+
+  .projects-section .project-card:hover
+    box-shadow: 0 18px 55px rgba(77, 53, 255, 0.12), 0 18px 55px rgba(0, 0, 0, 0.1)
+
+  .projects-section .project-content .project-title
+    color: var(--text-color)
+
+  .projects-section .project-content .project-description
+    color: var(--text-muted)
+
+  .projects-section .project-technologies .tech-tag
+    border: 1px solid rgba(15, 23, 42, 0.22) !important
+    background: rgba(255, 255, 255, 0.75) !important
+    color: var(--text-color) !important
+
+  .projects-section .project-technologies .tech-tag:hover
+    border-color: rgba(77, 53, 255, 0.4) !important
+    background: rgba(77, 53, 255, 0.12) !important
+
+  .projects-section .project-image-container
+    background: rgba(77, 53, 255, 0.06)
+
+  .projects-section .project-details .full-description
+    color: #0f172a !important
+
+  .projects-section .project-details .details-title
+    color: #0f172a !important
+
+  .projects-section .project-details .details-list li
+    color: rgba(15, 23, 42, 0.85) !important
+
+  .projects-section .project-details .details-info
+    border-top-color: rgba(15, 23, 42, 0.15) !important
+    border-bottom-color: rgba(15, 23, 42, 0.15) !important
+
+  .projects-section .project-details .details-info .info-item
+    color: rgba(15, 23, 42, 0.8) !important
+
+  .projects-section .project-details .details-info .info-label
+    color: #0f172a !important
+
+  .projects-section .project-details .details-info .info-value
+    color: rgba(15, 23, 42, 0.75) !important
+
+  .projects-section .expand-btn
+    color: var(--primary)
+
+  .projects-section .expand-btn:hover
+    color: var(--purple-bright)
+
+  .projects-section .project-details .github-btn
+    color: #ffffff
+
+  .crear-publicacion-section
+    color: var(--text-color)
+
+  .crear-publicacion-section .section-header .section-title .title-main
+    color: var(--text-color)
+
+  .crear-publicacion-section .section-subtitle
+    color: rgba(15, 23, 42, 0.85)
+
+  .crear-publicacion-section .empty-state
+    color: var(--text-muted)
+
+  .crear-publicacion-section .edit-btn
+    border-color: rgba(15, 23, 42, 0.2)
+    background: rgba(255, 255, 255, 0.7)
+    color: var(--text-color)
+
+  .crear-publicacion-section .edit-btn:hover
+    border-color: var(--primary)
+    background: rgba(77, 53, 255, 0.12)
+    color: var(--text-color)
+
+  .crear-publicacion-section .delete-btn
+    border-color: rgba(239, 68, 68, 0.5)
+    background: rgba(239, 68, 68, 0.08)
+    color: #b91c1c
+
+  .crear-publicacion-section .delete-btn:hover
+    border-color: #ef4444
+    background: rgba(239, 68, 68, 0.2)
+    color: #991b1b
+
+  .blog-header .blog-title .title-main
+    color: var(--text-color)
+
+  .blog-header .blog-subtitle
+    color: #0f172a !important
+
+  .blog-featured-label
+    color: var(--text-muted-3)
+
+  .blog-featured,
+  .blog-card
+    background: var(--card-bg)
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08)
+
+  .blog-featured:hover,
+  .blog-card:hover
+    box-shadow: 0 18px 55px rgba(77, 53, 255, 0.12), 0 18px 55px rgba(0, 0, 0, 0.1)
+
+  .blog-featured-image,
+  .blog-image-container
+    background: rgba(77, 53, 255, 0.06)
+
+  .img-overlay
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.4) 90%)
+    opacity: 0.5
+
+  .badge-featured
+    color: rgba(15, 23, 42, 0.9)
+    background: rgba(255, 255, 255, 0.85)
+    backdrop-filter: blur(10px)
+    border-color: rgba(15, 23, 42, 0.12)
+
+  .blog-featured-title,
+  .blog-content .blog-title-card
+    color: var(--text-color)
+
+  .blog-featured-description,
+  .blog-content .blog-description
+    color: var(--text-muted)
+
+  .blog-featured-meta
+    color: var(--text-muted-2)
+
+  .blog-grid-title
+    color: var(--text-muted-2)
+
+  .blog-featured-tag,
+  .blog-tags .tag-item
+    border: 1px solid rgba(15, 23, 42, 0.18)
+    background: rgba(255, 255, 255, 0.6)
+    color: var(--text-color)
+
+  .blog-featured-tag:hover,
+  .blog-tags .tag-item:hover
+    border-color: rgba(77, 53, 255, 0.4)
+    background: rgba(77, 53, 255, 0.12)
+
+  .blog-empty
+    color: var(--text-muted)
+
+  // —— Blog detalle (/blog/:id): modo claro ——
+  .blog-detail-section
+    background: var(--bg-color)
+    color: var(--text-color)
+
+  .blog-detail-back
+    color: rgba(15, 23, 42, 0.8)
+    border-color: rgba(15, 23, 42, 0.12)
+    background: rgba(255, 255, 255, 0.7)
+
+    &:hover
+      color: var(--primary)
+      border-color: rgba(77, 53, 255, 0.35)
+      background: rgba(77, 53, 255, 0.08)
+
+  .blog-detail-hero
+    border-color: rgba(15, 23, 42, 0.08)
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.06) inset
+
+  .blog-detail-title
+    color: var(--text-color)
+
+  .blog-detail-byline
+    color: var(--text-muted-2)
+
+  .blog-detail-byline-sep
+    color: rgba(15, 23, 42, 0.35)
+
+  .blog-detail-byline-authors
+    color: var(--text-muted-2)
+
+  .blog-detail-description
+    color: var(--text-color)
+
+  .blog-detail-tags-label
+    color: var(--text-muted-3)
+
+  .blog-detail-tag
+    color: var(--text-color)
+    background: rgba(255, 255, 255, 0.8)
+    border-color: rgba(15, 23, 42, 0.12)
+
+    &:hover
+      background: rgba(77, 53, 255, 0.12)
+      border-color: rgba(77, 53, 255, 0.35)
+
+  .blog-detail-links
+    background: rgba(255, 255, 255, 0.6)
+    border-color: rgba(15, 23, 42, 0.08)
+    box-shadow: inset 0 1px 0 rgba(15, 23, 42, 0.04)
+
+  .blog-detail-links-title
+    color: var(--text-muted-3)
+
+  .blog-detail-loading-text
+    color: var(--text-muted-2)
+
+  .blog-detail-notfound-icon
+    color: var(--text-muted-3)
+
+  .blog-detail-notfound-title
+    color: var(--text-color)
+
+  .blog-detail-notfound-text
+    color: var(--text-muted-2)
+
+  // —— Modal crear/editar/eliminar (blog/crear): modo claro ——
+  .modal-content
+    background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%)
+    border-color: rgba(15, 23, 42, 0.1)
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(15, 23, 42, 0.06)
+
+  .modal-close
+    background: rgba(15, 23, 42, 0.06)
+    border-color: rgba(15, 23, 42, 0.12)
+    color: var(--text-color)
+
+    &:hover
+      color: var(--text-color)
+      background: rgba(15, 23, 42, 0.1)
+      border-color: rgba(15, 23, 42, 0.18)
+
+  .modal-title
+    color: var(--text-color)
+
+  .modal-text
+    background: rgba(15, 23, 42, 0.05)
+    border-color: rgba(15, 23, 42, 0.1)
+    color: var(--text-color)
+
+  .message.success
+    background: rgba(34, 197, 94, 0.1)
+    border-color: rgba(34, 197, 94, 0.3)
+    color: #15803d
+
+  .message.error
+    background: rgba(239, 68, 68, 0.1)
+    border-color: rgba(239, 68, 68, 0.3)
+    color: #b91c1c
+
+  .form-row label
+    color: var(--text-color)
+
+  .form-row .required
+    color: #dc2626
+
+  .form-row input[type="text"],
+  .form-row input[type="password"],
+  .form-row textarea
+    border-color: rgba(15, 23, 42, 0.2)
+    background: rgba(255, 255, 255, 0.9)
+    color: var(--text-color)
+
+    &::placeholder
+      color: rgba(15, 23, 42, 0.45)
+
+    &:focus
+      background: #ffffff
+      border-color: var(--primary)
+      box-shadow: 0 0 0 3px rgba(77, 53, 255, 0.12)
+
+  .form-row .form-hint
+    color: var(--text-muted-3)
+
+  .image-upload .upload-btn
+    background: rgba(77, 53, 255, 0.1)
+    border-color: rgba(77, 53, 255, 0.35)
+    color: var(--text-color)
+
+    &:hover
+      background: rgba(77, 53, 255, 0.18)
+      border-color: var(--primary)
+
+  .image-upload .image-preview
+    border-color: rgba(15, 23, 42, 0.15)
+
+  .form-actions .btn-cancel
+    border-color: rgba(15, 23, 42, 0.2)
+    background: rgba(255, 255, 255, 0.8)
+    color: var(--text-color)
+
+    &:hover
+      border-color: rgba(15, 23, 42, 0.35)
+      background: rgba(255, 255, 255, 1)
+
