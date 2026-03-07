@@ -1,0 +1,82 @@
+<app-header></app-header>
+
+<main class="contact-page" data-nav="theme-dark">
+  <div class="contact-container">
+    <div class="contact-header">
+      <h1 class="contact-title">
+        <span class="title-main">Estamos aquí</span>
+        <span class="title-highlight">Contacto</span>
+      </h1>
+      <p class="contact-subtitle">
+        Conoce al equipo y escríbenos. Estamos listos para convertir tus ideas en realidad.
+      </p>
+    </div>
+
+    <section class="contact-section-team">
+      <app-nosotros></app-nosotros>
+    </section>
+
+    <section id="formulario-contacto" class="contact-section-form">
+      <div class="contact-form-grid">
+        <div class="contact-info-block page-content-reveal">
+          <h2 class="contact-info-title">¿Tienes un proyecto en mente?</h2>
+          <p class="contact-info-text">
+            Cuéntanos tu idea y te respondemos a la brevedad. Trabajamos con metodologías ágiles
+            para entregar soluciones que escalan con tu negocio.
+          </p>
+          <ul class="contact-info-list">
+            <li><i class="fas fa-check-circle"></i> Respuesta en menos de 24 horas</li>
+            <li><i class="fas fa-check-circle"></i> Consultoría inicial sin compromiso</li>
+            <li><i class="fas fa-check-circle"></i> Presupuesto adaptado a tu necesidad</li>
+          </ul>
+          <div class="contact-map-wrap">
+            <div class="map-container">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.38423456789!2d-78.6055!3d-1.3788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d3900000000000%3A0x0!2zMcKwMjInNDMuNyJTIDc4wrAzNicxOS44Ilc!5e0!3m2!1ses!2sec!4v1708800000000!5m2!1ses!2sec"
+                width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy" title="Ubicación NovaCore">
+              </iframe>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form-wrap page-content-reveal">
+          <h2 class="form-title">Envíanos un mensaje</h2>
+          @if (formSent) {
+            <div class="form-success">
+              <i class="fas fa-check-circle"></i>
+              <p>Mensaje recibido. Te contactaremos pronto.</p>
+            </div>
+          } @else {
+            <form class="contact-form" (ngSubmit)="sendMessage()">
+              <div class="form-group">
+                <label for="contact-name">Nombre <span class="required">*</span></label>
+                <input id="contact-name" type="text" [(ngModel)]="formData.name" name="name" required
+                  placeholder="Tu nombre" />
+              </div>
+              <div class="form-group">
+                <label for="contact-email">Email <span class="required">*</span></label>
+                <input id="contact-email" type="email" [(ngModel)]="formData.email" name="email" required
+                  placeholder="tu@email.com" />
+              </div>
+              <div class="form-group">
+                <label for="contact-subject">Asunto</label>
+                <input id="contact-subject" type="text" [(ngModel)]="formData.subject" name="subject"
+                  placeholder="Ej: Consulta sobre desarrollo web" />
+              </div>
+              <div class="form-group">
+                <label for="contact-message">Mensaje <span class="required">*</span></label>
+                <textarea id="contact-message" [(ngModel)]="formData.message" name="message" rows="5" required
+                  placeholder="Cuéntanos en qué podemos ayudarte..."></textarea>
+              </div>
+              <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane"></i> Enviar mensaje
+              </button>
+            </form>
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<app-footer></app-footer>
+<app-whatsapp-button></app-whatsapp-button>

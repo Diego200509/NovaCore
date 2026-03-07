@@ -13,7 +13,7 @@
       </p>
     </div>
 
-    <div class="services-grid">
+    <div class="services-grid page-content-reveal">
       @for (service of services; track service.id; let i = $index) {
       <div class="service-card-wrapper" (click)="openModal(service)">
         <app-card [imageUrl]="service.imageUrl" [imageAlt]="service.imageAlt" [title]="service.title"
@@ -25,9 +25,6 @@
   </div>
 </main>
 
+<app-footer></app-footer>
 <app-service-modal [service]="selectedService" [isOpen]="isModalOpen" (close)="closeModal()">
 </app-service-modal>
-
-
-
-<app-whatsapp-button></app-whatsapp-button>

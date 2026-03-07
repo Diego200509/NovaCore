@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './whatsapp-button.component.scss'
 })
 export class WhatsAppButtonComponent {
-  @Input() phoneNumber: string = '+593999999999';
+  @Input() phoneNumber: string = '+593961957956';
   @Input() message: string = 'Hola, me gustaría obtener más información';
 
   encodeMessage(message: string): string {

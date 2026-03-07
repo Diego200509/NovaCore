@@ -16,8 +16,10 @@ export class ThemeService {
 
       if (isDark) {
         document.body.classList.remove('light-theme');
+        document.documentElement.classList.remove('light-theme');
       } else {
         document.body.classList.add('light-theme');
+        document.documentElement.classList.add('light-theme');
       }
     });
   }
@@ -27,7 +29,6 @@ export class ThemeService {
     if (savedTheme) {
       this.isDarkMode.set(savedTheme === 'dark');
     } else {
-      // Default to what system prefers or force dark theme
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       this.isDarkMode.set(prefersDark);
     }

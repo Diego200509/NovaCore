@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ButtonComponent } from '../button/button.component';
-import { ScrollService } from '../../shared/services/scroll.service';
 
 interface Technology {
   icon: string;
@@ -37,7 +37,7 @@ export class HeroComponent implements OnInit {
     { icon: 'fab fa-java', name: 'Java' }
   ];
 
-  constructor(private scrollService: ScrollService) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.generateRandomTechnologies();
@@ -66,6 +66,6 @@ export class HeroComponent implements OnInit {
   }
 
   scrollToContact(): void {
-    this.scrollService.scrollToSection('contacto');
+    this.router.navigate(['/contacto'], { fragment: 'formulario-contacto' });
   }
 }

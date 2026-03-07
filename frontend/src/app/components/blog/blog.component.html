@@ -10,6 +10,7 @@
       </p>
     </div>
 
+    <div class="page-content-reveal">
     @if (featuredBlog(); as featured) {
     <div class="blog-featured-wrap">
       <p class="blog-featured-label">Última publicación</p>
@@ -23,7 +24,7 @@
           <h2 class="blog-featured-title">{{ featured.title }}</h2>
           <p class="blog-featured-description">{{ truncateDescription(featured.description, 200) }}</p>
           <div class="blog-featured-meta">
-            @if (featured.authors?.length) {
+            @if (featured.authors.length) {
               <span class="meta-item"><i class="fas fa-user-edit"></i> {{ featured.authors.join(', ') }}</span>
             }
             @if (featured.createdAt) {
@@ -76,5 +77,6 @@
     @if (blogs().length === 0) {
     <p class="blog-empty">Aún no hay publicaciones.</p>
     }
+    </div>
   </div>
 </section>

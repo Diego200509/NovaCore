@@ -1,20 +1,17 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../components/card/card.component';
 import { TeamMember } from '../../shared/models/team-member.model';
-import Swiper from 'swiper';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 @Component({
   selector: 'app-nosotros',
   standalone: true,
   imports: [CommonModule, CardComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './nosotros.component.html',
   styleUrl: './nosotros.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NosotrosComponent implements OnInit, AfterViewInit {
+export class NosotrosComponent {
   teamMembers: TeamMember[] = [
     {
       name: 'Johan Rodríguez',
@@ -59,57 +56,5 @@ export class NosotrosComponent implements OnInit, AfterViewInit {
       profileLink: 'https://josem151.github.io/'
     }
   ];
-
-  ngOnInit(): void {
-    // Inicialización si es necesario
-  }
-
-  ngAfterViewInit(): void {
-    this.initTeamSwiper();
-  }
-
-  private initTeamSwiper(): void {
-    Swiper.use([Navigation, Pagination, Autoplay]);
-
-    new Swiper('.teamSwiper', {
-      modules: [Navigation, Pagination, Autoplay],
-      slidesPerView: 3,
-      slidesPerGroup: 1, // Advance 1 by 1 for fluidness instead of groups of 3
-      spaceBetween: 30,
-      loop: true,
-      grabCursor: true,
-      speed: 800, // Smooth transition duration
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false
-      },
-      pagination: {
-        el: '.team-pagination',
-        clickable: true,
-        dynamicBullets: true
-      },
-      navigation: {
-        nextEl: '.team-next',
-        prevEl: '.team-prev'
-      },
-      breakpoints: {
-        320: {
-          slidesPerView: 1,
-          slidesPerGroup: 1,
-          spaceBetween: 10
-        },
-        768: {
-          slidesPerView: 2,
-          slidesPerGroup: 1,
-          spaceBetween: 20
-        },
-        1024: {
-          slidesPerView: 3,
-          slidesPerGroup: 1,
-          spaceBetween: 30
-        }
-      }
-    });
-  }
 }
 

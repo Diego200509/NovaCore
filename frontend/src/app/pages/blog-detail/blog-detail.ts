@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BlogHttpService } from '../../services/blog-http-service';
 import { HeaderComponent } from '../../components/header/header.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { Blog } from '../../interfaces/blog';
 
 @Component({
   selector: 'app-blog-detail-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, HeaderComponent],
+  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent],
   templateUrl: './blog-detail.html',
   styleUrl: './blog-detail.sass',
 })
