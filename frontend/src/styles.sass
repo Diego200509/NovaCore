@@ -2,10 +2,10 @@
 @import '../node_modules/@fortawesome/fontawesome-free/css/all.css'
 
 :root
-  /* Variables por defecto (Tema Oscuro) */
+  /* Variables por defecto (Tema Oscuro). --dark igual al fondo de Servicios/Contacto para evitar flash al cargar. */
   --primary: #4d35ff
   --accent: #191474
-  --dark: #1a1a1a
+  --dark: #070812
   --light: #ffffff
   --primary-glow: rgba(77, 53, 255, 0.5)
   --accent-glow: rgba(25, 20, 116, 0.8)
@@ -55,6 +55,85 @@ body.light-theme
   --text-muted-3: rgba(15, 23, 42, 0.5)
 
 
+// —— Scrollbar personalizada (colores de la página) ——
+// Tema oscuro (por defecto)
+html
+  scrollbar-width: thin
+  scrollbar-color: var(--primary) rgba(0, 0, 0, 0.2)
+
+// Chrome, Safari, Edge (WebKit) - tema oscuro
+html::-webkit-scrollbar
+  width: 10px
+
+html::-webkit-scrollbar-track
+  background: rgba(0, 0, 0, 0.18)
+
+html::-webkit-scrollbar-thumb
+  background: linear-gradient(180deg, var(--primary), var(--purple-bright))
+  border-radius: 10px
+
+html::-webkit-scrollbar-thumb:hover
+  background: var(--purple-bright)
+
+html::-webkit-scrollbar-thumb:active
+  background: var(--primary)
+
+// Tema claro: variables en html para que la scrollbar las herede
+html.light-theme
+  --primary: #4d35ff
+  --purple-bright: #8b5cf6
+
+// Firefox - tema claro
+html.light-theme
+  scrollbar-color: #4d35ff rgba(15, 23, 42, 0.1)
+
+// Chrome, Safari, Edge - tema claro
+html.light-theme::-webkit-scrollbar-track
+  background: rgba(15, 23, 42, 0.08)
+
+html.light-theme::-webkit-scrollbar-thumb
+  background: linear-gradient(180deg, #4d35ff, #8b5cf6)
+  border-radius: 10px
+
+html.light-theme::-webkit-scrollbar-thumb:hover
+  background: #8b5cf6
+
+html.light-theme::-webkit-scrollbar-thumb:active
+  background: #4d35ff
+
+
+// Aparición suave solo del contenido debajo de los títulos (no títulos ni header nav)
+// Sin opacity 0 para evitar parpadeo blanco en PCs lentas al hacer scroll o entrar a la sección
+.page-content-reveal
+  animation: page-reveal 0.4s ease-out
+
+@keyframes page-reveal
+  0%
+    opacity: 1
+    transform: translateY(20px)
+  100%
+    opacity: 1
+    transform: translateY(0)
+
+// —— Scroll reveal: secciones que aparecen al hacer scroll (página de inicio) ——
+.scroll-reveal
+  opacity: 0
+  transform: translateY(32px)
+  transition: opacity 0.55s ease-out, transform 0.55s ease-out
+
+  &.scroll-reveal-visible
+    opacity: 1
+    transform: translateY(0)
+
+// En modo claro, el área del inicio tiene fondo claro para no ver negro al hacer scroll
+body.light-theme
+  main.main-outlet
+    background-color: var(--bg-color)
+  .page-content-reveal
+    background-color: var(--bg-color)
+  .scroll-reveal
+    background-color: var(--bg-color)
+
 html, body
   margin: 0
   padding: 0
@@ -79,6 +158,8 @@ body
   padding: 120px 4% 80px
   color: var(--light)
   overflow-x: hidden
+  transform: translateZ(0)
+  backface-visibility: hidden
 
   &::before
     content: ''

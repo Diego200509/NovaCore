@@ -1,11 +1,10 @@
 .metrics-section {
   position: relative;
-  padding: 80px 8%;
+  padding: 40px 8% 80px;
   background: var(--bg-color);
   color: var(--text-color);
   overflow: hidden;
 
-  // Background glow to match hero/overall space theme
   &::before {
     content: '';
     position: absolute;
@@ -43,7 +42,6 @@
   position: relative;
   overflow: hidden;
 
-  // Hover inner glow
   &::before {
     content: '';
     position: absolute;
@@ -75,7 +73,6 @@
       i {
         color: var(--text-color);
         text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-        fill: var(--text-color);
       }
     }
   }
@@ -94,7 +91,6 @@
 
     i {
       font-size: 1.8rem;
-      // Gradient text effect suitable for icons (assuming FontAwesome)
       background: linear-gradient(135deg, var(--primary), var(--purple-bright));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;

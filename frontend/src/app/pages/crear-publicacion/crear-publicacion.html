@@ -10,6 +10,7 @@
       <p class="section-subtitle">Crea y publica entradas para el blog.</p>
     </div>
 
+    <div class="page-content-reveal">
     <div class="section-actions">
       <button type="button" class="action-btn" (click)="openModal()">
         <i class="fas fa-plus"></i> Agregar publicación
@@ -42,6 +43,7 @@
     @if (blogs.length === 0 && !modalOpen) {
       <p class="empty-state">Aún no hay publicaciones. Haz clic en «Agregar publicación» para crear la primera.</p>
     }
+    </div>
   </div>
 </section>
 
@@ -155,3 +157,5 @@
     </div>
   </div>
 }
+
+<app-footer></app-footer>

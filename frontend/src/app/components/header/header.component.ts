@@ -1,6 +1,8 @@
-import { Component, ElementRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, ViewChild, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { NavigationService } from '../../shared/services/navigation.service';
 import { ScrollService } from '../../shared/services/scroll.service';
 import { ThemeService } from '../../shared/services/theme';
@@ -14,9 +16,10 @@ import { signal } from '@angular/core';
     styleUrl: './header.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
     @ViewChild('navbar', { static: false }) navbar!: ElementRef;
     isMenuOpen = signal(false);
+    private navEndSub?: Subscription;
 
     constructor(
         public navigationService: NavigationService,
@@ -25,6 +28,10 @@ export class HeaderComponent {
         private elementRef: ElementRef,
         public themeService: ThemeService
     ) { }
+
+    ngOnDestroy(): void {
+        this.navEndSub?.unsubscribe();
+    }
 
     toggleMenu(): void {
         this.isMenuOpen.update(value => !value);
@@ -37,20 +44,24 @@ export class HeaderComponent {
     scrollToSection(sectionId: string): void {
         this.isMenuOpen.set(false);
 
-        const scrollFn = () => {
-             // We need a generous timeout to ensure Angular renders everything
-             // especially metrics, nosotros which might push the footer down.
-             setTimeout(() => {
-                 this.scrollService.scrollToSection(sectionId);
-             }, 400);
+        const doScroll = () => {
+            setTimeout(() => this.scrollService.scrollToSection(sectionId), 100);
         };
 
-        if (this.router.url !== '/' && this.router.url.split('#')[0] !== '/') {
-            // Navigate home and then scroll
-            this.router.navigate(['/']).then(() => scrollFn());
+        const baseUrl = this.router.url.split('?')[0].split('#')[0];
+        const isOnHome = baseUrl === '/' || baseUrl === '';
+
+        if (isOnHome) {
+            doScroll();
         } else {
-            // Already on home, just scroll
-            scrollFn();
+            this.navEndSub?.unsubscribe();
+            this.navEndSub = this.router.events
+                .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+                .subscribe(() => {
+                    this.navEndSub?.unsubscribe();
+                    this.scrollService.scrollToSectionWhenReady(sectionId);
+                });
+            this.router.navigate(['/']);
         }
     }
 
@@ -75,6 +86,15 @@ export class HeaderComponent {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
             this.router.navigate(['/servicios']);
+        }
+        this.isMenuOpen.set(false);
+    }
+
+    navigateToContact(): void {
+        if (this.router.url === '/contacto') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            this.router.navigate(['/contacto']);
         }
         this.isMenuOpen.set(false);
     }

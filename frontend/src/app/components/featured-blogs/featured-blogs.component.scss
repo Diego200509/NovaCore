@@ -15,17 +15,32 @@
   text-align: center;
   margin-bottom: 2.5rem;
 
-  .section-title {
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    font-weight: 700;
-    color: var(--light);
-    margin: 0 0 1rem 0;
-    background: linear-gradient(135deg, var(--primary), var(--purple-bright));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  &.home-section-header {
+    .section-title {
+      position: relative;
+      display: inline-block;
+      font-size: 3rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+      padding-bottom: 1.25rem;
+      letter-spacing: -1px;
+      -webkit-text-fill-color: #ffffff;
+      background: none;
 
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 56px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
+      }
+    }
+  }
 }
 
 .blogs-grid {
@@ -125,6 +140,33 @@
       font-size: 0.7rem;
       color: var(--primary);
     }
+  }
+}
+
+// Mismo diseño que Servicios y Proyectos
+.view-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  margin-top: 1.25rem;
+
+  &:hover {
+    color: var(--purple-bright);
+    gap: 0.75rem;
+  }
+
+  i {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+  }
+
+  &:hover i {
+    transform: translateX(5px);
   }
 }
 

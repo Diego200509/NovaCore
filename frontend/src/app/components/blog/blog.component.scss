@@ -8,6 +8,8 @@
   background: radial-gradient(1200px 600px at 20% 10%, rgba(77, 53, 255, 0.18), transparent 55%),
               radial-gradient(900px 520px at 85% 80%, rgba(168, 85, 247, 0.16), transparent 55%),
               #070812;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 
   /* sutil textura */
   &::before {
@@ -57,7 +59,6 @@
     }
   }
 
-  // E) Tipografía más "SaaS"
   .blog-subtitle {
     font-size: 1.25rem;
     line-height: 1.6;
