@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Blog } from '../../interfaces/blog';
 import { BlogHttpService } from '../../services/blog-http-service';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ButtonComponent],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
 })
@@ -17,28 +18,36 @@ export class BlogComponent implements OnInit {
   featuredBlog = signal<Blog | null>(null);
   /** Resto de publicaciones para el grid */
   restBlogs = signal<Blog[]>([]);
+  loading = signal(true)
   private blogService = inject(BlogHttpService);
 
   ngOnInit(): void {
+    this.loading.set(true);
+
     this.blogService.getBlogs().subscribe({
       next: (data) => {
         this.blogs.set(data);
+
         const sorted = [...data].sort((a, b) => {
           const da = new Date(a.createdAt).getTime();
           const db = new Date(b.createdAt).getTime();
           return db - da;
         });
+
         this.featuredBlog.set(sorted.length > 0 ? sorted[0] : null);
         this.restBlogs.set(sorted.length > 1 ? sorted.slice(1) : []);
+
+        this.loading.set(false);
       },
       error: () => {
         this.blogs.set([]);
         this.featuredBlog.set(null);
         this.restBlogs.set([]);
+        this.loading.set(false);
       },
     });
   }
-
+  
   truncateDescription(text: string, maxLen: number): string {
     if (!text) return '';
     return text.length <= maxLen ? text : text.slice(0, maxLen).trim() + '…';

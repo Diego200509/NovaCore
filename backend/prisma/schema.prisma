@@ -19,7 +19,7 @@ model Blogs {
   updatedAt     DateTime @updatedAt
   title         String   @db.VarChar(100)
   urls          String[] @db.VarChar(100)
-  description   String   @db.VarChar(255)
+  description   String   @db.Text
   tags          String[] @db.VarChar(255)
   image         String   @default("")
   imagePublicId String   @default("")

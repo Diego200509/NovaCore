@@ -192,16 +192,6 @@ export class CrearPublicacion implements OnInit {
       this.message = { type: 'error', text: 'El título no puede superar 100 caracteres.' };
       return;
     }
-    if (!this.description.trim()) {
-      this.loading = false;
-      this.message = { type: 'error', text: 'La descripción es obligatoria (máx. 255 caracteres).' };
-      return;
-    }
-    if (this.description.trim().length > 255) {
-      this.loading = false;
-      this.message = { type: 'error', text: 'La descripción no puede superar 255 caracteres.' };
-      return;
-    }
     if (authors.length === 0) {
       this.loading = false;
       this.message = { type: 'error', text: 'Debe haber al menos un autor.' };
