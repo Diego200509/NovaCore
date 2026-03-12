@@ -14,7 +14,7 @@
       @if (featuredBlog(); as featured) {
       <div class="blog-featured-wrap">
         <p class="blog-featured-label">Última publicación</p>
-        <a [routerLink]="['/blog', featured.id]" class="blog-featured blog-featured-link">
+        <a href="/blog/{{ featured.id }}" class="blog-featured blog-featured-link" (click)="goToBlog(featured); $event.preventDefault()">
           <div class="blog-featured-image">
             <img [src]="featured.image" [alt]="featured.title" class="blog-featured-img" />
             <div class="img-overlay"></div>
@@ -48,7 +48,7 @@
       <h2 class="blog-grid-title">Más publicaciones</h2>
       }
       <div class="blog-grid">
-        <a *ngFor="let blog of restBlogs()" [routerLink]="['/blog', blog.id]" class="blog-card blog-card-link">
+        <a *ngFor="let blog of restBlogs()" [href]="'/blog/' + blog.id" class="blog-card blog-card-link" (click)="goToBlog(blog); $event.preventDefault()">
           <div class="blog-image-container">
             <img [src]="blog.image" [alt]="blog.title" class="blog-image" />
             <div class="img-overlay"></div>

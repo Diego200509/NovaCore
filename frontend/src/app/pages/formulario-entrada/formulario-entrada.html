@@ -1,0 +1,143 @@
+<app-header></app-header>
+
+<section class="page-section-dark formulario-entrada-section">
+  <div class="section-container formulario-entrada-container">
+    <a routerLink="/blog/gestionar" class="formulario-entrada-back">
+      <i class="fas fa-arrow-left"></i> Volver al listado
+    </a>
+
+    <div class="section-header">
+      <h1 class="section-title">
+        <span class="title-main">{{ isEditMode ? 'Editar' : 'Nueva' }}</span>
+        <span class="title-highlight">entrada</span>
+      </h1>
+      <p class="section-subtitle">
+        {{ isEditMode ? 'Modifica los datos de la publicación.' : 'Completa el formulario y publica en el blog.' }}
+      </p>
+    </div>
+
+    @if (loadingBlog) {
+      <div class="formulario-entrada-loading">
+        <div class="formulario-entrada-spinner"></div>
+        <p>Cargando publicación...</p>
+      </div>
+    } @else {
+      <div class="page-content-reveal">
+        @if (message.text) {
+          <div class="message" [class.success]="message.type === 'success'" [class.error]="message.type === 'error'">
+            <i class="fas" [class.fa-check-circle]="message.type === 'success'" [class.fa-exclamation-circle]="message.type === 'error'"></i>
+            {{ message.text }}
+          </div>
+        }
+
+        <form class="publicacion-form formulario-entrada-form" (ngSubmit)="submit()">
+          <div class="form-row">
+            <label for="title">Título <span class="required">*</span></label>
+            <input id="title" type="text" [(ngModel)]="title" name="title" placeholder="Ej: Mi primer artículo" maxlength="100" required />
+            <span class="form-hint">Máx. 100 caracteres</span>
+          </div>
+
+          <div class="form-row form-row-editor editor-sticky-toolbar">
+            <label for="description">Descripción <span class="required">*</span></label>
+            <div class="editor-desc-scroll-wrap">
+              <quill-editor
+                id="description"
+                [(ngModel)]="description"
+                name="description"
+                placeholder="Escribe el contenido (negrita, listas, enlaces, etc.)"
+              ></quill-editor>
+            </div>
+            <p class="form-hint form-hint-editor">Al hacer scroll <strong>dentro del cuadro</strong> de descripción, el menú de herramientas se queda fijo arriba. Tabla: botón <strong>tabla</strong> y elige filas/columnas. Imágenes: tamaño estándar.</p>
+          </div>
+
+          <div class="form-row">
+            <label for="authors">Autores <span class="required">*</span></label>
+            <input id="authors" type="text" [(ngModel)]="authorsInput" name="authors" placeholder="Nombre1, Nombre2 (separados por coma)" required />
+            <span class="form-hint">Al menos un autor. Separados por coma.</span>
+          </div>
+
+          <div class="form-row">
+            <label for="tags">Etiquetas</label>
+            <input id="tags" type="text" [(ngModel)]="tagsInput" name="tags" placeholder="angular, frontend, tips (separados por coma)" />
+            <span class="form-hint">Opcional. Separadas por coma.</span>
+          </div>
+
+          <div class="form-row">
+            <label for="urls">Enlaces <span class="required">*</span></label>
+            <input id="urls" type="text" [(ngModel)]="urlsInput" name="urls" placeholder="https://ejemplo.com (separados por coma)" required />
+            <span class="form-hint">Al menos un enlace. Separados por coma.</span>
+          </div>
+
+          <div class="form-row">
+            <label>Imagen @if (!isEditMode) { <span class="required">*</span> }</label>
+            <div class="image-upload">
+              <input type="file" accept="image/*" (change)="onFileChange($event)" #fileInput class="file-input" />
+              <button type="button" class="upload-btn" (click)="fileInput.click()">
+                <i class="fas fa-cloud-upload-alt"></i> Seleccionar imagen
+              </button>
+              @if (imagePreview) {
+                <div class="image-preview">
+                  <img [src]="imagePreview" alt="Vista previa" />
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="form-row api-key-row">
+            <label for="apiKey">API Key (requerida para publicar)</label>
+            <input id="apiKey" type="password" [(ngModel)]="apiKey" name="apiKey" placeholder="Pega aquí tu API Key" autocomplete="off" />
+          </div>
+
+          <div class="form-actions formulario-entrada-actions">
+            <button type="button" class="btn-cancel" (click)="goToGestionar()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn-submit" [disabled]="loading">
+              @if (loading) {
+                <i class="fas fa-spinner fa-spin"></i> {{ isEditMode ? 'Guardando...' : 'Publicando...' }}
+              } @else {
+                <i class="fas" [class.fa-save]="isEditMode" [class.fa-paper-plane]="!isEditMode"></i>
+                {{ isEditMode ? 'Guardar cambios' : 'Publicar' }}
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+  </div>
+
+  @if (showTableModal) {
+    <div class="table-modal-overlay" (click)="cancelTableModal()">
+      <div class="table-modal" (click)="$event.stopPropagation()">
+        <div class="table-modal-header">
+          <span class="table-modal-icon"><i class="fas fa-table"></i></span>
+          <h2 class="table-modal-title">Tamaño de la tabla</h2>
+          <p class="table-modal-subtitle">Elige filas y columnas (1–20). Luego puedes añadir o quitar con clic derecho en una celda.</p>
+          <button type="button" class="table-modal-close" (click)="cancelTableModal()" aria-label="Cerrar">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="table-modal-body">
+          <div class="table-modal-row">
+            <div class="form-row table-modal-field">
+              <label for="table-rows">Filas</label>
+              <input id="table-rows" type="number" [(ngModel)]="tableRows" name="tableRows" min="1" max="20" />
+            </div>
+            <div class="form-row table-modal-field">
+              <label for="table-cols">Columnas</label>
+              <input id="table-cols" type="number" [(ngModel)]="tableCols" name="tableCols" min="1" max="20" />
+            </div>
+          </div>
+          <div class="table-modal-actions">
+            <button type="button" class="table-modal-btn table-modal-btn--cancel" (click)="cancelTableModal()">Cancelar</button>
+            <button type="button" class="table-modal-btn table-modal-btn--insert" (click)="confirmTableInsert()">
+              <i class="fas fa-plus"></i> Insertar tabla
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</section>
+
+<app-footer></app-footer>

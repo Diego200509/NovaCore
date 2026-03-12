@@ -2,7 +2,12 @@ import prisma from "../infrastructure/repository/prisma.ts";
 
 export class BlogModel {
     static async findAll() {
-        return await prisma.blogs.findMany()
+        return await prisma.blogs.findMany({
+            orderBy: [
+                { createdAt: 'desc' },
+                { id: 'desc' }
+            ]
+        });
     }
     static async findById(id: number) {
         return await prisma.blogs.findUnique({

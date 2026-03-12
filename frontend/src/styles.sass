@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/@fortawesome/fontawesome-free/css/all.css'
+@import '../node_modules/quill/dist/quill.snow.css'
 
 :root
   /* Variables por defecto (Tema Oscuro). --dark igual al fondo de Servicios/Contacto para evitar flash al cargar. */
@@ -798,6 +799,39 @@ body.light-theme
 
   .blog-detail-description
     color: var(--text-color)
+
+  .blog-detail-body--html table
+    background: rgba(255, 255, 255, 0.7)
+    border-color: rgba(15, 23, 42, 0.22)
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.08) inset, 0 0 24px rgba(77, 53, 255, 0.08)
+  .blog-detail-body--html th,
+  .blog-detail-body--html td
+    border-color: rgba(15, 23, 42, 0.18)
+    color: var(--text-color)
+  .blog-detail-body--html th
+    background: linear-gradient(180deg, rgba(77, 53, 255, 0.2) 0%, rgba(77, 53, 255, 0.1) 100%)
+    color: var(--text-color)
+    border-bottom-color: rgba(77, 53, 255, 0.4)
+  .blog-detail-body--html tr:nth-child(odd) td
+    background: rgba(255, 255, 255, 0.5)
+  .blog-detail-body--html tr:nth-child(even) td
+    background: rgba(248, 250, 252, 0.9)
+  .blog-detail-body--html tr:hover td
+    background: rgba(77, 53, 255, 0.06)
+  .blog-detail-body--html img
+    border-color: rgba(15, 23, 42, 0.12)
+
+  .blog-detail-body--html h2
+    color: var(--text-color)
+    border-bottom-color: rgba(77, 53, 255, 0.35)
+  .blog-detail-body--html h3
+    color: var(--text-color)
+  .blog-detail-body--html blockquote
+    background: rgba(77, 53, 255, 0.06)
+    border-top-color: rgba(15, 23, 42, 0.08)
+    color: var(--text-color)
+  .blog-detail-tags
+    border-top-color: rgba(15, 23, 42, 0.12)
 
   .blog-detail-tags-label
     color: var(--text-muted-3)

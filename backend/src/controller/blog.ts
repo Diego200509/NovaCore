@@ -16,11 +16,15 @@ export class BlogController {
 
     static async getOne(req: Request, res: Response) {
         try {
-            const id = Number(req.params.id);
-            if (isNaN(id)) {
+            const rawId = req.params.id;
+            const id = parseInt(String(rawId), 10);
+            if (isNaN(id) || id < 1) {
                 return res.status(400).json({ message: "Invalid blog ID" });
             }
             const blog = await BlogService.getBlog(id);
+            if (!blog) {
+                return res.status(404).json({ message: "Blog not found" });
+            }
             res.status(200).json(blog);
         } catch (error) {
             res.status(404).json({

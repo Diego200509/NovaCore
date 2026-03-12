@@ -4,128 +4,49 @@
   <div class="section-container">
     <div class="section-header">
       <h1 class="section-title">
-        <span class="title-main">Nueva</span>
-        <span class="title-highlight">entrada</span>
+        <span class="title-main">Gestionar</span>
+        <span class="title-highlight">entradas</span>
       </h1>
-      <p class="section-subtitle">Crea y publica entradas para el blog.</p>
+      <p class="section-subtitle">Listado de tus publicaciones. Crea nuevas, edita o elimina.</p>
     </div>
 
     <div class="page-content-reveal">
-    <div class="section-actions">
-      <button type="button" class="action-btn" (click)="openModal()">
-        <i class="fas fa-plus"></i> Agregar publicación
-      </button>
-    </div>
+      <div class="section-actions">
+        <a routerLink="/blog/crear" class="action-btn">
+          <i class="fas fa-plus"></i> Nueva publicación
+        </a>
+      </div>
 
-    <div class="section-grid">
-      @for (blog of blogs; track blog.id) {
-        <div class="card-wrap">
-          <app-card
-            [imageUrl]="blog.image"
-            [imageAlt]="blog.title"
-            [title]="blog.title"
-            [description]="truncateDescription(blog.description, 100)"
-            [authors]="blog.authors"
-            [showButton]="false"
-          />
-          <div class="card-actions">
-            <button type="button" class="edit-btn" (click)="openModal(blog)">
-              <i class="fas fa-pen"></i> Editar
-            </button>
-            <button type="button" class="delete-btn" (click)="confirmDelete(blog)">
-              <i class="fas fa-trash-alt"></i> Eliminar
-            </button>
+      <div class="section-grid">
+        @for (blog of blogs(); track blog.id; let first = $first) {
+          <div class="card-wrap">
+            <app-card
+              [imageUrl]="blog.image"
+              [imageAlt]="blog.title"
+              [title]="blog.title"
+              [description]="truncateDescription(blog.description, 100)"
+              [authors]="blog.authors"
+              [showButton]="false"
+              [priority]="first"
+            />
+            <div class="card-actions">
+              <a [routerLink]="['/blog/editar', blog.id]" class="edit-btn">
+                <i class="fas fa-pen"></i> Editar
+              </a>
+              <button type="button" class="delete-btn" (click)="confirmDelete(blog)">
+                <i class="fas fa-trash-alt"></i> Eliminar
+              </button>
+            </div>
           </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
 
-    @if (blogs.length === 0 && !modalOpen) {
-      <p class="empty-state">Aún no hay publicaciones. Haz clic en «Agregar publicación» para crear la primera.</p>
-    }
+      @if (blogs().length === 0) {
+        <p class="empty-state">Aún no hay publicaciones. <a routerLink="/blog/crear">Crear la primera</a>.</p>
+      }
     </div>
   </div>
 </section>
-
-@if (modalOpen) {
-  <div class="modal-overlay" (click)="onBackdropClick()" role="dialog" aria-modal="true" aria-label="Nueva publicación">
-    <div class="modal-content" (click)="onModalContentClick($event)">
-      <button type="button" class="modal-close" (click)="closeModal()" aria-label="Cerrar">
-        <i class="fas fa-times"></i>
-      </button>
-      <h2 class="modal-title">{{ editingId ? 'Editar entrada' : 'Nueva entrada' }}</h2>
-
-      @if (message.text) {
-        <div class="message" [class.success]="message.type === 'success'" [class.error]="message.type === 'error'">
-          <i class="fas" [class.fa-check-circle]="message.type === 'success'" [class.fa-exclamation-circle]="message.type === 'error'"></i>
-          {{ message.text }}
-        </div>
-      }
-
-      <form class="publicacion-form" (ngSubmit)="submit()">
-        <div class="form-row">
-          <label for="title">Título <span class="required">*</span></label>
-          <input id="title" type="text" [(ngModel)]="title" name="title" placeholder="Ej: Mi primer artículo" maxlength="100" required />
-          <span class="form-hint">Máx. 100 caracteres</span>
-        </div>
-
-        <div class="form-row">
-          <label for="description">Descripción <span class="required">*</span></label>
-          <textarea id="description" [(ngModel)]="description" name="description" rows="20" placeholder="Resumen o descripción"></textarea>
-        </div>
-
-        <div class="form-row">
-          <label for="authors">Autores <span class="required">*</span></label>
-          <input id="authors" type="text" [(ngModel)]="authorsInput" name="authors" placeholder="Nombre1, Nombre2 (separados por coma)" required />
-          <span class="form-hint">Al menos un autor. Separados por coma.</span>
-        </div>
-
-        <div class="form-row">
-          <label for="tags">Etiquetas</label>
-          <input id="tags" type="text" [(ngModel)]="tagsInput" name="tags" placeholder="angular, frontend, tips (separados por coma)" />
-          <span class="form-hint">Opcional. Separadas por coma.</span>
-        </div>
-
-        <div class="form-row">
-          <label for="urls">Enlaces <span class="required">*</span></label>
-          <input id="urls" type="text" [(ngModel)]="urlsInput" name="urls" placeholder="https://ejemplo.com (separados por coma)" required />
-          <span class="form-hint">Al menos un enlace. Separados por coma.</span>
-        </div>
-
-        <div class="form-row">
-          <label>Imagen @if (!editingId) { <span class="required">*</span> }</label>
-          <div class="image-upload">
-            <input type="file" accept="image/*" (change)="onFileChange($event)" #fileInput class="file-input" />
-            <button type="button" class="upload-btn" (click)="fileInput.click()">
-              <i class="fas fa-cloud-upload-alt"></i> Seleccionar imagen
-            </button>
-            @if (imagePreview) {
-              <div class="image-preview">
-                <img [src]="imagePreview" alt="Vista previa" />
-              </div>
-            }
-          </div>
-        </div>
-
-        <div class="form-row api-key-row">
-          <label for="apiKey">API Key (requerida para publicar)</label>
-          <input id="apiKey" type="password" [(ngModel)]="apiKey" name="apiKey" placeholder="Pega aquí tu API Key" autocomplete="off" />
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" class="btn-submit" [disabled]="loading">
-            @if (loading) {
-              <i class="fas fa-spinner fa-spin"></i> {{ editingId ? 'Guardando...' : 'Publicando...' }}
-            } @else {
-              <i class="fas" [class.fa-save]="editingId" [class.fa-paper-plane]="!editingId"></i>
-              {{ editingId ? 'Guardar cambios' : 'Publicar' }}
-            }
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-}
 
 @if (deleteModalOpen && blogToDelete) {
   <div class="modal-overlay" (click)="closeDeleteModal()" role="dialog" aria-modal="true" aria-label="Confirmar eliminación">
