@@ -134,7 +134,7 @@
 
 .blog-detail-description
   font-size: 1.125rem
-  line-height: 1.88
+  line-height: 1.75
   color: rgba(255, 255, 255, 0.9)
   margin: 0
   white-space: pre-wrap
@@ -145,7 +145,7 @@
 // Contenido HTML del editor (Quill): organización visual y ritmo de lectura
 .blog-detail-body--html
   font-size: 1.125rem
-  line-height: 1.88
+  line-height: 1.75
   color: rgba(255, 255, 255, 0.9)
   letter-spacing: 0.012em
   word-break: break-word
@@ -253,10 +253,12 @@
     margin-top: 2rem
     margin-bottom: 1rem
 
-  // Tablas (Quill): línea separadora arriba + alto contraste
+  // Tablas (Quill): ancho fijo del contenedor, texto que baje dentro de la celda sin ensanchar la tabla
   ::ng-deep table
     border-collapse: collapse
+    table-layout: fixed
     width: 100%
+    max-width: 100%
     margin-top: 2.25rem
     margin-bottom: 1.75rem
     padding-top: 1.5rem
@@ -282,6 +284,16 @@
     vertical-align: top
     color: rgba(255, 255, 255, 0.92)
     text-align: left
+    line-height: 1.5
+    overflow-wrap: break-word
+    word-break: normal
+    hyphens: auto
+    min-width: 0
+    box-sizing: border-box
+  ::ng-deep td
+    text-align: justify
+  ::ng-deep th
+    white-space: normal
   // Respetar alineación de Quill (centro, derecha, justificado) en celdas y párrafos
   ::ng-deep .ql-align-center
     text-align: center

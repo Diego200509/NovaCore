@@ -43,7 +43,7 @@
         </p>
         <div class="blog-detail-accent"></div>
 
-        <div class="blog-detail-body blog-detail-body--html" [innerHTML]="sanitizeDescription(post.description)">
+        <div class="blog-detail-body blog-detail-body--html" lang="es" [innerHTML]="sanitizeDescription(post.description)">
         </div>
 
         @if (post.tags && post.tags.length) {
