@@ -17,10 +17,6 @@
         </a>
       </div>
     } @else if (blog(); as post) {
-      <a routerLink="/blog" class="blog-detail-back">
-        <i class="fas fa-arrow-left"></i> Volver al blog
-      </a>
-
       <!-- Hero: imagen a ancho completo -->
       <figure class="blog-detail-hero">
         <img [src]="post.image" [alt]="post.title" class="blog-detail-hero-img" loading="eager" />
@@ -66,7 +62,23 @@
             </ul>
           </div>
         }
+
+        @if (nextBlog(); as next) {
+          <div class="blog-detail-next-wrap">
+            <h3 class="blog-detail-next-title">Próximo blog</h3>
+            <a [routerLink]="['/blog', next.id]" [state]="{ blog: next }" class="blog-detail-next-btn">
+              <span class="blog-detail-next-btn-text">{{ next.title }}</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        }
       </article>
+
+      <div class="blog-detail-back-wrap">
+        <a routerLink="/blog" class="blog-detail-back">
+          <i class="fas fa-arrow-left"></i> Volver al blog
+        </a>
+      </div>
     }
   </div>
 </section>
