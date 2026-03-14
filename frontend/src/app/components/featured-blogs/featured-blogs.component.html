@@ -4,7 +4,9 @@
       <h2 class="section-title">Blog</h2>
     </div>
 
-    @if (featuredBlogs().length > 0) {
+    @if (loading()) {
+    <p class="blogs-loading">Cargando publicaciones...</p>
+    } @else if (featuredBlogs().length > 0) {
     <div class="blogs-grid">
       <a 
         *ngFor="let blog of featuredBlogs()" 

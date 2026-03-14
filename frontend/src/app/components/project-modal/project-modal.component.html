@@ -1,0 +1,69 @@
+@if (isOpen && project) {
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="onClose()" aria-label="Cerrar modal">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
+
+    <div class="modal-body">
+      <div class="modal-image-wrapper">
+        <img [src]="project.image" [alt]="project.title" class="modal-image" />
+      </div>
+      <div class="modal-info">
+        <h3 class="modal-title">{{ project.title }}</h3>
+
+        <div class="modal-description">
+          <p>{{ project.fullDescription }}</p>
+        </div>
+
+        @if (project.functionalities && project.functionalities.length > 0) {
+        <div class="modal-techs">
+          <h4 class="techs-title">FUNCIONALIDADES</h4>
+          <div class="techs-grid">
+            @for (func of project.functionalities; track func) {
+            <div class="tech-item">
+              <span class="tech-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="tech-text">{{ func }}</span>
+            </div>
+            }
+          </div>
+        </div>
+        }
+
+        @if (project.technologies && project.technologies.length > 0) {
+        <div class="modal-techs">
+          <h4 class="techs-title">TECNOLOGÍAS</h4>
+          <div class="tech-tags">
+            @for (tech of project.technologies; track tech) {
+            <span class="tech-tag">{{ tech }}</span>
+            }
+          </div>
+        </div>
+        }
+
+        <div class="modal-footer">
+          <div class="modal-meta">
+            <div class="meta-item"><span class="meta-label">Rol:</span> {{ project.role }}</div>
+            <div class="meta-item"><i class="fas fa-users"></i> {{ project.team.join(', ') }}</div>
+            <div class="meta-item"><i class="fas fa-calendar"></i> {{ project.date }}</div>
+          </div>
+          <div class="modal-cta">
+            <app-button variant="primary" text="Contactar ahora" (btnClick)="navigateToContact()"></app-button>
+            <a [href]="project.githubUrl" target="_blank" rel="noopener noreferrer" class="github-link" (click)="$event.stopPropagation()">
+              <i class="fas fa-code"></i> Ver en GitHub <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

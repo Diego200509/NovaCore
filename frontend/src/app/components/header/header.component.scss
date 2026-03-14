@@ -40,6 +40,13 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
+
+        .logo-container:hover .logo-main {
+            color: var(--primary);
+        }
+        .logo-container:hover .logo-top {
+            color: var(--purple-bright);
+        }
     }
 
     // --- LIGHT THEME BASE ESTILO ---
@@ -65,6 +72,13 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
+
+        .logo-container:hover .logo-main {
+            color: var(--primary);
+        }
+        .logo-container:hover .logo-top {
+            color: var(--purple-bright);
+        }
     }
 }
 
@@ -74,12 +88,23 @@
     text-decoration: none;
     line-height: 1;
     z-index: 1100;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.9;
+
+        .logo-image {
+            transform: scale(1.04);
+        }
+    }
 }
 
 .logo-image {
     height: 66px;
     width: auto;
     margin-right: 0.25rem;
+    transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .logo-text {
@@ -93,12 +118,14 @@
     letter-spacing: 4px;
     font-weight: 700;
     color: var(--primary);
+    transition: color 0.3s ease;
 }
 
 .logo-main {
     font-size: 2.2rem;
     font-weight: 800;
     letter-spacing: -1.5px;
+    transition: color 0.3s ease;
 }
 
 .nav-links {

@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Blog } from '../../interfaces/blog';
 import { BlogHttpService } from '../../services/blog-http-service';
-import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, RouterModule, ButtonComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
 })
@@ -50,18 +49,31 @@ export class BlogComponent implements OnInit {
     });
   }
   
-  /** Quita etiquetas HTML y luego trunca el texto para vistas previas. */
+  /** Quita etiquetas HTML y normaliza el texto para vistas previas de blog. */
   stripHtml(html: string): string {
     if (!html) return '';
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
-    return (tmp.textContent || tmp.innerText || '').trim();
+    const text = (tmp.textContent || tmp.innerText || '').trim();
+    return text.replace(/\s+/g, ' ').trim();
   }
 
+  /**
+   * Prepara un excerpt para la vista previa: normaliza espacios, separa cualquier
+   * palabra (Introducción, Definición, Resumen, etc.) del texto siguiente si van
+   * pegados y trunca por palabra completa.
+   */
   truncateDescription(text: string, maxLen: number): string {
-    const plain = this.stripHtml(text);
+    if (!text) return '';
+    let plain = this.stripHtml(text);
     if (!plain) return '';
-    return plain.length <= maxLen ? plain : plain.slice(0, maxLen).trim() + '…';
+    // Si una minúscula (o letra con tilde) va pegada a una mayúscula, insertar ". " (ej: "DefinicionLa" -> "Definicion. La")
+    plain = plain.replace(/([a-záéíóúñü])([A-ZÁÉÍÓÚÑ])/g, '$1. $2');
+    if (plain.length <= maxLen) return plain;
+    const cut = plain.slice(0, maxLen);
+    const lastSpace = cut.lastIndexOf(' ');
+    const end = lastSpace > 0 ? lastSpace : maxLen;
+    return cut.slice(0, end).trim() + '…';
   }
 
   formatDate(value: Date | string): string {

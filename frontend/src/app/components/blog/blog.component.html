@@ -24,8 +24,8 @@
             <h2 class="blog-featured-title">{{ featured.title }}</h2>
             <p class="blog-featured-description">{{ truncateDescription(featured.description, 200) }}</p>
             <div class="blog-featured-meta">
-              @if (featured.authors?.length) {
-              <span class="meta-item"><i class="fas fa-user-edit"></i> {{ featured.authors.join(', ') }}</span>
+              @if (featured.authors.length) {
+              <span class="meta-item meta-item-authors"><i class="fas fa-user-edit"></i> <span class="meta-item-text">{{ featured.authors.join(', ') }}</span></span>
               }
               @if (featured.createdAt) {
               <span class="meta-item"><i class="fas fa-calendar"></i> {{ formatDate(featured.createdAt) }}</span>
@@ -37,7 +37,7 @@
             </div>
             }
             <span class="blog-featured-cta">
-              <i class="fas fa-arrow-right"></i> Ver publicación
+              Ver publicación <i class="fas fa-arrow-right"></i>
             </span>
           </div>
         </a>
@@ -59,7 +59,7 @@
             @if (blog.authors && blog.authors.length) {
             <p class="blog-authors">
               <i class="fas fa-user-edit"></i>
-              {{ blog.authors.join(', ') }}
+              <span class="blog-authors-text">{{ blog.authors.join(', ') }}</span>
             </p>
             }
             @if (blog.tags && blog.tags.length) {
@@ -68,7 +68,7 @@
             </div>
             }
             <span class="blog-card-cta">
-              <i class="fas fa-arrow-right"></i> Ver publicación
+              Ver publicación <i class="fas fa-arrow-right"></i>
             </span>
           </div>
         </a>

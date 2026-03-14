@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, HostLi
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../button/button.component';
-import { ScrollService } from '../../shared/services/scroll.service';
 
 @Component({
   selector: 'app-service-modal',
@@ -17,7 +16,7 @@ export class ServiceModalComponent {
   @Input() isOpen: boolean = false;
   @Output() close = new EventEmitter<void>();
 
-  constructor(private router: Router, private scrollService: ScrollService) {}
+  constructor(private router: Router) {}
 
   onClose() {
     this.close.emit();
@@ -25,16 +24,7 @@ export class ServiceModalComponent {
 
   navigateToContact() {
     this.onClose();
-    
-    const scrollFn = () => {
-        setTimeout(() => this.scrollService.scrollToSection('contacto'), 400);
-    };
-
-    if (this.router.url !== '/' && this.router.url.split('#')[0] !== '/') {
-        this.router.navigate(['/']).then(() => scrollFn());
-    } else {
-        scrollFn();
-    }
+    this.router.navigate(['/contacto'], { fragment: 'formulario-contacto' });
   }
 
   // Close modal when clicking escape

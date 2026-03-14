@@ -169,6 +169,18 @@
   margin-right: auto;
 }
 
+// Modo claro: título y sección alineados con Servicios, Proyectos, Blog
+:host-context(body.light-theme) {
+  .corporate-about-section {
+    background: #f8fafc;
+  }
+
+  .section-header.home-section-header .section-title {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+  }
+}
+
 @media (max-width: 600px) {
   .corporate-about-section {
     padding: 60px 5%;
