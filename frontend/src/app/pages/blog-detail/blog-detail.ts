@@ -19,6 +19,8 @@ export class BlogDetailPage implements OnInit {
   blog = signal<Blog | null>(null);
   loading = signal(true);
   notFound = signal(false);
+  /** Siguiente entrada en el listado (por orden de la API) para el botón "Próximo blog". */
+  nextBlog = signal<Blog | null>(null);
   /** Blog pasado desde la lista al hacer clic; así mostramos siempre la entrada correcta. */
   private blogFromState: Blog | null = null;
 
@@ -68,6 +70,7 @@ export class BlogDetailPage implements OnInit {
         // Si tenemos el blog desde la lista (state), lo mostramos de inmediato
         if (this.blogFromState && this.blogFromState.id === numId) {
           this.blog.set(this.blogFromState);
+          this.loadNextBlog(numId);
           this.loading.set(false);
         } else {
           this.loading.set(true);
@@ -83,6 +86,7 @@ export class BlogDetailPage implements OnInit {
         const currentId = currentParam ? parseInt(currentParam, 10) : NaN;
         if (requestedId === currentId && data.id === requestedId) {
           this.blog.set(data);
+          this.loadNextBlog(data.id);
         }
         this.loading.set(false);
       },
@@ -100,6 +104,24 @@ export class BlogDetailPage implements OnInit {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
+    });
+  }
+
+  /** Carga la siguiente entrada del listado para el botón "Próximo blog". */
+  private loadNextBlog(currentId: number): void {
+    this.nextBlog.set(null);
+    this.blogService.getBlogs().subscribe({
+      next: (blogs) => {
+        const sorted = [...blogs].sort((a, b) => {
+          const da = new Date(a.createdAt).getTime();
+          const db = new Date(b.createdAt).getTime();
+          return db - da;
+        });
+        const idx = sorted.findIndex((b) => b.id === currentId);
+        if (idx >= 0 && idx < sorted.length - 1) {
+          this.nextBlog.set(sorted[idx + 1]);
+        }
+      },
     });
   }
 }

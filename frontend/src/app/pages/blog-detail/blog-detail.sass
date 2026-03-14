@@ -2,7 +2,7 @@
 
 .blog-detail-section
   padding-top: 100px
-  padding-bottom: 120px
+  padding-bottom: 72px
   overflow-x: hidden
 
 .blog-detail-container
@@ -13,12 +13,15 @@
   min-width: 0
   box-sizing: border-box
 
-// —— Volver al blog (pill elegante) ——
+// —— Volver al blog (al final, debajo de Próximo blog) ——
+.blog-detail-back-wrap
+  text-align: center
+  margin-top: 2.5rem
+
 .blog-detail-back
   display: inline-flex
   align-items: center
   gap: 0.55rem
-  margin-bottom: 2.25rem
   padding: 0.5rem 1rem
   color: rgba(255, 255, 255, 0.75)
   text-decoration: none
@@ -435,6 +438,69 @@
 
   .blog-detail-link:hover &
     text-decoration-color: rgba(168, 85, 247, 0.6)
+
+// —— Sección "Próximo blog" (centrada, debajo de Enlaces relacionados) ——
+.blog-detail-next-wrap
+  margin-top: 2.5rem
+  text-align: center
+
+.blog-detail-next-title
+  margin: 0 0 1rem
+  font-size: 0.9rem
+  font-weight: 700
+  letter-spacing: 0.05em
+  text-transform: uppercase
+  color: var(--text-muted)
+
+.blog-detail-next-btn
+  display: inline-flex
+  align-items: center
+  gap: 0.6rem
+  max-width: 100%
+  width: max-content
+  min-width: 0
+  padding: 0.75rem 1.5rem
+  background: linear-gradient(135deg, var(--primary) 0%, var(--purple-bright) 100%)
+  color: #ffffff
+  text-decoration: none
+  font-weight: 600
+  font-size: 0.95rem
+  border-radius: 10px
+  border: none
+  box-shadow: 0 4px 20px rgba(77, 53, 255, 0.35)
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease
+
+  .blog-detail-next-btn-text
+    white-space: normal
+    text-align: center
+
+  i
+    font-size: 0.85rem
+    flex-shrink: 0
+    transition: transform 0.2s ease
+
+  &:hover
+    background: linear-gradient(135deg, #5d48ff 0%, #b366ff 100%)
+    box-shadow: 0 6px 24px rgba(77, 53, 255, 0.45)
+    transform: translateY(-2px)
+
+    i
+      transform: translateX(4px)
+
+// Modo claro: sección próximo blog
+:host-context(body.light-theme)
+  .blog-detail-next-title
+    color: var(--text-muted)
+
+  .blog-detail-next-btn
+    background: linear-gradient(135deg, var(--primary) 0%, var(--purple-bright) 100%)
+    color: #ffffff
+    box-shadow: 0 4px 18px rgba(77, 53, 255, 0.3)
+
+    &:hover
+      background: linear-gradient(135deg, #5d48ff 0%, #b366ff 100%)
+      box-shadow: 0 6px 22px rgba(77, 53, 255, 0.4)
+      color: #ffffff
 
 // —— Estados: carga y no encontrado ——
 .blog-detail-loading,
