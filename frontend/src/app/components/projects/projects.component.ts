@@ -1,5 +1,6 @@
 import { Component, signal, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ProjectModalComponent, ProjectForModal } from '../project-modal/project-modal.component';
 
 export interface Project {
   id: number;
@@ -20,13 +21,16 @@ export interface Project {
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProjectModalComponent],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent {
   selectedFilter = signal<string>('todos');
   expandedProjectId = signal<number | null>(null);
+  /** Proyecto seleccionado para el modal de detalles */
+  selectedProject = signal<ProjectForModal | null>(null);
+  projectModalOpen = signal(false);
 
   projects: Project[] = [
     {
@@ -159,17 +163,22 @@ export class ProjectsComponent {
       event.stopPropagation();
       event.preventDefault();
     }
-    
     const currentExpandedId = this.expandedProjectId();
-    
-    // Si el proyecto actual ya está expandido, colapsarlo
     if (currentExpandedId === projectId) {
       this.expandedProjectId.set(null);
     } else {
-      // Expandir solo este proyecto - esto automáticamente colapsa cualquier otro
-      // porque solo puede haber un valor en expandedProjectId a la vez
       this.expandedProjectId.set(projectId);
     }
+  }
+
+  openProjectModal(project: Project): void {
+    this.selectedProject.set(project);
+    this.projectModalOpen.set(true);
+  }
+
+  closeProjectModal(): void {
+    this.projectModalOpen.set(false);
+    this.selectedProject.set(null);
   }
 
   trackByProjectId(index: number, project: Project): number {

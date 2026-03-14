@@ -706,6 +706,69 @@ body.light-theme
     background: rgba(239, 68, 68, 0.2)
     color: #991b1b
 
+  // Página crear/editar entrada: fondo y textos en modo claro
+  .formulario-entrada-section
+    background: radial-gradient(1200px 600px at 20% 10%, rgba(77, 53, 255, 0.08), transparent 55%), radial-gradient(900px 520px at 85% 80%, rgba(168, 85, 247, 0.06), transparent 55%), var(--bg-color)
+    color: var(--text-color)
+
+  .formulario-entrada-section .section-header .section-title .title-main
+    color: var(--text-color)
+
+  .formulario-entrada-section .section-subtitle
+    color: rgba(15, 23, 42, 0.85)
+
+  .formulario-entrada-back
+    color: rgba(15, 23, 42, 0.85)
+    border-color: rgba(15, 23, 42, 0.16)
+    background: rgba(255, 255, 255, 0.8)
+
+    &:hover
+      color: var(--primary)
+      border-color: rgba(77, 53, 255, 0.4)
+      background: rgba(77, 53, 255, 0.08)
+
+  // Fondo del cuadro del editor en modo claro (blanco sólido)
+  .formulario-entrada-section .editor-desc-scroll-wrap
+    background: #ffffff
+    border-color: rgba(15, 23, 42, 0.12)
+
+  // Editor Quill en crear/editar: toolbar y contenido claros (forzar sobre estilos oscuros del componente)
+  .form-row-editor ::ng-deep .ql-toolbar.ql-snow
+    background: #ffffff !important
+    border-color: rgba(15, 23, 42, 0.15) !important
+
+  .form-row-editor ::ng-deep .ql-toolbar.ql-snow .ql-stroke
+    stroke: #111827 !important
+
+  .form-row-editor ::ng-deep .ql-toolbar.ql-snow .ql-fill
+    fill: #111827 !important
+
+  .form-row-editor ::ng-deep .ql-toolbar.ql-snow .ql-picker-label,
+  .form-row-editor ::ng-deep .ql-toolbar.ql-snow .ql-picker-item
+    color: #111827 !important
+
+  .form-row-editor ::ng-deep .ql-container.ql-snow
+    background: #ffffff !important
+    border-color: rgba(15, 23, 42, 0.15) !important
+
+  .form-row-editor ::ng-deep .ql-editor
+    color: var(--text-color) !important
+
+  // Página crear/editar entrada: fondo y textos en modo claro
+  .formulario-entrada-section
+    background: radial-gradient(1200px 600px at 20% 10%, rgba(77, 53, 255, 0.08), transparent 55%), radial-gradient(900px 520px at 85% 80%, rgba(168, 85, 247, 0.06), transparent 55%), var(--bg-color)
+    color: var(--text-color)
+
+  .formulario-entrada-back
+    color: rgba(15, 23, 42, 0.85)
+    border-color: rgba(15, 23, 42, 0.16)
+    background: rgba(255, 255, 255, 0.8)
+
+    &:hover
+      color: var(--primary)
+      border-color: rgba(77, 53, 255, 0.4)
+      background: rgba(77, 53, 255, 0.08)
+
   .blog-header .blog-title .title-main
     color: var(--text-color)
 
@@ -800,6 +863,21 @@ body.light-theme
   .blog-detail-description
     color: var(--text-color)
 
+  // Texto principal del cuerpo HTML del blog en modo claro (forzar en todos los nodos: p, span, .ql-editor, etc.)
+  .blog-detail-body--html,
+  .blog-detail-body--html p,
+  .blog-detail-body--html p:first-of-type,
+  .blog-detail-body--html .ql-editor,
+  .blog-detail-body--html .ql-editor p,
+  .blog-detail-body--html span,
+  .blog-detail-body--html li,
+  .blog-detail-body--html strong,
+  .blog-detail-body--html blockquote,
+  .blog-detail-body--html pre,
+  .blog-detail-body--html code,
+  .blog-detail-body--html .ql-code-block
+    color: var(--text-color) !important
+
   .blog-detail-body--html table
     background: rgba(255, 255, 255, 0.7)
     border-color: rgba(15, 23, 42, 0.22)
@@ -887,6 +965,21 @@ body.light-theme
   .modal-text
     background: rgba(15, 23, 42, 0.05)
     border-color: rgba(15, 23, 42, 0.1)
+    color: var(--text-color)
+
+  // Editor de crear/editar entrada (blog/crear y blog/editar/:id): modo claro
+  .formulario-entrada-section
+    color: var(--text-color)
+
+  .form-row-editor ::ng-deep .ql-toolbar.ql-snow
+    background: #ffffff
+    border-color: rgba(15, 23, 42, 0.15)
+
+  .form-row-editor ::ng-deep .ql-container.ql-snow
+    background: #ffffff
+    border-color: rgba(15, 23, 42, 0.15)
+
+  .form-row-editor ::ng-deep .ql-editor
     color: var(--text-color)
 
   .message.success

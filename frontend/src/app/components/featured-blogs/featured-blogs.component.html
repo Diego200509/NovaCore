@@ -4,7 +4,9 @@
       <h2 class="section-title">Blog</h2>
     </div>
 
-    @if (featuredBlogs().length > 0) {
+    @if (loading()) {
+    <p class="blogs-loading">Cargando publicaciones...</p>
+    } @else if (featuredBlogs().length > 0) {
     <div class="blogs-grid">
       <a 
         *ngFor="let blog of featuredBlogs()" 
@@ -20,7 +22,11 @@
             @if (blog.authors && blog.authors.length) {
             <span class="blog-author">
               <i class="fas fa-user"></i>
-              {{ blog.authors[0] }}
+              @if (blog.authors.length === 1) {
+                {{ blog.authors[0] }}
+              } @else {
+                {{ blog.authors[0] }} y {{ blog.authors.length - 1 }} más
+              }
             </span>
             }
             <span class="blog-date">

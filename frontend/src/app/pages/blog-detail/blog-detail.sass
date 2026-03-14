@@ -134,7 +134,7 @@
 
 .blog-detail-description
   font-size: 1.125rem
-  line-height: 1.88
+  line-height: 1.75
   color: rgba(255, 255, 255, 0.9)
   margin: 0
   white-space: pre-wrap
@@ -142,14 +142,16 @@
   overflow-wrap: break-word
   letter-spacing: 0.012em
 
-// Contenido HTML del editor (Quill): organización visual y ritmo de lectura
+// Contenido en la vista: la página ajusta el texto para que se vea lo mejor posible
+// (ancho de lectura cómodo, cortes de línea más naturales, sin justificado que abra huecos)
 .blog-detail-body--html
   font-size: 1.125rem
-  line-height: 1.88
+  line-height: 1.7
   color: rgba(255, 255, 255, 0.9)
-  letter-spacing: 0.012em
-  word-break: break-word
+  letter-spacing: 0.01em
+  word-break: normal
   overflow-wrap: break-word
+  text-align: left
 
   // Párrafo de entrada (lead): más destacado
   ::ng-deep > p:first-of-type
@@ -179,7 +181,7 @@
   ::ng-deep pre + p
     margin-top: 1.5rem
 
-  // Títulos dentro del contenido (h2, h3): separadores de sección
+  // Títulos dentro del contenido (h2, h3): separadores de sección (alineación a la izquierda)
   ::ng-deep h2
     font-size: 1.5rem
     font-weight: 700
@@ -189,6 +191,7 @@
     border-bottom: 2px solid rgba(77, 53, 255, 0.4)
     letter-spacing: -0.02em
     line-height: 1.3
+    text-align: left
     &:first-child
       margin-top: 0
   ::ng-deep h3
@@ -197,12 +200,14 @@
     color: rgba(255, 255, 255, 0.95)
     margin: 2rem 0 0.75rem 0
     letter-spacing: 0.01em
+    text-align: left
     &:first-child
       margin-top: 0
 
   ul, ol
     margin: 0 0 1.25rem 0
     padding-left: 1.5rem
+    text-align: left
   li
     margin-bottom: 0.4rem
   // Viñetas y números en morado/azul (solo el marcador, no el texto)
@@ -253,10 +258,12 @@
     margin-top: 2rem
     margin-bottom: 1rem
 
-  // Tablas (Quill): línea separadora arriba + alto contraste
+  // Tablas (Quill): ancho fijo del contenedor, texto que baje dentro de la celda sin ensanchar la tabla
   ::ng-deep table
     border-collapse: collapse
+    table-layout: fixed
     width: 100%
+    max-width: 100%
     margin-top: 2.25rem
     margin-bottom: 1.75rem
     padding-top: 1.5rem
@@ -279,9 +286,17 @@
   ::ng-deep th, ::ng-deep td
     padding: 0.85rem 1.25rem
     border: 1px solid rgba(255, 255, 255, 0.28)
-    vertical-align: top
+    vertical-align: middle
     color: rgba(255, 255, 255, 0.92)
-    text-align: left
+    text-align: center
+    line-height: 1.5
+    overflow-wrap: break-word
+    word-break: normal
+    hyphens: auto
+    min-width: 0
+    box-sizing: border-box
+  ::ng-deep th
+    white-space: normal
   // Respetar alineación de Quill (centro, derecha, justificado) en celdas y párrafos
   ::ng-deep .ql-align-center
     text-align: center

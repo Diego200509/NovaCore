@@ -11,6 +11,7 @@
     <span></span><span></span><span></span>
   </div>
   <div class="nav-links" [class.active]="isMenuOpen()" id="nav-links">
+    <a (click)="navigateToHome(); $event.preventDefault()">Inicio</a>
     <a (click)="navigateToServices(); $event.preventDefault()">Servicios</a>
     <a (click)="navigateToProjects(); $event.preventDefault()">Proyectos</a>
     <a routerLink="/blog" (click)="closeMenu()">Blog</a>

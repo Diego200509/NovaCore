@@ -99,6 +99,10 @@ export class HeaderComponent implements OnDestroy {
         this.isMenuOpen.set(false);
     }
 
+    navigateToHome(): void {
+        this.scrollToSection('inicio');
+    }
+
     closeMenu(): void {
         this.isMenuOpen.set(false);
     }

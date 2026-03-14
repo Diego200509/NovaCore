@@ -34,8 +34,23 @@ export class BlogDetailPage implements OnInit {
     }
   }
 
+  /** Sustituye guiones entre letras (ej. I-CASE) por guion no separable para que no se parta la línea ahí. */
+  private nonBreakingHyphens(html: string): string {
+    if (!html?.length) return html;
+    const nbh = '\u2011';
+    const parts = html.split(/(<[^>]+>)/g);
+    const re = /([a-zA-ZáéíóúñÑüÜ])-([a-zA-ZáéíóúñÑüÜ])/g;
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].length > 0 && parts[i].charAt(0) !== '<') {
+        parts[i] = parts[i].replace(re, `$1${nbh}$2`);
+      }
+    }
+    return parts.join('');
+  }
+
   sanitizeDescription(html: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(html || '');
+    const processed = this.nonBreakingHyphens(html || '');
+    return this.sanitizer.bypassSecurityTrustHtml(processed);
   }
 
   ngOnInit(): void {
