@@ -62,10 +62,10 @@
               <span class="blog-authors-text">{{ blog.authors.join(', ') }}</span>
             </p>
             }
-            @if (blog.tags && blog.tags.length) {
-            <div class="blog-tags">
-              <span *ngFor="let tag of blog.tags" class="tag-item">{{ tag }}</span>
-            </div>
+            @if (blog.createdAt) {
+            <p class="blog-card-date">
+              <i class="fas fa-calendar"></i> {{ formatDate(blog.createdAt) }}
+            </p>
             }
             <span class="blog-card-cta">
               Ver publicación <i class="fas fa-arrow-right"></i>
