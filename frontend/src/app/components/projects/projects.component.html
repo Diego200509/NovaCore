@@ -1,3 +1,10 @@
+<!-- Modal fuera de .projects-section para que position:fixed sea respecto al viewport (la section tiene transform) -->
+<app-project-modal
+  [project]="selectedProject()"
+  [isOpen]="projectModalOpen()"
+  (close)="closeProjectModal()">
+</app-project-modal>
+
 <section class="projects-section" id="proyectos">
   <div class="projects-container">
     <!-- Header Section -->
@@ -70,61 +77,14 @@
             </span>
           </div>
 
-          <!-- Expand/Collapse Button -->
+          <!-- Ver detalles abre modal (mismo estilo que servicios) -->
           <button 
             class="expand-btn"
             type="button"
-            (click)="toggleExpand(project.id, $event)">
-            <span *ngIf="expandedProjectId() !== project.id">Ver detalles</span>
-            <span *ngIf="expandedProjectId() === project.id">Ocultar detalles</span>
-            <i class="fas" [ngClass]="expandedProjectId() === project.id ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            (click)="openProjectModal(project); $event.stopPropagation()">
+            <span>Ver detalles</span>
+            <i class="fas fa-arrow-right"></i>
           </button>
-
-          <!-- Expanded Details -->
-          <div 
-            class="project-details"
-            [class.open]="expandedProjectId() === project.id">
-            
-            <!-- Descripción Completa -->
-            <div class="details-section">
-              <p class="full-description">{{ project.fullDescription }}</p>
-            </div>
-
-            <!-- Funcionalidades -->
-            <div class="details-section">
-              <h4 class="details-title">FUNCIONALIDADES</h4>
-              <ul class="details-list">
-                <li *ngFor="let func of project.functionalities">{{ func }}</li>
-              </ul>
-            </div>
-
-            <div class="details-info">
-              <div class="info-item">
-                <span class="info-label">Rol:</span>
-                <span class="info-value">{{ project.role }}</span>
-              </div>
-              
-              <div class="info-item">
-                <i class="fas fa-users"></i>
-                <span class="info-value">{{ project.team.join(', ') }}</span>
-              </div>
-              
-              <div class="info-item">
-                <i class="fas fa-calendar"></i>
-                <span class="info-value">{{ project.date }}</span>
-              </div>
-            </div>
-
-            <a 
-              [href]="project.githubUrl" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="github-btn">
-              <i class="fas fa-code"></i>
-              Ver en GitHub
-              <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
         </div>
       </div>
     </div>

@@ -1,10 +1,16 @@
 import { Request, Response } from "express";
 import { BlogService } from "../services/blog.ts";
+import { getBlogsFromCache, setBlogsCache, invalidateBlogsCache } from "../infrastructure/cache/blogs-cache.ts";
 
 export class BlogController {
     static async getAll(req: Request, res: Response) {
         try {
+            const fromCache = getBlogsFromCache();
+            if (fromCache !== null) {
+                return res.status(200).json(fromCache);
+            }
             const blogs = await BlogService.getBlogs();
+            setBlogsCache(blogs);
             res.status(200).json(blogs);
         } catch (error) {
             res.status(500).json({
@@ -35,6 +41,7 @@ export class BlogController {
     static async create(req: Request, res: Response) {
         try {
             const blog = await BlogService.createBlog(req.body);
+            invalidateBlogsCache();
             res.status(201).json(blog);
         } catch (error) {
             res.status(400).json({
@@ -52,6 +59,7 @@ export class BlogController {
             }
 
             const blog = await BlogService.updateBlog(id, req.body);
+            invalidateBlogsCache();
             res.status(200).json(blog);
         } catch (error) {
             res.status(400).json({
@@ -69,6 +77,7 @@ export class BlogController {
             }
 
             await BlogService.deleteBlog(id);
+            invalidateBlogsCache();
             res.status(200).json({ message: "Blog deleted successfully" });
         } catch (error) {
             res.status(404).json({
