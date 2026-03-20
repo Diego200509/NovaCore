@@ -56,16 +56,20 @@
           <div class="blog-content">
             <h3 class="blog-title-card">{{ blog.title }}</h3>
             <p class="blog-description">{{ truncateDescription(blog.description, 120) }}</p>
-            @if (blog.authors && blog.authors.length) {
-            <p class="blog-authors">
-              <i class="fas fa-user-edit"></i>
-              <span class="blog-authors-text">{{ blog.authors.join(', ') }}</span>
-            </p>
-            }
-            @if (blog.createdAt) {
-            <p class="blog-card-date">
-              <i class="fas fa-calendar"></i> {{ formatDate(blog.createdAt) }}
-            </p>
+            @if ((blog.authors && blog.authors.length) || blog.createdAt) {
+            <div class="blog-card-authors-date-row">
+              @if (blog.authors && blog.authors.length) {
+              <p class="blog-authors">
+                <i class="fas fa-user-edit"></i>
+                <span class="blog-authors-text">{{ blog.authors.join(', ') }}</span>
+              </p>
+              }
+              @if (blog.createdAt) {
+              <p class="blog-card-date">
+                <i class="fas fa-calendar"></i> {{ formatDate(blog.createdAt) }}
+              </p>
+              }
+            </div>
             }
             <span class="blog-card-cta">
               Ver publicación <i class="fas fa-arrow-right"></i>
